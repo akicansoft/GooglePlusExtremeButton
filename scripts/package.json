@@ -1,0 +1,17 @@
+{
+  "name": "scripts",
+  "version": "3.0.0",
+  "description": "",
+  "main": "gpeb.js",
+  "repository": "",
+  "author": "",
+  "license": "BSD",
+  "dependencies": {
+    "grunt-contrib": "~0.6.1"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-nodeunit": "~0.1.2"
+  }
+}

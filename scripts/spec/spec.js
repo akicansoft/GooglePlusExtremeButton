@@ -12,8 +12,10 @@ describe("Google+ Extreme Button", function () {
             expect(window.VERSION).toBeDefined();
         });
 
-    });    
+    });
 
+    /* Logger Test
+    -------------------------------------------------------------------------------*/
     describe("Logger", function () {
 
         var log;
@@ -60,6 +62,11 @@ describe("Google+ Extreme Button", function () {
         });
 
     });
+
+
+    /* Selectorテスト
+    -------------------------------------------------------------------------------*/
+    function $
 
 });
 
