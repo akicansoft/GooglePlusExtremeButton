@@ -265,7 +265,6 @@ Models.prototype = {
                     key: _objs[i].key,
                     id: _objs[i].id
                 };
-                debugger;
                 for (var ii = 0; ii < this.events[_objs[i].id].length; ii++) {
                     this.events[_objs[i].id][ii].call(_objs[i], event);
                 }
@@ -539,6 +538,117 @@ Models.prototype = {
         -------------------------------------------------------------------------------*/
         this.events[id].push(_callBack);
 
+    }
+
+};
+
+
+
+
+/* コントローラ
+-------------------------------------------------------------------------------*/
+function Controller () {
+    this.init();
+}
+
+Controller.prototype = {
+
+    /* 初期化
+    -------------------------------------------------------------------------------*/
+    init: function () {
+        this.functions = {};
+    },
+
+    /* 関数の追加
+    -------------------------------------------------------------------------------*/
+    set: function (_name, _function) {
+        this.functions[_name] = _function;
+    },
+
+    /* 関数の実行
+    -------------------------------------------------------------------------------*/
+    run: function (_args) {
+
+        /* 実行する関数 (配列とその子に文字列リテラルを使用する・関数は上から順番に実行される)
+        -------------------------------------------------------------------------------*/
+        var functions = _args.functions || [];
+
+        /* 書き換えるビュー (ビューの指定にはオブジェクト型でも配列型でもどちらでも良い)
+        -------------------------------------------------------------------------------*/
+        var views = _args.views;
+
+        /* 使用するデータ (必ずオブジェクト型にする)
+        -------------------------------------------------------------------------------*/
+        var data = _args.data;
+
+        /* 関数の実行
+        -------------------------------------------------------------------------------*/
+        for (var i = 0; i < functions.length; i++) {
+            if (this.functions[functions[i]]) {
+                this.functions[functions[i]].call(data, data, views);
+            }
+        }
+
+        /* ビューの書き換え ビューを走査し {{}}で囲まれた部分をdataで置換する
+        -------------------------------------------------------------------------------*/
+
+    },
+
+    /* 関数の削除
+    -------------------------------------------------------------------------------*/
+    remove: function (_key) {
+        delete this.functions[_key];
+    },
+
+
+    /* 指定したDOM要素にイベントを登録する
+    -------------------------------------------------------------------------------*/
+    on: function(_selector, _type, _callback) {
+        if (typeof(_selector) == "string") {
+            var elms = Sizzle(_selector);
+            console.log("elms", elms, _selector);
+        }
+        else {
+            var elms = [_selector];
+        }
+        var that = this;
+        elms.forEach(function(_elm){
+            var elm = _elm;
+            _elm.addEventListener (_type, function (_event) {
+                if (_callback.call(elm, _event, that)) {
+                    _event.preventDefault();
+                }
+            }, false);
+        });
+    }
+
+};
+
+
+/* ビュー
+-------------------------------------------------------------------------------*/
+function View () {
+    this.init();
+}
+
+View.prototype = {
+
+    /* 初期化
+    -------------------------------------------------------------------------------*/
+    init: function () {
+        this.templates = {};
+    },
+
+    /* 新しいビューの作成 {{data}} が書き換わります
+    -------------------------------------------------------------------------------*/
+    set: function(_key, _html){
+        this.templates[_key] = _html;
+    },
+
+    /* ビューの削除
+    -------------------------------------------------------------------------------*/
+    remove: function (_key) {
+        delete this.templates[_key];
     }
 
 };
