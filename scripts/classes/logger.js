@@ -6,7 +6,7 @@ function Logger (_appName) {
 
 Logger.prototype = {
 
-    /* 初期化222
+    /* 初期化2222
     -------------------------------------------------------------------------------*/
     init: function (_appName) {
         this.appName = _appName;

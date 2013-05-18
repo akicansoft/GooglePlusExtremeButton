@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         concat: {
             js: {
-                src: ['./classes/*.js', "model."],
+                src: ["global.js", './js/*.js', './classes/*.js', "models.js", "views.js", "controllers.js"],
                 dest: 'gpeb.js'
             }
         },
@@ -15,7 +15,7 @@ module.exports = function(grunt) {
         },
         watch: {
             js: {
-                files: ['./classes/*.js'],
+                files: ['./global.js', './script.js', './classes/*.js'],
                 tasks: ["concat", "uglify"]
             }
         }
