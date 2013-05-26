@@ -11,3 +11,4 @@ setTimeout(function(){
 checkreloadButton(function () {
     console.log("更新ボタンが現れました");
 });
+

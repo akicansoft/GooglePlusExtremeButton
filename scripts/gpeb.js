@@ -1029,7 +1029,8 @@ function checkreloadButton (_callBack) {
         /* 通知ウィンドウの情報を取得し、通知ウィンドウが表示されているときは無視する
         -------------------------------------------------------------------------------*/
         var ns = getNotificationStatus();
-        if (ns.isHidden === true) {
+        console.log("ns", ns);
+        if (ns.isHidden === false) {
             return;
         }
 
@@ -1082,3 +1083,4 @@ setTimeout(function(){
 checkreloadButton(function () {
     console.log("更新ボタンが現れました");
 });
+
