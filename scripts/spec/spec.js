@@ -467,7 +467,39 @@ describe("Google+ Extreme Button", function () {
             /* モデルを削除する
             -------------------------------------------------------------------------------*/
             models.remove(1);
+        });
 
+        /* 全てのモデルデータをローカルストレージに保持
+        -------------------------------------------------------------------------------*/
+        it("全てのモデルデータをローカルストレージに保持", function () {
+
+            var models = new Models([
+                {
+                    id: 0,
+                    name: "名前1",
+                    address: "住所1",
+                    sex: "男1",
+                    key: "human1"
+                },
+                {
+                    id: 1,
+                    name: "名前2",
+                    address: "住所2",
+                    sex: "男2",
+                    key: "human2"
+                }
+            ]);
+
+            /* ローカルストレージにデータを保存
+            -------------------------------------------------------------------------------*/
+            models.save("test");
+            expect( localStorage.test ).toBeDefined();
+
+
+            /* ローカルストレージのデータを読み込む
+            -------------------------------------------------------------------------------*/
+            var models2 = new Models("test");
+            expect( models2.get(0) ).toBeDefined();
         });
 
 
@@ -527,6 +559,43 @@ describe("Google+ Extreme Button", function () {
             cont.on("body", "click", function (_event, _controller) {
                 console.log("クリックされました", this, _event, _controller);
             });
+        });
+
+        /* Selectorテスト
+        -------------------------------------------------------------------------------*/
+        describe("Selector", function () {
+
+            beforeEach(function () {
+                window.selector = new Selector();
+            });
+
+            it("セレクタの登録ができる", function () {
+                window.selector.add("label", "span.passingAlert", "ラベル");
+                console.log(window.selector.selectors);
+            });            
+        });
+
+        /* CSS書き換えテスト
+        -------------------------------------------------------------------------------*/
+        describe("css.js", function () {
+
+            it("CSSを書き換えることができる", function () {
+                css("jasmineCss", [
+                    "body {",
+                    "    background-color: white;",
+                    "}"
+                ].join("\n"));
+            });
+
+            it("CSSを更に書き換えることができる", function () {
+                css("jasmineCss", [
+                    "body {",
+                    "    background-color: #eee;",
+                    "}"
+                ].join("\n"));
+            });            
+
+
         });
 
 

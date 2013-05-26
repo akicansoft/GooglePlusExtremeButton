@@ -3,24 +3,31 @@
     
     <head>
         <title>Test</title>
+
         <!-- utf-8 -->
         <meta charset='utf-8'>
+
         <!-- テストフレームワーク CSS -->
         <link rel="shortcut icon" type="image/png" href="lib/jasmine-1.3.1/jasmine_favicon.png">
         <link rel="stylesheet" type="text/css" href="lib/jasmine-1.3.1/jasmine.css">
+
         <!-- テストフレームワーク -->
         <script type="text/javascript" src="lib/jasmine-1.3.1/jasmine.js"></script>
         <script type="text/javascript" src="lib/jasmine-1.3.1/jasmine-html.js"></script>
+
         <!-- テストするjavaScript -->
         <script type="text/javascript" src="global.js"></script>
         <script type="text/javascript" src="classes/logger.js"></script>
         <script type="text/javascript" src="classes/selector.js"></script>
         <script type="text/javascript" src="js/sizzle.min.js"></script>
         <script type="text/javascript" src="classes/mvc.js"></script>
+        <script type="text/javascript" src="classes/css.js"></script>
+
         <!-- テストスクリプト -->
         <script type="text/javascript" src="spec/spechelper.js"></script>
         <script type="text/javascript" src="spec/spec.js"></script>
         <script type="text/javascript">
+
             (function () {
                 var jasmineEnv = jasmine.getEnv();
                 jasmineEnv.updateInterval = 1000;

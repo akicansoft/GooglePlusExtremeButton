@@ -30,9 +30,22 @@ Models.prototype = {
         -------------------------------------------------------------------------------*/
         this.events = {};
 
-        /* モデルデータの追加
+        /* _objsが文字列の場合ローカルストレージからデータを取得する
         -------------------------------------------------------------------------------*/
-        this.add(_objs);
+        if (typeof(_objs) == "string") {
+            var jsonText = localStorage[_objs];
+            if (jsonText) {
+                var objs = JSON.parse(jsonText);
+                this.add(objs);
+            }
+        }
+        else {
+
+            /* モデルデータの追加
+            -------------------------------------------------------------------------------*/
+            this.add(_objs);
+
+        }
     },
 
     /* クローン生成用再帰処理関数用変数切り分け挿入
@@ -538,6 +551,18 @@ Models.prototype = {
         -------------------------------------------------------------------------------*/
         this.events[id].push(_callBack);
 
+    },
+
+    /* 全てのモデルデータをローカルストレージに保存
+    -------------------------------------------------------------------------------*/
+    save: function (_name) {
+        if (_name) {
+            var jsonText = JSON.stringify(this.models);
+            localStorage[_name] = jsonText;
+        }
+        else{
+            return false;
+        }
     }
 
 };
@@ -621,7 +646,6 @@ Controller.prototype = {
             }, false);
         });
     }
-
 };
 
 
