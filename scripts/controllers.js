@@ -32,7 +32,6 @@ function checkreloadButton (_callBack) {
         /* 通知ウィンドウの情報を取得し、通知ウィンドウが表示されているときは無視する
         -------------------------------------------------------------------------------*/
         var ns = getNotificationStatus();
-        console.log("ns", ns);
         if (ns.isHidden === "false") {
             return;
         }
