@@ -948,7 +948,7 @@ var cssThemes = new Models([
             "",
             "div[id^='update'] > div:nth-child(2) div:not([id])",
             "{",
-            "    color: rgb(40, 40, 40);",
+            "    color: rgb(30, 30, 30);",
             "}",
             "",
             "",
