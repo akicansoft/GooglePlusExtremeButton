@@ -63,7 +63,6 @@ Models.prototype = {
         else {
             _obj[_key] = _value;
         }
-
     },
 
     /* クローン生成用再帰処理関数
@@ -225,8 +224,6 @@ Models.prototype = {
         };
         // console.log("%ccloneobj", "font-size:30px;", cloneObj);
         return new Models(cloneObj);
-
-
     },
 
     /* モデルデータの追加
@@ -327,7 +324,6 @@ Models.prototype = {
         else {
             return false;
         }
-
     },
 
     /* モデルデータの取得
@@ -390,7 +386,20 @@ Models.prototype = {
             ret = ret[0];
         }
 
-        return ret;
+        return ret || {};
+    },
+
+    /* モデルデータごとに繰り返す
+    -------------------------------------------------------------------------------*/
+    each: function (_callBack) {
+
+        if (typeof(_callBack) != "function") {
+            return false;
+        }
+
+        for (var i = 0; i < this.models.length; i++) {
+            _callBack.call(this.models[i], this.models[i].id, this.models[i].key);
+        };
 
     },
 
@@ -434,7 +443,6 @@ Models.prototype = {
             }
             delete this.events[id];
         }
-
     },
 
     /* データの削除
@@ -530,8 +538,6 @@ Models.prototype = {
         for (var i = 0; i < this.events[id].length; i++) {
             this.events[id][i].call(model, event);
         };
-
-
     },
 
 
@@ -550,7 +556,6 @@ Models.prototype = {
         /* コールバック関数の登録
         -------------------------------------------------------------------------------*/
         this.events[id].push(_callBack);
-
     },
 
     /* 全てのモデルデータをローカルストレージに保存

@@ -24,10 +24,23 @@ function getNotificationStatus () {
 }
 
 
+/* ウィンドウがアクティブか調べる
+-------------------------------------------------------------------------------*/
+function getActive () {
+    return document.hasFocus();
+}
+
+
 /* 更新ボタンの監視を行う
 -------------------------------------------------------------------------------*/
 function checkreloadButton (_callBack) {
     setInterval(function(){
+
+        /* ウィンドウがアクティブではない場合無視
+        -------------------------------------------------------------------------------*/
+        if (!getActive()) {
+            return;
+        }
 
         /* 通知ウィンドウの情報を取得し、通知ウィンドウが表示されているときは無視する
         -------------------------------------------------------------------------------*/
@@ -52,7 +65,15 @@ function checkreloadButton (_callBack) {
     }, 1000);
 }
 
+/* ボタンクリックイベント
+-------------------------------------------------------------------------------*/
+var buttonClickEvents = {
 
+    sendDokoina: function (_event, _post) {
+        console.log("どこいなを送信", _event, _post);
+    }
+
+};
 
 /* Controller作成
 -------------------------------------------------------------------------------*/
@@ -62,6 +83,14 @@ var cont = new Controller();
 -------------------------------------------------------------------------------*/
 cont.on(window, "click", function (_event) {
     console.log("クリックされました", _event.target);
+
+    var eventName = _event.target.getAttribute("data-gpeb-event") || "";
+    if (eventName) {
+        if (typeof(buttonClickEvents[eventName] == "function")) {
+            buttonClickEvents[eventName].call(_event, _event, getData(_event.target, "gpeb-parent-id"));
+        }
+    }
+
 });
 
 /* event.scroll
@@ -69,5 +98,23 @@ cont.on(window, "click", function (_event) {
 cont.on(window, "scroll", function () {
     
 });
+
+/* 新しい要素が現れた
+-------------------------------------------------------------------------------*/
+function newNodeEvent () {
+    console.log("------------- 新しい要素です -------------");
+    this.forEach(function (_elm) {
+        var plusOneAreaNode = Sizzle("div[id^='po-']", _elm);
+        if (!plusOneAreaNode.length) {
+            return;
+        }
+        var plusOneArea = plusOneAreaNode[0].parentNode;
+        if (plusOneArea && this) {
+            console.log("_elm", _elm);
+            button.appendAllButton(_elm, plusOneArea);
+        }
+    });
+
+}
 
 
