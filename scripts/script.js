@@ -36,24 +36,12 @@ window.onload = function () {
         });
     });
 
-    /* PlusOneAreaにボタンを追加
-    -------------------------------------------------------------------------------*/
-    posts = select.get("posts");
-    plusOneAreas = select.get("plusOneAreas");
-    for (var i = 0; i < posts.length; i++) {
-        if (posts[i] && plusOneAreas[i]) {
-            button.appendAllButton(posts[i], plusOneAreas[i]);
-        }
-    };
+
 
     /* 監視の開始
     -------------------------------------------------------------------------------*/
-    ndLeft = new NewDom(select.get("topPost")[0].parentNode);
-    ndLeft.watch(newNodeEvent, defaultSettings.get("drawSpeed").speed);
-    ndRight = new NewDom(select.get("topPost")[0].parentNode.nextSibling);
-    ndRight.watch(newNodeEvent, defaultSettings.get("drawSpeed").speed);
-    ndBottom = new NewDom(select.get("topPost")[0].parentNode.parentNode);
-    ndBottom.watch(newNodeEvent, defaultSettings.get("drawSpeed").speed);
+    nd = new NewDom(select.get("topPost")[0].parentNode.parentNode);
+    nd.watch(newNodeEvent, defaultSettings.get("drawSpeed").speed);
 
 
 

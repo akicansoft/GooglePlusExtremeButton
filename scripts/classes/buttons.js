@@ -31,6 +31,13 @@ Buttons.prototype = {
         -------------------------------------------------------------------------------*/
         var clone = this.buttonTemplate.cloneNode();
         clone.innerHTML = this.buttonInnerTemplate;
+        var url = chrome.extension.getURL("buttons/mini.png");
+        var node = clone.firstChild.firstChild;
+        node.style.backgroundImage = "url("+url+")";
+        node.style.backgroundPosition = "0px 0px";
+        node.style.width = "18px";
+        node.style.height = "18px";
+
 
         /* コピーした要素にイベントIDを登録
         -------------------------------------------------------------------------------*/
@@ -69,15 +76,21 @@ Buttons.prototype = {
     -------------------------------------------------------------------------------*/
     appendAllButton: function (_post, _plusOneArea) {
 
-        /* すでに追加済みの場合無視
+        /* すでに追加済みの場合無視(_post)
         -------------------------------------------------------------------------------*/
-        if (_post.getAttribute("data-gpeb-added") == "1") {
+        if (getData(_post, "gpeb-added") == "1" ) {
             return false;
         }
+        setData(_post, "gpeb-added", "1", false);
 
-        /* ボタン追加済みフラグセット
+        /* すでに追加済みの場合無視(_plusOneArea)
         -------------------------------------------------------------------------------*/
-        _post.setAttribute("data-gpeb-added", "1");
+        if (getData(_plusOneArea, "gpeb-added") == "1" ) {
+            return false;
+        }
+        setData(_plusOneArea, "gpeb-added", "1", false);
+
+        
 
 
         /* ボタンの数だけループ
@@ -87,7 +100,7 @@ Buttons.prototype = {
             /* 要素をコピーして挿入
             -------------------------------------------------------------------------------*/
             var clone = this.buttons[i].item.cloneNode(true);
-            setData(clone, "parent-id", _post.id);
+            setData(clone, "gpeb-parent-id", _post.id);
             _plusOneArea.insertBefore( clone, Sizzle("div[role='button']:eq(2)", _plusOneArea)[0]);
         };
 

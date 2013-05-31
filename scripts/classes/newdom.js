@@ -10,8 +10,6 @@ NewDom.prototype = {
     -------------------------------------------------------------------------------*/
     init: function (_elm) {
         this.elm = _elm;
-        this.oldNodes = this.elm.children;
-        this.len = this.oldNodes.length;
     },
 
     /* 監視スタート
@@ -27,42 +25,21 @@ NewDom.prototype = {
         /* 監視開始
         -------------------------------------------------------------------------------*/
         var that = this;
-        this.timer = setInterval(function(){
+
+        /* DOMが更新されたら実行
+        -------------------------------------------------------------------------------*/
+        window.addEventListener ("DOMNodeInserted", function () {
 
             /* 比較
             -------------------------------------------------------------------------------*/
-            var children = that.elm.children;
-            if (that.len != children.length) {
-
-                /* 新しい要素を取得
-                -------------------------------------------------------------------------------*/
-                var hitNodes = [];
-                for (var i = 0; i < children.length; i++) {
-                    var isHit = false;
-                    for (var ii = 0; ii < that.oldNodes.length; ii++) {
-                        if (that.oldNodes[ii] === children[i]) {
-                            isHit = true;
-                        }
-                    }
-                    if (isHit) {
-                        hitNodes.push(children[i]);
-                    }
-                }
-
-                /* 返す
-                -------------------------------------------------------------------------------*/
-                _callBack.call(hitNodes, hitNodes);
-
-
+            var children = Sizzle("div[id^='update-']:not([data-gpeb-added='1'])", that.elm);
+            if (children.length) {
+                console.log("新しいポストが追加されました");
+                _callBack.call(children, children);
             }
 
-            /* 差分取得
-            -------------------------------------------------------------------------------*/
-            that.oldNodes = that.elm.children;
-            that.len = that.oldNodes.length;
 
-        }, _interval || 1000);
-
+        }, false);
     }
 
 

@@ -87,7 +87,8 @@ cont.on(window, "click", function (_event) {
     var eventName = _event.target.getAttribute("data-gpeb-event") || "";
     if (eventName) {
         if (typeof(buttonClickEvents[eventName] == "function")) {
-            buttonClickEvents[eventName].call(_event, _event, getData(_event.target, "gpeb-parent-id"));
+            var post = Sizzle("#"+getData(_event.target, "gpeb-parent-id"))[0];
+            buttonClickEvents[eventName].call(_event, _event, post);
         }
     }
 
@@ -102,7 +103,7 @@ cont.on(window, "scroll", function () {
 /* 新しい要素が現れた
 -------------------------------------------------------------------------------*/
 function newNodeEvent () {
-    console.log("------------- 新しい要素です -------------");
+    // console.log("------------- 新しい要素です -------------");
     this.forEach(function (_elm) {
         var plusOneAreaNode = Sizzle("div[id^='po-']", _elm);
         if (!plusOneAreaNode.length) {
@@ -110,7 +111,7 @@ function newNodeEvent () {
         }
         var plusOneArea = plusOneAreaNode[0].parentNode;
         if (plusOneArea && this) {
-            console.log("_elm", _elm);
+            // console.log("_elm", _elm);
             button.appendAllButton(_elm, plusOneArea);
         }
     });

@@ -8,6 +8,7 @@ var VERSION = "3.0";
 var cssTheme;
 var button;
 var posts;
+var nd;
 var ndLeft;
 var ndRight;
 var ndBottom;
