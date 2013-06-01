@@ -13,6 +13,7 @@ var ndLeft;
 var ndRight;
 var ndBottom;
 var menu;
+var logger;
 
 /* HTMLパーサ
 -------------------------------------------------------------------------------*/

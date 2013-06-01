@@ -23,6 +23,14 @@ Menu.prototype = {
         if (typeof(_opt.idName) == "string") {
             this.elm.setAttribute("id", _opt.idName);
         }
+        this.elm.innerHTML = '<div id="gpeb-context-menu-arrow"></div><div id="gpeb-context-menu-content"></div>';
+
+        this.elm.addEventListener ("mousedown", function (_event) {
+            console.log("イベントブロック");
+            _event.preventDefault();
+            return false;
+        }, true);
+
 
         document.body.appendChild(this.elm);
 
@@ -35,8 +43,13 @@ Menu.prototype = {
         this.current = undefined;
         this.elm.style.left = "-9999px";
         this.elm.style.top = "-9999px";
+    },
 
-
+    /* すでに開かれているか調べる
+    -------------------------------------------------------------------------------*/
+    checkOpen: function () {
+        var isOpen = this.elm.style.left == "auto";
+        return isOpen;
     },
 
     /* addItem
@@ -62,19 +75,24 @@ Menu.prototype = {
     -------------------------------------------------------------------------------*/
     popup: function (_elm) {
 
+
         /* カレントポスト
         -------------------------------------------------------------------------------*/
         this.current = _elm;
 
         /* 位置
         -------------------------------------------------------------------------------*/
-        var x = _elm.offsetLeft;
-        var y = _elm.offsetTop+_elm.offsetHeight;
+        var x = 0;
+        var y = _elm.offsetHeight;
+
+        /* 挿入
+        -------------------------------------------------------------------------------*/
+        _elm.appendChild(this.elm);
 
         /* 移動
         -------------------------------------------------------------------------------*/
-        this.elm.style.left = x+"px";
-        this.elm.style.top = y+"px";
+        this.elm.style.left = "auto";
+        this.elm.style.top = "auto";
 
         console.log("this.elm", this.elm);
 

@@ -34,6 +34,9 @@ function getActive () {
 /* 更新ボタンの監視を行う
 -------------------------------------------------------------------------------*/
 function checkreloadButton (_callBack) {
+
+    logger.add("更新ボタンの監視を開始しています");
+
     setInterval(function(){
 
         /* ウィンドウがアクティブではない場合無視
@@ -60,6 +63,7 @@ function checkreloadButton (_callBack) {
 
             /* クリックを行う
             -------------------------------------------------------------------------------*/
+            logger.add("通知更新をおこなっています");
             select.click("reloadButton");
         }
     }, 1000);
@@ -78,10 +82,20 @@ var buttonClickEvents = {
     openGpeb: function (_event, _post) {
         console.log("メニューを表示します", _event, _post);
 
-        menu.popup(_event.target);
-
+        var elm = _event.target;
+        while(1) {
+            if (typeof(elm) == "undefined") {
+                break;
+            }
+            if (elm.tagName == "DIV") {
+                menu.popup(elm);
+                break;
+            }
+            else {
+                elm = elm.parentNode;
+            }
+        }
     }
-
 };
 
 /* Controller作成
@@ -91,10 +105,35 @@ var cont = new Controller();
 /* event.click
 -------------------------------------------------------------------------------*/
 cont.on(window, "click", function (_event) {
+    
+
+    /* メニュー非表示
+    -------------------------------------------------------------------------------*/
+    var isOpen = menu.checkOpen();
+    if (isOpen) {
+        if (_event.target !== select.get("reloadButton")[0]) {
+            var id = _event.target.id;
+            if (id != "gpeb-context-menu-content" && id != "gpeb-context-menu-arrow") {
+                menu.hide();
+            }
+        }
+        
+    }
+
+
+    /* デバッグ
+    -------------------------------------------------------------------------------*/
     console.log("クリックされました", _event.target);
+
+
 
     var eventName = _event.target.getAttribute("data-gpeb-event") || "";
     if (eventName) {
+
+        if (eventName == "openGpeb" && isOpen) {
+            return false;
+        }
+
         if (typeof(buttonClickEvents[eventName]) == "function") {
             var post = Sizzle("#"+getData(_event.target, "gpeb-parent-id"))[0];
             buttonClickEvents[eventName].call(_event, _event, post);

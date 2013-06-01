@@ -28,18 +28,25 @@ NewDom.prototype = {
 
         /* DOMが更新されたら実行
         -------------------------------------------------------------------------------*/
-        window.addEventListener ("DOMNodeInserted", function () {
+        document.body.addEventListener ("DOMNodeInserted", function () {
 
             /* 比較
             -------------------------------------------------------------------------------*/
-            var children = Sizzle("div[id^='update-']:not([data-gpeb-added='1'])", that.elm);
+            var children = Sizzle("div[id^='update-']:not([data-gpeb-added='1'])");
             if (children.length) {
-                console.log("新しいポストが追加されました");
+                _callBack.call(children, children);
+            }
+        }, false);
+
+        /* 一定間隔で実行
+        -------------------------------------------------------------------------------*/
+        this.timer = setInterval(function(){
+            var children = Sizzle("div[id^='update-']:not([data-gpeb-added='1'])");
+            if (children.length) {
                 _callBack.call(children, children);
             }
 
-
-        }, false);
+        }, 10000);
     }
 
 

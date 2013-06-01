@@ -13,6 +13,7 @@ var ndLeft;
 var ndRight;
 var ndBottom;
 var menu;
+var logger;
 
 /* HTMLパーサ
 -------------------------------------------------------------------------------*/
@@ -178,9 +179,7 @@ function css (_id, _css) {
             cssElm = _elm;
         });
     }
-    if (_css){
-        cssElm.innerHTML = "\n"+_css+"\n";
-    }
+    cssElm.innerHTML = "\n"+_css+"\n";
     document.body.appendChild(cssElm);
 
 }
@@ -281,6 +280,14 @@ Menu.prototype = {
         if (typeof(_opt.idName) == "string") {
             this.elm.setAttribute("id", _opt.idName);
         }
+        this.elm.innerHTML = '<div id="gpeb-context-menu-arrow"></div><div id="gpeb-context-menu-content"></div>';
+
+        this.elm.addEventListener ("mousedown", function (_event) {
+            console.log("イベントブロック");
+            _event.preventDefault();
+            return false;
+        }, true);
+
 
         document.body.appendChild(this.elm);
 
@@ -293,8 +300,13 @@ Menu.prototype = {
         this.current = undefined;
         this.elm.style.left = "-9999px";
         this.elm.style.top = "-9999px";
+    },
 
-
+    /* すでに開かれているか調べる
+    -------------------------------------------------------------------------------*/
+    checkOpen: function () {
+        var isOpen = this.elm.style.left == "auto";
+        return isOpen;
     },
 
     /* addItem
@@ -320,19 +332,24 @@ Menu.prototype = {
     -------------------------------------------------------------------------------*/
     popup: function (_elm) {
 
+
         /* カレントポスト
         -------------------------------------------------------------------------------*/
         this.current = _elm;
 
         /* 位置
         -------------------------------------------------------------------------------*/
-        var x = _elm.offsetLeft;
-        var y = _elm.offsetTop+_elm.offsetHeight;
+        var x = 0;
+        var y = _elm.offsetHeight;
+
+        /* 挿入
+        -------------------------------------------------------------------------------*/
+        _elm.appendChild(this.elm);
 
         /* 移動
         -------------------------------------------------------------------------------*/
-        this.elm.style.left = x+"px";
-        this.elm.style.top = y+"px";
+        this.elm.style.left = "auto";
+        this.elm.style.top = "auto";
 
         console.log("this.elm", this.elm);
 
@@ -1054,18 +1071,25 @@ NewDom.prototype = {
 
         /* DOMが更新されたら実行
         -------------------------------------------------------------------------------*/
-        window.addEventListener ("DOMNodeInserted", function () {
+        document.body.addEventListener ("DOMNodeInserted", function () {
 
             /* 比較
             -------------------------------------------------------------------------------*/
-            var children = Sizzle("div[id^='update-']:not([data-gpeb-added='1'])", that.elm);
+            var children = Sizzle("div[id^='update-']:not([data-gpeb-added='1'])");
             if (children.length) {
-                console.log("新しいポストが追加されました");
+                _callBack.call(children, children);
+            }
+        }, false);
+
+        /* 一定間隔で実行
+        -------------------------------------------------------------------------------*/
+        this.timer = setInterval(function(){
+            var children = Sizzle("div[id^='update-']:not([data-gpeb-added='1'])");
+            if (children.length) {
                 _callBack.call(children, children);
             }
 
-
-        }, false);
+        }, 10000);
     }
 
 
@@ -1207,7 +1231,9 @@ var cssThemes = new Models([
         key: "default",
         css: [
             "#content>div, #contentPane div[role='region']>div:nth-of-type(1)>div:nth-of-type(3),div[guidedhelpid='streamcontent']>div:nth-of-type(2)>div>div, #content>div{background:#efefef!important;background-color:#efefef!important}div[id^='update']>div:nth-of-type(2)>div:nth-of-type(1)>div:nth-of-type(3){border-bottom:0 !important}div[id^='update']>div:nth-of-type(2)>div:nth-of-type(1)>div:nth-of-type(3)+div,#content>div:nth-of-type(2)>div:nth-of-type(1){border-top:1px solid #e5e5e5}div[id^='update'] div{box-shadow:0}div[id^='update']>div,div[data-iid]>div,div[guidedhelpid='sharebox_launcher']>div{box-shadow:0 1px 2px rgba(0,0,0,0.1)}div[id^='update'],div[id^='update']>div:nth-of-type(2)>:first-child{background:0;background-color:none}div[data-iid]{outline:0}div[data-iid]>div,div[id^='update']>div,div[guidedhelpid='sharebox_launcher']>div{border-bottom-width:1px}div[guidedhelpid='sharebox_launcher']{box-shadow:none !important}div[id^='update']>div:nth-of-type(2){border-top-width:1px;border-radius:3px}img[oid]{border-radius:5%}a[target='_blank'][tabindex]:link,a[target='_blank'][tabindex]:hover,a[target='_blank'][tabindex]:visited,a.proflink[oid],div[id^='update'] span[role='button'][tabindex],div[id^='update']>div:nth-of-type(2)>div:nth-of-type(1)>div:nth-of-type(2)>div:nth-of-type(1)>div:nth-of-type(1)>div:nth-of-type(1)>div:nth-of-type(2) a{color:#427fed !important}a[target='_blank'][tabindex]+div>a:link,a[target='_blank'][tabindex]+div>a:hover,a[target='_blank'][tabindex]+div>a:visited{color:gray !important}div[id^='update']>div:nth-of-type(2) div:not([id]){color:#282828}div[guidedhelpid='sharebox_textarea']{font-size:13px}div[id^='update']>div:nth-of-type(2){border-top:2px solid #b9c5d4 !important}div[id^='update']>div:nth-of-type(2):hover{border-top:2px solid #627fa5 !important}div[aria-live='assertive']>div[role='button']{positon:absolute;left:-9999px}div[guidedhelpid='ribbon_home']>a{background-color:#f5f5f5}div[role='navigation']{-webkit-box-shadow:none !important;box-shadow:none !important;border:1px solid #e5e5e5;height:46px}div[role='navigation'],#content>div:nth-of-type(2)>div:nth-of-type(1){background:#f5f5f5 !important;background-color:#f5f5f5 !important}#content+div>div:nth-of-type(1)>div:nth-of-type(2)>div:nth-of-type(1){background:0;background-color:none}div[guidedhelpid='profile_name']{color:white !important}div[role='region'] div[guidedhelpid]:not(div[guidedhelpid='profile_name']){color:black !important}div[guidedhelpid='profile_name']{color:white !important}span[role='button']{white-space:nowrap;}div[id^='update-']>div:nth-of-type(2)>div:nth-of-type(1)>div:nth-of-type(4){border-top:0!important;}",
-            "#gpeb-context-menu{position:absolute;top:-9999px;left:-9999px;min-width:100px;min-height:200px;border:1px solid gray;background-color:white;background:white}"
+            "#gpeb-context-menu{position:absolute;top:-9999px;left:-9999px;z-index:10000000;margin-left:1px;margin-top:0px;}",
+            "#gpeb-context-menu-arrow{width: 14px;height: 14px;float: left;border: 1px solid transparent;border-left-color: rgb(168, 168, 168);border-top-color: rgb(168, 168, 168);transform: rotate(45deg);-moz-transform: rotate(45deg);-webkit-transform: rotate(45deg);-o-transform: rotate(45deg);-ms-transform: rotate(45deg);background:white;}",
+            "#gpeb-context-menu-content{margin-top:7px;min-width:180px;min-height:200px;border:1px solid rgb(184, 184, 184);background-color:white;background:white;margin-left:-11px;box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.05);border-radius:3px;}"
         ]
     }
 ]);
@@ -1294,6 +1320,9 @@ function getActive () {
 /* 更新ボタンの監視を行う
 -------------------------------------------------------------------------------*/
 function checkreloadButton (_callBack) {
+
+    logger.add("更新ボタンの監視を開始しています");
+
     setInterval(function(){
 
         /* ウィンドウがアクティブではない場合無視
@@ -1320,6 +1349,7 @@ function checkreloadButton (_callBack) {
 
             /* クリックを行う
             -------------------------------------------------------------------------------*/
+            logger.add("通知更新をおこなっています");
             select.click("reloadButton");
         }
     }, 1000);
@@ -1338,10 +1368,20 @@ var buttonClickEvents = {
     openGpeb: function (_event, _post) {
         console.log("メニューを表示します", _event, _post);
 
-        menu.popup(_event.target);
-
+        var elm = _event.target;
+        while(1) {
+            if (typeof(elm) == "undefined") {
+                break;
+            }
+            if (elm.tagName == "DIV") {
+                menu.popup(elm);
+                break;
+            }
+            else {
+                elm = elm.parentNode;
+            }
+        }
     }
-
 };
 
 /* Controller作成
@@ -1351,10 +1391,35 @@ var cont = new Controller();
 /* event.click
 -------------------------------------------------------------------------------*/
 cont.on(window, "click", function (_event) {
+    
+
+    /* メニュー非表示
+    -------------------------------------------------------------------------------*/
+    var isOpen = menu.checkOpen();
+    if (isOpen) {
+        if (_event.target !== select.get("reloadButton")[0]) {
+            var id = _event.target.id;
+            if (id != "gpeb-context-menu-content" && id != "gpeb-context-menu-arrow") {
+                menu.hide();
+            }
+        }
+        
+    }
+
+
+    /* デバッグ
+    -------------------------------------------------------------------------------*/
     console.log("クリックされました", _event.target);
+
+
 
     var eventName = _event.target.getAttribute("data-gpeb-event") || "";
     if (eventName) {
+
+        if (eventName == "openGpeb" && isOpen) {
+            return false;
+        }
+
         if (typeof(buttonClickEvents[eventName]) == "function") {
             var post = Sizzle("#"+getData(_event.target, "gpeb-parent-id"))[0];
             buttonClickEvents[eventName].call(_event, _event, post);
@@ -1397,6 +1462,10 @@ function newNodeEvent () {
 
 window.onload = function () {
 
+    /* ロギング
+    -------------------------------------------------------------------------------*/
+    logger = new Logger("Google+ Extreme Button");
+    logger.add("ロギングを開始しました");
 
     /* CSSテーマを設定
     -------------------------------------------------------------------------------*/

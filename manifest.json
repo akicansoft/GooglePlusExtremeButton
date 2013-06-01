@@ -1,76 +1,70 @@
 {
-
-   "background": {
-
-      "scripts": [
-         "scripts/background.js"
-      ]
-   },
-
-   "content_scripts": [
-      {
-
-         "exclude_globs": [],
-         "include_globs": [
-            "https://plus.google.com/u/*/",
-            "https://plus.google.com/",
-            "https://plus.google.com"
-         ],
-
-         "js": [
-            "scripts/gpeb.js"
-         ],
-
-         "matches": [
-            "http://plus.google.com/*",
-            "https://plus.google.com/*",
-            "https://www.evernote.com/*",
-            "http://www.evernote.com/*"
-         ],
-
-         "permissions": [
-            "http://readitlaterlist.com/*",
-            "https://www.evernote.com/*",
-            "http://www.evernote.com/*"
-         ],
-
-         "run_at": "document_end"
-      }
-   ],
-   "converted_from_user_script": true,
-   "default_locale": "ja",
-   "description": "__MSG_extensiondescription__",
-   "icons": {
-      "128": "images/icon.png"
-   },
-   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCxKkOA0AmxMdRcYg+HWBcZj3FZ5QY/1aCI42dwnaVThCr/vWybwIH8B+XopZK7m4rTTGWVmPNC6YyeX7qugIv1g+v+HiVjrftE5OjTMZ/bM6JBdlg6YOZ5yK25PbC1C6Azv9D5HQmPK6t+0lxg2DOw7Fr325pX746/E8KbIYCQ3wIDAQAB",
-   "manifest_version": 2,
-   "name": "Google+ Extreme Button",
-   "update_url": "http://clients2.google.com/service/update2/crx",
-   "version": "3.0",
-   "web_accessible_resources": [
-      "buttons/Aisatsu.png",
-      "buttons/CircleCount.png",
-      "buttons/Delicious.png",
-      "buttons/Dokoina.png",
-      "buttons/Evernote.png",
-      "buttons/Facebook.png",
-      "buttons/Facebook.png",
-      "buttons/FullSizeImgDown.png",
-      "buttons/FullSizeImgOpen.png",
-      "buttons/fuu.png",
-      "buttons/gununu.png",
-      "buttons/Hatena.png",
-      "buttons/icon.png",
-      "buttons/mute.png",
-      "buttons/oh.png",
-      "buttons/Pinterest.png",
-      "buttons/RIL1.png",
-      "buttons/RIL2.png",
-      "buttons/Ripples.png",
-      "buttons/rtm.png",
-      "buttons/Tumblr.png",
-      "buttons/Twitter.png",
-      "buttons/mini.png"
-   ]
+  "background": {
+    "scripts": [
+      "scripts/background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "exclude_globs": [
+      ],
+      "include_globs": [
+        "https://plus.google.com/u/*/",
+        "https://plus.google.com/",
+        "https://plus.google.com",
+        "https://plus.google.com/?hl=ja&partnerid=gplp0"
+      ],
+      "js": [
+        "scripts/gpeb.js"
+      ],
+      "matches": [
+        "http://plus.google.com/*",
+        "https://plus.google.com/*",
+        "https://www.evernote.com/*",
+        "http://www.evernote.com/*"
+      ],
+      "permissions": [
+        "http://readitlaterlist.com/*",
+        "https://www.evernote.com/*",
+        "http://www.evernote.com/*"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "converted_from_user_script": true,
+  "default_locale": "ja",
+  "description": "__MSG_extensiondescription__",
+  "icons": {
+    "128": "images/icon.png"
+  },
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCxKkOA0AmxMdRcYg+HWBcZj3FZ5QY/1aCI42dwnaVThCr/vWybwIH8B+XopZK7m4rTTGWVmPNC6YyeX7qugIv1g+v+HiVjrftE5OjTMZ/bM6JBdlg6YOZ5yK25PbC1C6Azv9D5HQmPK6t+0lxg2DOw7Fr325pX746/E8KbIYCQ3wIDAQAB",
+  "manifest_version": 2,
+  "name": "Google+ Extreme Button",
+  "update_url": "http://clients2.google.com/service/update2/crx",
+  "version": "3.0",
+  "web_accessible_resources": [
+    "buttons/Aisatsu.png",
+    "buttons/CircleCount.png",
+    "buttons/Delicious.png",
+    "buttons/Dokoina.png",
+    "buttons/Evernote.png",
+    "buttons/Facebook.png",
+    "buttons/Facebook.png",
+    "buttons/FullSizeImgDown.png",
+    "buttons/FullSizeImgOpen.png",
+    "buttons/fuu.png",
+    "buttons/gununu.png",
+    "buttons/Hatena.png",
+    "buttons/icon.png",
+    "buttons/mute.png",
+    "buttons/oh.png",
+    "buttons/Pinterest.png",
+    "buttons/RIL1.png",
+    "buttons/RIL2.png",
+    "buttons/Ripples.png",
+    "buttons/rtm.png",
+    "buttons/Tumblr.png",
+    "buttons/Twitter.png",
+    "buttons/mini.png"
+  ]
 }
