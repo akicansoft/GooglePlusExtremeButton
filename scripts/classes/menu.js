@@ -54,7 +54,7 @@ Menu.prototype = {
         this.items.push(_obj);
 
         var div = document.createElement("div");
-        div.setAttribute("class", "gpeb item");
+        div.setAttribute("class", "gpeb item line");
         if (chrome.extension && "getURL" in chrome.extension) {
             var url = chrome.extension.getURL(_obj.img);
         }
@@ -65,10 +65,11 @@ Menu.prototype = {
         /* 画像タイプの場合画像クラスを追加
         -------------------------------------------------------------------------------*/
         if (_obj.type == "image") {
-            div.setAttribute("class", "gpeb item image");
+            div.setAttribute("class", "gpeb item line image");
         }
 
-        div.innerHTML = '<div class="icon"><img class="gpeb" src="'+url+'" /></div><div class="name"><a href="javascript:;" data-gpeb-event="'+_obj.event+'">'+_obj.name+'</a></div><div class="clearboth"></div>';
+        // div.innerHTML = '<div class="icon"><img class="gpeb" src="'+url+'" /></div><div class="name"><a href="javascript:;" data-gpeb-event="'+_obj.event+'">'+_obj.name+'</a></div><div class="clearboth"></div>';
+        div.innerHTML = '<div class="icon"><img class="gpeb" src="'+url+'" data-gpeb-event="'+_obj.event+'" /></div></div>';
         this.content.appendChild(div);
         this.clear.parentNode.appendChild(this.clear);
 

@@ -146,7 +146,7 @@ cont.on(window, "click", function (_event) {
             var tagName = _event.target.tagName;
             var className = _event.target.getAttribute("class");
             console.log("id", id, "class:", className);
-            if (id != "gpeb-context-menu-content" && id != "gpeb-context-menu-arrow" && className != "gpeb item" && tagName != "IMG") {
+            if (id != "gpeb-context-menu-content" && id != "gpeb-context-menu-arrow" && className != "gpeb item") {
                 menu.hide();
             }
         }
