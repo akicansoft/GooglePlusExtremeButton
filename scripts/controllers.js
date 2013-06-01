@@ -117,6 +117,13 @@ var buttonClickEvents = {
     mute: function (_event, _post) {
         var pa = new PostAction(_post);
         pa.mute();
+    },
+
+    /* 設定画面を開く
+    -------------------------------------------------------------------------------*/
+    openSettings: function (_event, _post) {
+        var sw = new SettingsWindow();
+        sw.open();
     }
 
 };

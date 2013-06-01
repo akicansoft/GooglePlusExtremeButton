@@ -23,10 +23,26 @@ var cssThemes = new Models([
             "#gpeb-context-menu-content{padding-top:11px;margin-top:7px;padding-bottom:11px;min-width:180px;min-height:200px;border:1px solid rgb(184, 184, 184);background-color:white;background:white;margin-left:-11px;box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.05);border-radius:3px;}",
             "#gpeb-context-menu-content div.item{clear:both;height:20px;padding-left:2px;margin-left:10px;line-height:12px;}#gpeb-context-menu-content div.item>div{float:left}#gpeb-context-menu-content div.item>div.icon{margin-top:3px;margin-right:4px;}#gpeb-context-menu-content div.item>div.name{margin-top:4px;}",
             "#gpeb-context-menu-clear{clear:both;}div.clearboth{clear:both;}",
-            "#gpeb-context-menu-content div.item:hover{background:rgb(223, 238, 255);margin-right:2px;margin-left:2px;padding-left:10px;}"
+            "#gpeb-context-menu-content div.item:hover{background:rgb(223, 238, 255);margin-right:2px;margin-left:2px;padding-left:10px;}",
+            "#gpeb-settings-window{position: fixed;top0px;left:0px;width:640px;height:480px;background-color:white;z-index:99999999999999;border:1px solid gray;box-shadow: 2px 2px 50px rgba(0, 0, 0, 0.5), 9px 9px 30px rgba(0, 0, 0, 0.2);border-radius: 4px;}",
+            "#gpeb-back{background:rgba(0, 0, 0, 0.5);position: fixed;left:0;top:0;width:2000px;height:2000px;z-index:1000}",
+            "#gpeb-settings-window-menu{width: 128px;float: left;height: 480px;border-right: 1px solid rgb(207, 207, 207);margin-right: 8px;background: rgb(240, 240, 240);border-top-left-radius: 4px;border-bottom-left-radius: 4px;}",
+            "#gpeb-settings-window-menu div.gpeb.logo>img{width:110px;height:110px;}",
+            "#gpeb-settings-window-menu div.gpeb.logo{margin-top:10px;margin-left:10px;margin-bottom:20px;}",
+            "#gpeb-settings-window-menu div.gpeb.logo>div.name{font-weight: bold;font-size: 23px;font-family: Impact;font-style: italic;color: rgb(32, 63, 119);letter-spacing: 3px;margin-left: 5px;}",
+            "#gpeb-settings-window-menu div.gpeb.logo>div.ver{font-weight: bold;letter-spacing: 4px;margin-top: -1px;margin-left: 7px;}",
+            "#gpeb-settings-window-menu div.item{height: 28px;border-top: 1px solid rgb(194, 194, 194);line-height: 28px;padding-left: 3px;background: rgb(230, 230, 230);cursor:pointer;}",
+            "#gpeb-settings-window-menu div.item-close{border-top: 1px solid rgb(194, 194, 194);}",
+            "#gpeb-settings-window-menu div.item:hover{background:rgb(209, 209, 209);}",
+            "#gpeb-settings-window-menu div.item.active{background:gray;color:white;}",
+            "#gpeb-settings-window-close-button{position: absolute;top: 18px;right: 10px;font-size: 36px;line-height: 0px;color: rgb(68, 68, 68);cursor: pointer;}",
+            "#gpeb-settings-window-content{float:left;}#gpeb-settings-window-content div.title{background: gray;color: white;padding: 2px;margin-top: 11px;width: 457px;padding-left: 7px;font-weight: bold;}#gpeb-settings-window-content div.desc{margin-top: 7px;padding-left: 1px;margin-bottom: 13px;}",
+            "#gpeb-settings-window-content{width:466px;}#gpeb-settings-window-content div.sub-title{border-left: 3px solid gray;padding-left: 4px;margin-bottom: 7px;margin-left:13px;}#gpeb-settings-window-content div.sub-desc{margin-bottom: 26px;margin-left:13px;}"
+
         ]
     }
 ]);
+
 
 /* 要素生成用テンプレート
 -------------------------------------------------------------------------------*/

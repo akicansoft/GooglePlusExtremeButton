@@ -33,8 +33,10 @@ PostAction.prototype = {
     /* ミュートにする
     -------------------------------------------------------------------------------*/
     mute: function () {
+        logger.add("ミュートにしています");
         var that = this;
-        var optionContexts = Sizzle("span[guidedhelpid='stream_options_link']", this.elm);
+        var optionContexts = Sizzle("span[data-update-id]:eq(0)", this.elm);
+        console.log("optionContexts", optionContexts);
         if (optionContexts.length) {
             click(optionContexts[0], function () {
                 var items = Sizzle("div[aria-haspopup]>div");

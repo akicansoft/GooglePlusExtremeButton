@@ -51,6 +51,15 @@ window.onload = function () {
     menuItems.each(function () {
         menu.addItem(this);    
     });
+
+    /* 設定ボタンの追加
+    -------------------------------------------------------------------------------*/
+    menu.addItem({
+        name: "設定",
+        event: "openSettings",
+        img: "buttons/white.png",
+        type: "default"
+    });
     
 
 
