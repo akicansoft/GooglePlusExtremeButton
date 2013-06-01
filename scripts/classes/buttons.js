@@ -90,9 +90,6 @@ Buttons.prototype = {
         }
         setData(_plusOneArea, "gpeb-added", "1", false);
 
-        
-
-
         /* ボタンの数だけループ
         -------------------------------------------------------------------------------*/        
         for (var i = 0; i < this.buttons.length; i++) {

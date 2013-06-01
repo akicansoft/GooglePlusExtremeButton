@@ -23,17 +23,10 @@ Menu.prototype = {
         if (typeof(_opt.idName) == "string") {
             this.elm.setAttribute("id", _opt.idName);
         }
-        this.elm.innerHTML = '<div id="gpeb-context-menu-arrow"></div><div id="gpeb-context-menu-content"></div>';
-
-        this.elm.addEventListener ("mousedown", function (_event) {
-            console.log("イベントブロック");
-            _event.preventDefault();
-            return false;
-        }, true);
-
-
+        this.elm.innerHTML = '<div id="gpeb-context-menu-arrow"></div><div id="gpeb-context-menu-content"><div id="gpeb-context-menu-clear"></div></div>';
+        this.content = Sizzle("#gpeb-context-menu-content", this.elm)[0];
+        this.clear = Sizzle("#gpeb-context-menu-clear", this.elm)[0];
         document.body.appendChild(this.elm);
-
     },
 
     /* hide
@@ -56,18 +49,22 @@ Menu.prototype = {
     -------------------------------------------------------------------------------*/
     addItem: function (_obj) {
 
+        console.log("_obj", _obj);        
+
         this.items.push(_obj);
 
         var div = document.createElement("div");
-        div.setAttribute("class", "item");
+        div.setAttribute("class", "gpeb item");
         if (chrome.extension && "getURL" in chrome.extension) {
             var url = chrome.extension.getURL(_obj.img);
         }
         else {
             var url = "about:blank";
         }
-        div.innerHTML = '<div class="icon"><img src="'+url+'" /></div><div class="name"><a href="javascript:;" data-gpeb-event="'+_obj.event+'">'+_obj.name+'</a></div>';
-        this.elm.appendChild(div);
+        div.innerHTML = '<div class="icon"><img src="'+url+'" /></div><div class="name"><a href="javascript:;" data-gpeb-event="'+_obj.event+'">'+_obj.name+'</a></div><div class="clearboth"></div>';
+        this.content.appendChild(div);
+        this.clear.parentNode.appendChild(this.clear);
+
 
     },
 
@@ -87,7 +84,8 @@ Menu.prototype = {
 
         /* 挿入
         -------------------------------------------------------------------------------*/
-        _elm.appendChild(this.elm);
+        var plusOneArea = _elm.parentNode;
+        plusOneArea.insertBefore( this.elm, Sizzle("div[role='button']:eq(2)", plusOneArea)[0]);
 
         /* 移動
         -------------------------------------------------------------------------------*/

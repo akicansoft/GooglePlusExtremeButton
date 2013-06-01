@@ -83,6 +83,7 @@ var buttonClickEvents = {
         console.log("メニューを表示します", _event, _post);
 
         var elm = _event.target;
+        var count = 0;
         while(1) {
             if (typeof(elm) == "undefined") {
                 break;
@@ -93,6 +94,10 @@ var buttonClickEvents = {
             }
             else {
                 elm = elm.parentNode;
+            }
+            count++;
+            if (count == 30) {
+                break;
             }
         }
     }
@@ -113,7 +118,10 @@ cont.on(window, "click", function (_event) {
     if (isOpen) {
         if (_event.target !== select.get("reloadButton")[0]) {
             var id = _event.target.id;
-            if (id != "gpeb-context-menu-content" && id != "gpeb-context-menu-arrow") {
+            var tagName = _event.target.tagName;
+            var className = _event.target.getAttribute("class");
+            console.log("id", id, "class:", className);
+            if (id != "gpeb-context-menu-content" && id != "gpeb-context-menu-arrow" && className != "gpeb item" && tagName != "IMG") {
                 menu.hide();
             }
         }
@@ -139,7 +147,7 @@ cont.on(window, "click", function (_event) {
             buttonClickEvents[eventName].call(_event, _event, post);
         }
         else {
-            throw new Error("存在しないイベントが指定されています");
+            throw new Error("存在しないイベントが指定されています", eventName);
         }
     }
 
