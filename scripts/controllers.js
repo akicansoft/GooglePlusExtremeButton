@@ -100,7 +100,18 @@ var buttonClickEvents = {
                 break;
             }
         }
+    },
+
+    /* 画像一括ダウンロード
+    -------------------------------------------------------------------------------*/
+    imageDownload: function (_event, _post) {
+        var gpd = new GetPostData(_post);
+        var urls = gpd.getDonwloadImages();
+        urls.forEach(function (_url) {
+            window.open(_url);
+        });
     }
+
 };
 
 /* Controller作成

@@ -181,6 +181,115 @@ function css (_id, _css) {
 
 }
 
+/* ポストの情報を取得
+-------------------------------------------------------------------------------*/
+function GetPostData(_elmOrId) {
+    this.init(_elmOrId);
+}
+
+GetPostData.prototype = {
+
+    /* 初期化
+    -------------------------------------------------------------------------------*/
+    init: function (_elmOrId) {
+        if (typeof(_elmOrId) == "string") {
+            var elms = Sizzle("#"+_elmOrId);
+            if (elms.length) {
+                this.elm = elms[0];
+            }
+            else {
+                this.elm = undefined;
+            }
+        }
+        else {
+            this.elm = _elmOrId;
+        }
+    },
+
+    /* 名前の取得
+    -------------------------------------------------------------------------------*/
+    getName: function () {
+        var elms = Sizzle("a[href][oid]:eq(1)", this.elm);
+        if (elms.length) {
+            return elms[0].innerHTML;
+        }
+        return "";
+    },
+
+    /* 投稿時間の取得
+    -------------------------------------------------------------------------------*/
+    getTime: function () {
+        var elms = Sizzle("a[href][title]:eq(0)", this.elm);;
+        if (elms.length) {
+            return elms[0].getAttribute("title");
+        }
+        return "";
+
+    },
+
+    /* 本文の取得
+    -------------------------------------------------------------------------------*/
+    getBody: function () {
+        var elms = Sizzle("div>div>div>div>div+div:eq(0)", this.elm);
+        if (elms.length) {
+            return elms[0].innerHTML;
+        }
+        return "";
+    },
+
+    /* 投稿した画像一覧の取得
+    -------------------------------------------------------------------------------*/
+    getImages: function () {
+        var elms = Sizzle("img:not([width]):not([class|='gpeb'])", this.elm);
+        var imageUrls = [];
+        elms.forEach(function (_elm) {
+            var src = _elm.getAttribute("src");
+            var srcs = src.split("/");
+            srcs[7] = "s0";
+            src = "https:"+srcs.join("/");
+            imageUrls.push(src);
+        });
+        return imageUrls;
+    },
+
+    /* 投稿した画像一覧の取得 (ダウンロード)
+    -------------------------------------------------------------------------------*/
+    getDonwloadImages: function () {
+        var elms = Sizzle("img:not([width]):not([class|='gpeb'])", this.elm);
+        var imageUrls = [];
+        elms.forEach(function (_elm) {
+            var src = _elm.getAttribute("src");
+            var srcs = src.split("/");
+            srcs[7] = "d";
+            src = "https:"+srcs.join("/");
+            imageUrls.push(src);
+        });
+        return imageUrls;
+    },
+
+    /* コミュニティの名前
+    -------------------------------------------------------------------------------*/
+    getCommunityName: function () {
+        var elms = Sizzle("a[href^='communities'] > div", this.elm);
+        if (elms.length) {
+            return elms[0].innerHTML;
+        }
+        return "";
+    },
+
+    /* コミュニティカテゴリーの名前
+    -------------------------------------------------------------------------------*/
+    getCommunityCategory: function () {
+        var elms = Sizzle("h3+span>span:eq(0)", this.elm);
+        if (elms.length) {
+            return elms[0].innerHTML;
+        }
+        return "";
+    }
+};
+
+
+
 /* ログ管理
 -------------------------------------------------------------------------------*/
 function Logger (_appName) {
@@ -315,7 +424,7 @@ Menu.prototype = {
         else {
             var url = "about:blank";
         }
-        div.innerHTML = '<div class="icon"><img src="'+url+'" /></div><div class="name"><a href="javascript:;" data-gpeb-event="'+_obj.event+'">'+_obj.name+'</a></div><div class="clearboth"></div>';
+        div.innerHTML = '<div class="icon"><img class="gpeb" src="'+url+'" /></div><div class="name"><a href="javascript:;" data-gpeb-event="'+_obj.event+'">'+_obj.name+'</a></div><div class="clearboth"></div>';
         this.content.appendChild(div);
         this.clear.parentNode.appendChild(this.clear);
 
@@ -335,6 +444,13 @@ Menu.prototype = {
         -------------------------------------------------------------------------------*/
         var x = 0;
         var y = _elm.offsetHeight;
+
+        /* 全てのアイテムにポストIDを追加
+        -------------------------------------------------------------------------------*/
+        var id = getData(this.current, "gpeb-parent-id");
+        Sizzle("div.item", this.elm).forEach(function (_elm) {
+            setData(_elm, "gpeb-parent-id", id);
+        });
 
         /* 挿入
         -------------------------------------------------------------------------------*/
@@ -1262,87 +1378,87 @@ var menuItems = new Models([
 
     {
         name: "画像ダウンロード",
-        evet: "imageDownload",
+        event: "imageDownload",
         img: "buttons/FullSizeImgDown.png"
     },
     {
         name: "ミュート",
-        evet: "mute",
+        event: "mute",
         img: "buttons/mute.png"
     },
     {
         name: "はてなブックマーク",
-        evet: "sendDokoina",
+        event: "sendDokoina",
         img: "buttons/Hatena.png"
     },
     {
         name: "Evernote",
-        evet: "sendEvernote",
+        event: "sendEvernote",
         img: "buttons/Evernote.png"
     },
     {
         name: "Twitter",
-        evet: "sendTwitter",
+        event: "sendTwitter",
         img: "buttons/Twitter.png"
     },
     {
         name: "Facebook",
-        evet: "sendFaceBook",
+        event: "sendFaceBook",
         img: "buttons/Facebook.png"
     },
     {
         name: "Tumblr",
-        evet: "sendTumblr",
+        event: "sendTumblr",
         img: "buttons/Tumblr.png"
     },
     {
         name: "Pinterest",
-        evet: "sendPinterest",
+        event: "sendPinterest",
         img: "buttons/Pinterest.png"
     },
     {
         name: "Pocket",
-        evet: "mute",
+        event: "mute",
         img: "buttons/RIL1.png"
     },
     {
         name: "CircleCount",
-        evet: "openCircleCount",
+        event: "openCircleCount",
         img: "buttons/CircleCount.png"
     },
     {
         name: "リップル",
-        evet: "openRipples",
+        event: "openRipples",
         img: "buttons/Ripples.png"
     },
     {
         name: "あいさつ",
-        evet: "sendAisatsu",
+        event: "sendAisatsu",
         img: "buttons/Aisatsu.png"
     },
     {
         name: "oh...",
-        evet: "sendOh",
+        event: "sendOh",
         img: "buttons/oh.png"
     },
     {
         name: "ふぅ...",
-        evet: "sendFuu",
+        event: "sendFuu",
         img: "buttons/fuu.png"
     },
     {
         name: "ぐぬぬ",
-        evet: "sendGununu",
+        event: "sendGununu",
         img: "buttons/gununu.png"
     },
     {
         name: "ぬるぽ",
-        evet: "sendNurupo",
+        event: "sendNurupo",
         img: "buttons/Dokoina.png"
     },
     {
         name: "どこいな",
-        evet: "sendDokoina",
+        event: "sendDokoina",
         img: "buttons/Dokoina.png"
     }
 
@@ -1477,7 +1593,18 @@ var buttonClickEvents = {
                 break;
             }
         }
+    },
+
+    /* 画像一括ダウンロード
+    -------------------------------------------------------------------------------*/
+    imageDownload: function (_event, _post) {
+        var gpd = new GetPostData(_post);
+        var urls = gpd.getDonwloadImages();
+        urls.forEach(function (_url) {
+            window.open(_url);
+        });
     }
+
 };
 
 /* Controller作成
@@ -1616,7 +1743,5 @@ window.onload = function () {
     -------------------------------------------------------------------------------*/
     nd = new NewDom(select.get("topPost")[0].parentNode.parentNode);
     nd.watch(newNodeEvent, defaultSettings.get("drawSpeed").speed);
-
-
 
 };

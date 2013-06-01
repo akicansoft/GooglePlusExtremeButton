@@ -61,7 +61,7 @@ Menu.prototype = {
         else {
             var url = "about:blank";
         }
-        div.innerHTML = '<div class="icon"><img src="'+url+'" /></div><div class="name"><a href="javascript:;" data-gpeb-event="'+_obj.event+'">'+_obj.name+'</a></div><div class="clearboth"></div>';
+        div.innerHTML = '<div class="icon"><img class="gpeb" src="'+url+'" /></div><div class="name"><a href="javascript:;" data-gpeb-event="'+_obj.event+'">'+_obj.name+'</a></div><div class="clearboth"></div>';
         this.content.appendChild(div);
         this.clear.parentNode.appendChild(this.clear);
 
@@ -81,6 +81,13 @@ Menu.prototype = {
         -------------------------------------------------------------------------------*/
         var x = 0;
         var y = _elm.offsetHeight;
+
+        /* 全てのアイテムにポストIDを追加
+        -------------------------------------------------------------------------------*/
+        var id = getData(this.current, "gpeb-parent-id");
+        Sizzle("div.item", this.elm).forEach(function (_elm) {
+            setData(_elm, "gpeb-parent-id", id);
+        });
 
         /* 挿入
         -------------------------------------------------------------------------------*/

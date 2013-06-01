@@ -59,6 +59,4 @@ window.onload = function () {
     nd = new NewDom(select.get("topPost")[0].parentNode.parentNode);
     nd.watch(newNodeEvent, defaultSettings.get("drawSpeed").speed);
 
-
-
 };

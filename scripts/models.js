@@ -54,87 +54,87 @@ var menuItems = new Models([
 
     {
         name: "画像ダウンロード",
-        evet: "imageDownload",
+        event: "imageDownload",
         img: "buttons/FullSizeImgDown.png"
     },
     {
         name: "ミュート",
-        evet: "mute",
+        event: "mute",
         img: "buttons/mute.png"
     },
     {
         name: "はてなブックマーク",
-        evet: "sendDokoina",
+        event: "sendDokoina",
         img: "buttons/Hatena.png"
     },
     {
         name: "Evernote",
-        evet: "sendEvernote",
+        event: "sendEvernote",
         img: "buttons/Evernote.png"
     },
     {
         name: "Twitter",
-        evet: "sendTwitter",
+        event: "sendTwitter",
         img: "buttons/Twitter.png"
     },
     {
         name: "Facebook",
-        evet: "sendFaceBook",
+        event: "sendFaceBook",
         img: "buttons/Facebook.png"
     },
     {
         name: "Tumblr",
-        evet: "sendTumblr",
+        event: "sendTumblr",
         img: "buttons/Tumblr.png"
     },
     {
         name: "Pinterest",
-        evet: "sendPinterest",
+        event: "sendPinterest",
         img: "buttons/Pinterest.png"
     },
     {
         name: "Pocket",
-        evet: "mute",
+        event: "mute",
         img: "buttons/RIL1.png"
     },
     {
         name: "CircleCount",
-        evet: "openCircleCount",
+        event: "openCircleCount",
         img: "buttons/CircleCount.png"
     },
     {
         name: "リップル",
-        evet: "openRipples",
+        event: "openRipples",
         img: "buttons/Ripples.png"
     },
     {
         name: "あいさつ",
-        evet: "sendAisatsu",
+        event: "sendAisatsu",
         img: "buttons/Aisatsu.png"
     },
     {
         name: "oh...",
-        evet: "sendOh",
+        event: "sendOh",
         img: "buttons/oh.png"
     },
     {
         name: "ふぅ...",
-        evet: "sendFuu",
+        event: "sendFuu",
         img: "buttons/fuu.png"
     },
     {
         name: "ぐぬぬ",
-        evet: "sendGununu",
+        event: "sendGununu",
         img: "buttons/gununu.png"
     },
     {
         name: "ぬるぽ",
-        evet: "sendNurupo",
+        event: "sendNurupo",
         img: "buttons/Dokoina.png"
     },
     {
         name: "どこいな",
-        evet: "sendDokoina",
+        event: "sendDokoina",
         img: "buttons/Dokoina.png"
     }
 
