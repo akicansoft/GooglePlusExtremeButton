@@ -89,7 +89,7 @@ var buttonClickEvents = {
                 break;
             }
             if (elm.tagName == "DIV") {
-                menu.popup(elm);
+                menu.popup(elm, _post);
                 break;
             }
             else {
@@ -110,6 +110,13 @@ var buttonClickEvents = {
         urls.forEach(function (_url) {
             window.open(_url);
         });
+    },
+
+    /* ミュート
+    -------------------------------------------------------------------------------*/
+    mute: function (_event, _post) {
+        var pa = new PostAction(_post);
+        pa.mute();
     }
 
 };

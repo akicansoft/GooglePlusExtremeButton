@@ -43,3 +43,39 @@ function setData(_elm, _key, _value, _isR) {
 function getData(_elm, _key) {
     return _elm.getAttribute("data-"+_key);
 }
+
+/* クリック
+-------------------------------------------------------------------------------*/
+function click(_elm, _callBack, _this) {
+
+    try {
+        var event = document.createEvent("MouseEvents");
+        event.initEvent("mousedown", true, true);
+        _elm.dispatchEvent(event);
+    }
+    catch (_error) {
+    }
+
+    try {
+        var event = document.createEvent("MouseEvents");
+        event.initEvent("click", true, true);
+        _elm.dispatchEvent(event);
+    }
+    catch (_error) {
+    }
+
+    try {
+        var event = document.createEvent("MouseEvents");
+        event.initEvent("mouseup", true, true);
+        _elm.dispatchEvent(event);
+    }
+    catch (_error) {
+    }
+
+    setTimeout(function(){
+        if (typeof(_callBack) == "function") {
+            _callBack.call(_this||window, _this||window);
+        }
+    }, 100);
+
+}

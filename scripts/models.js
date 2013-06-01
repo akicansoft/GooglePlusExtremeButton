@@ -55,90 +55,105 @@ var menuItems = new Models([
     {
         name: "画像ダウンロード",
         event: "imageDownload",
-        img: "buttons/FullSizeImgDown.png"
+        img: "buttons/FullSizeImgDown.png",
+        type: "image"
     },
     {
         name: "ミュート",
         event: "mute",
-        img: "buttons/mute.png"
+        img: "buttons/mute.png",
+        type: "default"
     },
     {
         name: "はてなブックマーク",
         event: "sendDokoina",
-        img: "buttons/Hatena.png"
+        img: "buttons/Hatena.png",
+        type: "default"
     },
     {
         name: "Evernote",
         event: "sendEvernote",
-        img: "buttons/Evernote.png"
+        img: "buttons/Evernote.png",
+        type: "default"
     },
     {
         name: "Twitter",
         event: "sendTwitter",
-        img: "buttons/Twitter.png"
+        img: "buttons/Twitter.png",
+        type: "default"
     },
     {
         name: "Facebook",
         event: "sendFaceBook",
-        img: "buttons/Facebook.png"
+        img: "buttons/Facebook.png",
+        type: "default"
     },
     {
         name: "Tumblr",
         event: "sendTumblr",
-        img: "buttons/Tumblr.png"
+        img: "buttons/Tumblr.png",
+        type: "default"
     },
     {
         name: "Pinterest",
         event: "sendPinterest",
-        img: "buttons/Pinterest.png"
+        img: "buttons/Pinterest.png",
+        type: "default"
     },
     {
         name: "Pocket",
         event: "mute",
-        img: "buttons/RIL1.png"
+        img: "buttons/RIL1.png",
+        type: "default"
     },
     {
         name: "CircleCount",
         event: "openCircleCount",
-        img: "buttons/CircleCount.png"
+        img: "buttons/CircleCount.png",
+        type: "default"
     },
     {
         name: "リップル",
         event: "openRipples",
-        img: "buttons/Ripples.png"
+        img: "buttons/Ripples.png",
+        type: "default"
     },
     {
         name: "あいさつ",
         event: "sendAisatsu",
-        img: "buttons/Aisatsu.png"
+        img: "buttons/Aisatsu.png",
+        type: "default"
     },
     {
         name: "oh...",
         event: "sendOh",
-        img: "buttons/oh.png"
+        img: "buttons/oh.png",
+        type: "default"
     },
     {
         name: "ふぅ...",
         event: "sendFuu",
-        img: "buttons/fuu.png"
+        img: "buttons/fuu.png",
+        type: "default"
     },
     {
         name: "ぐぬぬ",
         event: "sendGununu",
-        img: "buttons/gununu.png"
+        img: "buttons/gununu.png",
+        type: "default"
     },
     {
         name: "ぬるぽ",
         event: "sendNurupo",
-        img: "buttons/Dokoina.png"
+        img: "buttons/Dokoina.png",
+        type: "default"
     },
     {
         name: "どこいな",
         event: "sendDokoina",
-        img: "buttons/Dokoina.png"
+        img: "buttons/Dokoina.png",
+        type: "default"
     }
-
-
 ]);
 
 /* innerHTML

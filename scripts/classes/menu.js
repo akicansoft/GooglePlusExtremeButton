@@ -61,6 +61,13 @@ Menu.prototype = {
         else {
             var url = "about:blank";
         }
+
+        /* 画像タイプの場合画像クラスを追加
+        -------------------------------------------------------------------------------*/
+        if (_obj.type == "image") {
+            div.setAttribute("class", "gpeb item image");
+        }
+
         div.innerHTML = '<div class="icon"><img class="gpeb" src="'+url+'" /></div><div class="name"><a href="javascript:;" data-gpeb-event="'+_obj.event+'">'+_obj.name+'</a></div><div class="clearboth"></div>';
         this.content.appendChild(div);
         this.clear.parentNode.appendChild(this.clear);
@@ -70,7 +77,7 @@ Menu.prototype = {
 
     /* popup
     -------------------------------------------------------------------------------*/
-    popup: function (_elm) {
+    popup: function (_elm, _post) {
 
 
         /* カレントポスト
@@ -88,6 +95,25 @@ Menu.prototype = {
         Sizzle("div.item", this.elm).forEach(function (_elm) {
             setData(_elm, "gpeb-parent-id", id);
         });
+
+        /* ポップアップされるポストに画像が存在しているかどうか調べる
+        -------------------------------------------------------------------------------*/
+        var gpd = new GetPostData(_post);
+        var urls = gpd.getImages();
+        var isImage = urls.length > 0 ;
+
+        /* 画像表示が必要なアイテムを隠す
+        -------------------------------------------------------------------------------*/
+        if (isImage) {
+            Sizzle("div.item.image", this.elm).forEach(function (_elm) {
+                _elm.style.display = "block";
+            });
+        }
+        else {
+            Sizzle("div.item.image", this.elm).forEach(function (_elm) {
+                _elm.style.display = "none";
+            });
+        }
 
         /* 挿入
         -------------------------------------------------------------------------------*/

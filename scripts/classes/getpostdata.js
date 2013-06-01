@@ -60,11 +60,42 @@ GetPostData.prototype = {
         var elms = Sizzle("img:not([width]):not([class|='gpeb'])", this.elm);
         var imageUrls = [];
         elms.forEach(function (_elm) {
+
+            /* ファビコンは除外
+            -------------------------------------------------------------------------------*/
+            if (_elm.width < 20 && _elm.height < 20) {
+                return;
+            }
+
             var src = _elm.getAttribute("src");
-            var srcs = src.split("/");
-            srcs[7] = "s0";
-            src = "https:"+srcs.join("/");
+
+            /* サムネイルかどうか判定
+            -------------------------------------------------------------------------------*/
+            var isThumbnail = src.indexOf("=w") != -1;
+            
+            if (!isThumbnail) {
+                
+                var srcs = src.split("/");
+                srcs[7] = "s0";
+                src = "https:"+srcs.join("/");
+            }
+            else {
+                var lastIndex = src.lastIndexOf("=") || 999999;
+                src = src.substr(0, lastIndex);
+            }
             imageUrls.push(src);
+
+            /* 重複カット
+            -------------------------------------------------------------------------------*/
+            var objUrls = {};
+            imageUrls.forEach(function (_url) {
+                objUrls[_url] = 1;
+            });
+            imageUrls = [];
+            for (var i in objUrls) {
+                imageUrls.push(i);
+            };
+
         });
         return imageUrls;
     },
@@ -75,11 +106,42 @@ GetPostData.prototype = {
         var elms = Sizzle("img:not([width]):not([class|='gpeb'])", this.elm);
         var imageUrls = [];
         elms.forEach(function (_elm) {
+
+            /* ファビコンは除外
+            -------------------------------------------------------------------------------*/
+            if (_elm.width < 20 && _elm.height < 20) {
+                return;
+            }
+
             var src = _elm.getAttribute("src");
-            var srcs = src.split("/");
-            srcs[7] = "d";
-            src = "https:"+srcs.join("/");
+
+            /* サムネイルかどうか判定
+            -------------------------------------------------------------------------------*/
+            var isThumbnail = src.indexOf("=w") != -1;
+
+            if (!isThumbnail) {
+                
+                var srcs = src.split("/");
+                srcs[7] = "d";
+                src = "https:"+srcs.join("/");
+            }
+            else {
+                var lastIndex = src.lastIndexOf("=") || 999999;
+                src = src.substr(0, lastIndex);
+            }
             imageUrls.push(src);
+
+            /* 重複カット
+            -------------------------------------------------------------------------------*/
+            var objUrls = {};
+            imageUrls.forEach(function (_url) {
+                objUrls[_url] = 1;
+            });
+            imageUrls = [];
+            for (var i in objUrls) {
+                imageUrls.push(i);
+            };
+
         });
         return imageUrls;
     },
