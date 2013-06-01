@@ -101,7 +101,13 @@ Buttons.prototype = {
             -------------------------------------------------------------------------------*/
             var clone = this.buttons[i].item.cloneNode(true);
             setData(clone, "gpeb-parent-id", _post.id);
-            _plusOneArea.insertBefore( clone, Sizzle("div[role='button']:eq(2)", _plusOneArea)[0]);
+            try {
+                _plusOneArea.insertBefore( clone, Sizzle("div[role='button']:eq(2)", _plusOneArea)[0]);    
+            }
+            catch (_error) {
+                console.log("ボタン挿入時に原因不明のエラーが発生", _plusOneArea);
+            }
+            
         };
 
     }

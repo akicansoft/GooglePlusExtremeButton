@@ -1,0 +1,60 @@
+<html>
+<meta charset="utf-8" />
+<script type="text/javascript" src="../classes/menu.js"></script>
+
+<style>
+
+#gpeb-context-menu
+{
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    min-width: 100px;
+    min-height: 200px;
+    border: 1px solid gray;
+    background-color: white;
+    background: white;
+}
+
+#gpeb-context-menu > div.item
+{
+    clear: both;
+}
+
+#gpeb-context-menu > div.item > div
+{
+    float: left;
+}
+
+</style>
+
+
+<body>
+
+<br/><br/><br/><br/><br/>
+<input id="hogehoge" type="button" value="hogehoge" />
+
+<script>
+
+    /* メニュー
+    -------------------------------------------------------------------------------*/
+    var menu = new Menu({
+        idName: "gpeb-context-menu"
+    });
+
+    menu.addItem({
+        img: "buttons/dokoina.png",
+        event: "sendDokoina",
+        name: "どこいなを投稿"
+    });
+
+
+    document.getElementById("hogehoge").addEventListener ("click", function (_event) {
+        menu.popup(_event.target);
+    }, false);
+
+</script>
+
+
+</body>
+</html>

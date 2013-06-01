@@ -12,6 +12,7 @@ var nd;
 var ndLeft;
 var ndRight;
 var ndBottom;
+var menu;
 
 /* HTMLパーサ
 -------------------------------------------------------------------------------*/

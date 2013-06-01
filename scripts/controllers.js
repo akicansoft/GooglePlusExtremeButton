@@ -71,6 +71,15 @@ var buttonClickEvents = {
 
     sendDokoina: function (_event, _post) {
         console.log("どこいなを送信", _event, _post);
+    },
+
+    /* Google+ Extreme Button メニューを表示
+    -------------------------------------------------------------------------------*/
+    openGpeb: function (_event, _post) {
+        console.log("メニューを表示します", _event, _post);
+
+        menu.popup(_event.target);
+
     }
 
 };
@@ -86,9 +95,12 @@ cont.on(window, "click", function (_event) {
 
     var eventName = _event.target.getAttribute("data-gpeb-event") || "";
     if (eventName) {
-        if (typeof(buttonClickEvents[eventName] == "function")) {
+        if (typeof(buttonClickEvents[eventName]) == "function") {
             var post = Sizzle("#"+getData(_event.target, "gpeb-parent-id"))[0];
             buttonClickEvents[eventName].call(_event, _event, post);
+        }
+        else {
+            throw new Error("存在しないイベントが指定されています");
         }
     }
 
