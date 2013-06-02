@@ -124,7 +124,136 @@ var buttonClickEvents = {
     openSettings: function (_event, _post) {
         var sw = new SettingsWindow();
         sw.open();
+    },
+
+    /* どこいな
+    -------------------------------------------------------------------------------*/
+    sendDokoina: function (_event, _post) {
+        var ap =  new AutoPost(_post);
+        ap.autoPost("どこいな");
+    },
+
+    /* ぐぬぬ
+    -------------------------------------------------------------------------------*/
+    sendGununu: function (_event, _post) {
+        var ap =  new AutoPost(_post);
+        ap.autoPost("ぐぬぬ");
+    },
+
+    /* ふぅ...
+    -------------------------------------------------------------------------------*/
+    sendFuu: function (_event, _post) {
+        var ap =  new AutoPost(_post);
+        ap.autoPost("ふぅ...");
+    },
+
+    /* oh...
+    -------------------------------------------------------------------------------*/
+    sendOh: function (_event, _post) {
+        var ap =  new AutoPost(_post);
+        ap.autoPost("oh...");
+    },
+
+    /* リップル
+    -------------------------------------------------------------------------------*/
+    openRipples: function (_event, _post) {
+        var gpd = new GetPostData(_post);
+        var url = gpd.getRipplesUrl();
+        window.open(url);
+    },
+
+    /* はてなブックマーク
+    -------------------------------------------------------------------------------*/
+    sendHatenaBookmark: function (_event, _post) {
+        var gpd = new GetPostData(_post, true);
+        var url = "http://b.hatena.ne.jp/add?mode=confirm&is_bm=1&title={{name}}%20%2d%20Google%2b%20%28{{time}}%29%20%2d%20{{body}}&url={{url}}";
+        url = template(url, {
+            name: gpd.getName(),
+            time: gpd.getTime(),
+            url: gpd.getUrl(),
+            body: gpd.getBody()
+        });
+        window.open(url, "_blank", "width=520, height=600, menubar=no, toolbar=no");
+    },
+
+
+    /* Twitter
+    -------------------------------------------------------------------------------*/
+    sendTwitter: function (_event, _post) {
+        var gpd = new GetPostData(_post, true);
+        var url = "https://twitter.com/intent/tweet?text={{body}}&url={{url}}";
+        url = template(url, {
+            url: gpd.getUrl(),
+            body: gpd.getBody()
+        });
+        window.open(url, "_blank", "width=600, height=340, menubar=no, toolbar=no");
+    },
+
+    /* FaceBook
+    -------------------------------------------------------------------------------*/
+    sendFaceBook: function (_event, _post) {
+        var gpd = new GetPostData(_post, true);
+        var url = "http://www.facebook.com/sharer/sharer.php?src=bm&v=4&u={{url}}&t=<NAME>%20%2d%20Google%2b%20%28{{time}}%29";
+        url = template(url, {
+            url: gpd.getUrl(),
+            time: gpd.getTime()
+        });
+        window.open(url, "_blank", "width=600, height=340, menubar=no, toolbar=no");
+    },
+
+
+    /* Pintarest
+    -------------------------------------------------------------------------------*/
+    sendPinterest: function (_event, _post) {
+        var gpd = new GetPostData(_post, true);
+        var url = "http://pinterest.com/pin/create/bookmarklet/?media={{img}}&url={{url}}&alt=alt&title={{name}}%20%2d%20Google%2b%20%28{{time}}%29&is_video=false&";
+        var opt = {
+            url: gpd.getUrl(),
+            time: gpd.getTime()
+        }
+        var imgs = gpd.getImages();
+        imgs.forEach(function(_img){
+            opt["url"] = _img;
+            pUrl = template(url, opt);
+            window.open(pUrl, "_blank", "width=632, height=295, menubar=no, toolbar=no");
+        });
+    },
+
+    /* Pocket
+    -------------------------------------------------------------------------------*/
+    sendPocket: function (_event, _post) {
+        var gpd = new GetPostData(_post, true);
+        gpd.getLink();
+        var url = "https://getpocket.com/save?url={{url}}&title={{name}}%20%2d%20Google%2b%20%28{{time}}%29";
+        var opt = {
+            url: gpd.getUrl(),
+            name: gpd.getName(),
+            time: gpd.getTime()
+        }
+        var imgs = gpd.getImages();
+        console.log("imgs", imgs);
+        if (imgs.length) {
+            imgs.forEach(function(_img){
+                opt["url"] = _img;
+                pUrl = template(url, opt);
+                window.open(pUrl, "_blank", "width=500, height=340, menubar=no, toolbar=no");
+            });
+        }
+        else {
+            url = template(url, opt);
+            window.open(url, "_blank", "width=500, height=340, menubar=no, toolbar=no");
+        }
+    },
+
+    /* circleCount
+    -------------------------------------------------------------------------------*/
+    openCircleCount: function (_event, _post) {
+        var gpd = new GetPostData(_post, true);
+        var id = gpd.getUserId();
+        window.open("http://www.circlecount.com/p/"+id, "_blank", "");
     }
+
+
 
 };
 
@@ -172,7 +301,7 @@ cont.on(window, "click", function (_event) {
             buttonClickEvents[eventName].call(_event, _event, post);
         }
         else {
-            throw new Error("存在しないイベントが指定されています", eventName);
+            alert("未定義のイベント "+eventName+ " を実行しようとしましたが、見つかりませんでした。");
         }
     }
 
@@ -182,6 +311,68 @@ cont.on(window, "click", function (_event) {
 -------------------------------------------------------------------------------*/
 cont.on(window, "scroll", function () {
     
+});
+
+/* event.keydown
+-------------------------------------------------------------------------------*/
+cont.on(window, "keydown", function (_event) {
+    console.log("キーダウンされました", _event);
+
+    /* シフトキーまたはCommandキーまたはCtrlkeyが押された
+    -------------------------------------------------------------------------------*/
+    var isSpecialKey = _event.shiftKey || _event.metaKey || _event.ctrlKey;
+
+    /* エンターキーが押された
+    -------------------------------------------------------------------------------*/
+    var isEnter = _event.which == 13;
+
+    /* シフトエンターが押された
+    -------------------------------------------------------------------------------*/
+    var isSpecialEnter = isSpecialKey && isEnter;
+
+
+    /* シフトエンターが押された
+    -------------------------------------------------------------------------------*/
+    if (isSpecialEnter) {
+        logger.add("シフトエンターが押されました");
+        
+
+        /* 現在アクティブな要素を取得
+        -------------------------------------------------------------------------------*/
+        var activeElm = document.activeElement;
+        debugger;
+
+        /* 指定した要素が何あるかを特定する
+        -------------------------------------------------------------------------------*/
+        if (activeElm) {
+            var name = select.getName(activeElm);
+            debugger;
+            switch (name) {
+
+                /* 投稿ボックス
+                -------------------------------------------------------------------------------*/
+                case "sendBox":
+                    select.click("sendButton");
+                    break;
+
+                /* コメントボックス
+                -------------------------------------------------------------------------------*/
+                case "commentSendBox":
+                    var elm = getPostElement(activeElm);
+                    var ap = new AutoPost(elm);
+                    ap.autoPost();
+                    break;
+
+                /* 通知コメントボックス
+                -------------------------------------------------------------------------------*/
+
+            }
+        }
+    }
+
+
+
+
 });
 
 /* 新しい要素が現れた
@@ -201,5 +392,3 @@ function newNodeEvent () {
     });
 
 }
-
-

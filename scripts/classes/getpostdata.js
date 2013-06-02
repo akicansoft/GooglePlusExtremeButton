@@ -1,14 +1,14 @@
 /* ポストの情報を取得
 -------------------------------------------------------------------------------*/
-function GetPostData(_elmOrId) {
-    this.init(_elmOrId);
+function GetPostData(_elmOrId, _isEncode) {
+    this.init(_elmOrId, _isEncode);
 }
 
 GetPostData.prototype = {
 
     /* 初期化
     -------------------------------------------------------------------------------*/
-    init: function (_elmOrId) {
+    init: function (_elmOrId, _isEncode) {
         if (typeof(_elmOrId) == "string") {
             var elms = Sizzle("#"+_elmOrId);
             if (elms.length) {
@@ -21,6 +21,9 @@ GetPostData.prototype = {
         else {
             this.elm = _elmOrId;
         }
+
+        this.isEncode == _isEncode;
+
     },
 
     /* 名前の取得
@@ -28,7 +31,7 @@ GetPostData.prototype = {
     getName: function () {
         var elms = Sizzle("a[href][oid]:eq(1)", this.elm);
         if (elms.length) {
-            return elms[0].innerHTML;
+            return this.isEncode ? encodeURIComponent(elms[0].innerHTML) : elms[0].innerHTML;
         }
         return "";
     },
@@ -36,20 +39,68 @@ GetPostData.prototype = {
     /* 投稿時間の取得
     -------------------------------------------------------------------------------*/
     getTime: function () {
-        var elms = Sizzle("a[href][title]:eq(0)", this.elm);;
+        var elms = Sizzle("a[href][title]:eq(0)", this.elm);
         if (elms.length) {
-            return elms[0].getAttribute("title");
+            return this.isEncode ? encodeURIComponent(elms[0].getAttribute("title")) : elms[0].getAttribute("title");
         }
         return "";
 
+    },
+
+    /* 投稿URLの取得
+    -------------------------------------------------------------------------------*/
+    getUrl: function () {
+        var origin = location.origin+"/";
+        var elms = Sizzle("a[href][title]:eq(0)", this.elm);
+        if (elms.length) {
+            return this.isEncode ? encodeURIComponent(origin+elms[0].getAttribute("href")) : origin+elms[0].getAttribute("href");
+        }
+        return "";
+
+    },
+
+    /* アウクティビティIDの取得
+    -------------------------------------------------------------------------------*/
+    getActivityId: function () {
+        return this.isEncode ? encodeURIComponent(this.elm.id.replace("update-", "")) : this.elm.id.replace("update-", "");
+    },
+
+    /* コンテキストIDの取得
+    -------------------------------------------------------------------------------*/
+    getContextid: function () {
+        debugger;
+    },
+
+    /* リップルURLの取得
+    -------------------------------------------------------------------------------*/
+    getRipplesUrl: function () {
+        var activityId = this.getActivityId();
+        return "https://plus.google.com/ripples/details?activityid="+activityId;
     },
 
     /* 本文の取得
     -------------------------------------------------------------------------------*/
     getBody: function () {
         var elms = Sizzle("div>div>div>div>div+div:eq(0)", this.elm);
+        var reg = /(<BR>|<BR\/>)/ig;
         if (elms.length) {
-            return elms[0].innerHTML;
+            return this.isEncode ? encodeURIComponent(elms[0].innerHTML.replace(reg, "\n")) : elms[0].innerHTML.replace(reg, "\n");
+        }
+        return "";
+    },
+
+    /* 共有されているリンクの取得
+    -------------------------------------------------------------------------------*/
+    getLink: function () {
+        debugger;
+    },
+
+    /* ユーザーIDの取得
+    -------------------------------------------------------------------------------*/
+    getUserId: function () {
+        var elms = Sizzle("a[href][oid]:eq(1)", this.elm);
+        if (elms.length) {
+            return this.isEncode ? encodeURIComponent(elms[0].getAttribute("oid")) : elms[0].getAttribute("oid");
         }
         return "";
     },
@@ -59,6 +110,7 @@ GetPostData.prototype = {
     getImages: function () {
         var elms = Sizzle("img:not([width]):not([class|='gpeb'])", this.elm);
         var imageUrls = [];
+        var that = this;
         elms.forEach(function (_elm) {
 
             /* ファビコンは除外
@@ -71,7 +123,7 @@ GetPostData.prototype = {
 
             /* サムネイルかどうか判定
             -------------------------------------------------------------------------------*/
-            var isThumbnail = src.indexOf("=w") != -1;
+            var isThumbnail = "https:"+src.indexOf("=w") != -1;
             
             if (!isThumbnail) {
                 
@@ -93,7 +145,7 @@ GetPostData.prototype = {
             });
             imageUrls = [];
             for (var i in objUrls) {
-                imageUrls.push(i);
+                imageUrls.push( that.isEncode ? encodeURIComponent(i) : i );
             };
 
         });
@@ -117,7 +169,7 @@ GetPostData.prototype = {
 
             /* サムネイルかどうか判定
             -------------------------------------------------------------------------------*/
-            var isThumbnail = src.indexOf("=w") != -1;
+            var isThumbnail = "https:"+src.indexOf("=w") != -1;
 
             if (!isThumbnail) {
                 
@@ -151,7 +203,7 @@ GetPostData.prototype = {
     getCommunityName: function () {
         var elms = Sizzle("a[href^='communities'] > div", this.elm);
         if (elms.length) {
-            return elms[0].innerHTML;
+            return this.isEncode ? encodeURIComponent(elms[0].innerHTML) : elms[0].innerHTML;
         }
         return "";
     },
@@ -161,7 +213,7 @@ GetPostData.prototype = {
     getCommunityCategory: function () {
         var elms = Sizzle("h3+span>span:eq(0)", this.elm);
         if (elms.length) {
-            return elms[0].innerHTML;
+            return this.isEncode ? encodeURIComponent(elms[0].innerHTML) : elms[0].innerHTML;
         }
         return "";
     }

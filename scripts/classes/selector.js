@@ -112,5 +112,22 @@ Selector.prototype = {
         elements.forEach(function (_elm) {
             _elm.focus();
         });
+    },
+
+
+    /* 指定した要素の名前を取得
+    -------------------------------------------------------------------------------*/
+    getName: function (_elm) {
+        for (var i in this.selectors) {
+            var elements = Sizzle(this.selectors[i].target);
+            if (elements.length) {
+                for (var ii = 0; ii < elements.length; ii++) {
+                    if (elements[ii] === _elm) {
+                        return i;
+                    }
+                }
+            }
+        }
+        return false;
     }
 };

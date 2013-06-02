@@ -12,7 +12,8 @@
         "https://plus.google.com/u/*/",
         "https://plus.google.com/",
         "https://plus.google.com",
-        "https://plus.google.com/?hl=ja&partnerid=gplp0"
+        "https://plus.google.com/?hl=ja&partnerid=gplp0",
+        "https://plus.google.com/stream/circles/*"
       ],
       "js": [
         "scripts/gpeb.js"
@@ -67,6 +68,7 @@
     "buttons/Twitter.png",
     "buttons/mini.png",
     "buttons/white.png",
-    "images/icon.png"
+    "images/icon.png",
+    "buttons/settings.png"
   ]
 }

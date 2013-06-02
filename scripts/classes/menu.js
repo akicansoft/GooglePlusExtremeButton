@@ -70,6 +70,7 @@ Menu.prototype = {
 
         // div.innerHTML = '<div class="icon"><img class="gpeb" src="'+url+'" /></div><div class="name"><a href="javascript:;" data-gpeb-event="'+_obj.event+'">'+_obj.name+'</a></div><div class="clearboth"></div>';
         div.innerHTML = '<div class="icon"><img class="gpeb" src="'+url+'" data-gpeb-event="'+_obj.event+'" /></div></div>';
+        setData(div, "gpeb-event", _obj.event);
         this.content.appendChild(div);
         this.clear.parentNode.appendChild(this.clear);
 

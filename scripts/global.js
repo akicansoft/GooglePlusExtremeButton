@@ -77,5 +77,41 @@ function click(_elm, _callBack, _this) {
             _callBack.call(_this||window, _this||window);
         }
     }, 100);
+}
 
+/* テンプレート
+-------------------------------------------------------------------------------*/
+function template(_text, _obj) {
+    var text = _text;
+    var oldText = text;
+    for (var i in _obj) {
+        while (1) {
+            text = text.replace("{{"+i+"}}", _obj[i]);
+            if (text == oldText) {
+                break;
+            }
+            oldText = text;
+        }
+    }
+    return text;
+}
+
+/* 指定した要素をさかのぼりポスト要素を取得
+-------------------------------------------------------------------------------*/
+function getPostElement (_elm) {
+
+    var elm = _elm;
+    while(1) {
+
+        if (elm.id.indexOf("update-") == 0) {
+            break;
+        }
+        else {
+            elm = elm.parentNode;
+            if (!elm) {
+                break;
+            }
+        }
+    }
+    return elm;
 }

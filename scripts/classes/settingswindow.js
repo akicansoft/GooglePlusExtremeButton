@@ -34,6 +34,7 @@ SettingsWindow.prototype = {
             ["表示するボタンの選択", "list", "active"],
             ["カスタムボタン", "custombtn", ""],
             ["あいさつ設定", "aisatsu", ""],
+            ["補助機能", "other", ""],
             ["更新履歴", "history", ""],
             ["サポート情報", "support", ""]
         ];
@@ -140,6 +141,17 @@ SettingsWindow.prototype = {
                     '<div class="gpeb bug">',
                         '<div class="gpeb sub-title">バグ報告</div>',
                         '<div class="gpeb sub-desc">バグ報告は、 <a href="mailto:akicansoft+bug@gmail.com">nacika.inscatolare+bug@gmail.com</a> にお願いします。 </div>',
+                    '</div>',
+                '</div>'
+            ].join(""),
+
+            /* 補助機能
+            -------------------------------------------------------------------------------*/
+            other: [
+                '<div id="gpeb-settings-window-content-other">',
+                    '<div class="gpeb title">補助機能</div>',
+                    '<div class="gpeb desc">G+をもっと便利にする補助機能です。</div>',
+                    '<div id="gpeb-settings-window-content-other-inner" class="gpeb other-inner">',
                     '</div>',
                 '</div>'
             ].join("")
