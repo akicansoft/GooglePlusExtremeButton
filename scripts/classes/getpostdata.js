@@ -22,7 +22,7 @@ GetPostData.prototype = {
             this.elm = _elmOrId;
         }
 
-        this.isEncode == _isEncode;
+        this.isEncode = _isEncode;
 
     },
 
@@ -68,7 +68,6 @@ GetPostData.prototype = {
     /* コンテキストIDの取得
     -------------------------------------------------------------------------------*/
     getContextid: function () {
-        debugger;
     },
 
     /* リップルURLの取得
@@ -92,7 +91,16 @@ GetPostData.prototype = {
     /* 共有されているリンクの取得
     -------------------------------------------------------------------------------*/
     getLink: function () {
-        debugger;
+        var link = Sizzle("div>div+div>a", this.elm)[0];
+        if (link) {
+            return {
+                url: this.isEncode ? encodeURIComponent(link.getAttribute("href")) : link.getAttribute("href"),
+                name: this.isEncode ? encodeURIComponent(link.innerHTML) : link.innerHTML
+            };
+        }
+        else {
+            return false;
+        }
     },
 
     /* ユーザーIDの取得
@@ -115,15 +123,16 @@ GetPostData.prototype = {
 
             /* ファビコンは除外
             -------------------------------------------------------------------------------*/
-            if (_elm.width < 20 && _elm.height < 20) {
+            if (_elm.width <= 46 && _elm.height <= 46) {
                 return;
             }
+
 
             var src = _elm.getAttribute("src");
 
             /* サムネイルかどうか判定
             -------------------------------------------------------------------------------*/
-            var isThumbnail = "https:"+src.indexOf("=w") != -1;
+            var isThumbnail = src.indexOf("=w") != -1;
             
             if (!isThumbnail) {
                 
@@ -133,7 +142,7 @@ GetPostData.prototype = {
             }
             else {
                 var lastIndex = src.lastIndexOf("=") || 999999;
-                src = src.substr(0, lastIndex);
+                src = "https:"+src.substr(0, lastIndex);
             }
             imageUrls.push(src);
 
@@ -169,7 +178,7 @@ GetPostData.prototype = {
 
             /* サムネイルかどうか判定
             -------------------------------------------------------------------------------*/
-            var isThumbnail = "https:"+src.indexOf("=w") != -1;
+            var isThumbnail = src.indexOf("=w") != -1;
 
             if (!isThumbnail) {
                 
@@ -179,7 +188,7 @@ GetPostData.prototype = {
             }
             else {
                 var lastIndex = src.lastIndexOf("=") || 999999;
-                src = src.substr(0, lastIndex);
+                src = "https:"+src.substr(0, lastIndex);
             }
             imageUrls.push(src);
 

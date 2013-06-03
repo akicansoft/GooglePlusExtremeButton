@@ -50,10 +50,13 @@ AutoPost.prototype = {
 
         /* 入力エリアの有効化
         -------------------------------------------------------------------------------*/
-        var event = document.createEvent("KeyboardEvent");
-        event.initEvent("keypress", true, true);
-        event.keyCode = 27;
-        _elm.dispatchEvent(event);
+        if (_elm) {
+            var event = document.createEvent("KeyboardEvent");
+            event.initEvent("keypress", true, true);
+            event.keyCode = 27;
+            _elm.dispatchEvent(event);    
+        }
+        
 
     },
 
@@ -66,9 +69,19 @@ AutoPost.prototype = {
         click(this.getCommentAddElement(), function () {
             var editor = this.getEditorElement();
             this.sendKeyEvent(editor, _text);
-            click(this.getCommentPostElement());
+            var commentPostElement = this.getCommentPostElement();
+            click(commentPostElement);
         }, this);
 
+    },
+
+    /* 投稿ボタンを押す
+    -------------------------------------------------------------------------------*/
+    post: function () {
+        var editor = this.getEditorElement();
+        this.sendKeyEvent(editor);
+        var commentPostElement = this.getCommentPostElement();
+        click(commentPostElement);
     }
 
 

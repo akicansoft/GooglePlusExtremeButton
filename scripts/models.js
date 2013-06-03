@@ -133,12 +133,6 @@ var menuItems = new Models([
         type: "default"
     },
     {
-        name: "あいさつ",
-        event: "sendAisatsu",
-        img: "buttons/Aisatsu.png",
-        type: "default"
-    },
-    {
         name: "oh...",
         event: "sendOh",
         img: "buttons/oh.png",

@@ -209,11 +209,12 @@ var buttonClickEvents = {
         var url = "http://pinterest.com/pin/create/bookmarklet/?media={{img}}&url={{url}}&alt=alt&title={{name}}%20%2d%20Google%2b%20%28{{time}}%29&is_video=false&";
         var opt = {
             url: gpd.getUrl(),
-            time: gpd.getTime()
+            time: gpd.getTime(),
+            name: ""
         }
         var imgs = gpd.getImages();
         imgs.forEach(function(_img){
-            opt["url"] = _img;
+            opt["img"] = _img;
             pUrl = template(url, opt);
             window.open(pUrl, "_blank", "width=632, height=295, menubar=no, toolbar=no");
         });
@@ -223,13 +224,24 @@ var buttonClickEvents = {
     -------------------------------------------------------------------------------*/
     sendPocket: function (_event, _post) {
         var gpd = new GetPostData(_post, true);
-        gpd.getLink();
+        // gpd.getLink();
         var url = "https://getpocket.com/save?url={{url}}&title={{name}}%20%2d%20Google%2b%20%28{{time}}%29";
         var opt = {
             url: gpd.getUrl(),
             name: gpd.getName(),
             time: gpd.getTime()
         }
+
+        var urlData = gpd.getLink();
+        if (urlData) {
+           url = "https://getpocket.com/save?url={{url}}&title={{name}}";
+           opt["url"] = urlData.url;
+           opt["name"] = urlData.name;
+           pUrl = template(url, opt);
+           window.open(pUrl, "_blank", "width=500, height=450, menubar=no, toolbar=no");
+           return;
+        }
+
         var imgs = gpd.getImages();
         console.log("imgs", imgs);
         if (imgs.length) {
@@ -251,11 +263,138 @@ var buttonClickEvents = {
         var gpd = new GetPostData(_post, true);
         var id = gpd.getUserId();
         window.open("http://www.circlecount.com/p/"+id, "_blank", "");
-    }
+    },
+
+    /* Tumblr
+    -------------------------------------------------------------------------------*/
+    sendTumblr: function (_event, _post) {
+        var gpd = new GetPostData(_post, true);
+        
+
+
+        var url = "http://www.tumblr.com/share?v=3&u={{url}}&t=Google%20Plus%20%28{{time}}%29%20&s={{body}}";
+        var opt = {
+            url: gpd.getUrl(),
+            time: gpd.getTime(),
+            body: gpd.getBody()
+        }
+
+        var urlData = gpd.getLink();
+        if (urlData) {
+           var url = "http://www.tumblr.com/share?v=3&u={{url}}&t={{title}}&s={{body}}"; 
+           opt["url"] = urlData.url;
+           opt["title"] = urlData.name;
+           pUrl = template(url, opt);
+           window.open(pUrl, "_blank", "width=500, height=450, menubar=no, toolbar=no");
+           return;
+        }
+
+        var imgs = gpd.getImages();
+        console.log("imgs", imgs);
+        if (imgs.length) {
+            imgs.forEach(function(_img){
+                opt["url"] = _img;
+                pUrl = template(url, opt);
+                window.open(pUrl, "_blank", "width=500, height=450, menubar=no, toolbar=no");
+            });
+        }
+        else {
+            url = template(url, opt);
+            window.open(url, "_blank", "width=500, height=450, menubar=no, toolbar=no");
+        }
+    },
 
 
 
 };
+
+
+/* キーダウンイベント管理
+-------------------------------------------------------------------------------*/
+function keyDownFunc (_event) {
+
+    console.log("キーダウンされました", _event);
+
+    /* シフトキーまたはCommandキーまたはCtrlkeyが押された
+    -------------------------------------------------------------------------------*/
+    var isSpecialKey = _event.shiftKey || _event.metaKey || _event.ctrlKey;
+
+    /* エンターキーが押された
+    -------------------------------------------------------------------------------*/
+    var isEnter = _event.which == 13;
+
+    /* シフトエンターが押された
+    -------------------------------------------------------------------------------*/
+    var isSpecialEnter = isSpecialKey && isEnter;
+
+
+    /* シフトエンターが押された
+    -------------------------------------------------------------------------------*/
+    if (isSpecialEnter) {
+        logger.add("シフトエンターが押されました");
+        
+
+        /* 現在アクティブな要素を取得
+        -------------------------------------------------------------------------------*/
+        var activeElm = document.activeElement;
+        if (activeElm.tagName == "IFRAME") {
+            var mode = "notify";
+            activeElm = _event.target;
+        }
+        else {
+            var mode = "default";
+        }
+        // debugger;
+
+        /* 指定した要素が何あるかを特定する
+        -------------------------------------------------------------------------------*/
+        if (activeElm) {
+            var name = select.getName(activeElm);
+            // debugger;
+
+            if (mode == "default") {
+                console.log("通常ウィンドウです", name);
+                switch (name) {
+
+                    /* 投稿ボックス
+                    -------------------------------------------------------------------------------*/
+                    case "sendBox":
+                        select.click("sendButton");
+                        break;
+
+                    /* コメントボックス
+                    -------------------------------------------------------------------------------*/
+                    case "commentSendBox":
+                        var elm = getPostElement(activeElm);
+                        var ap = new AutoPost(elm);
+                        ap.post();
+                        break;
+                }
+            }
+
+            /* 通知
+            -------------------------------------------------------------------------------*/
+            else if (mode == "notify"){
+
+                console.log("通知ウィンドウです");
+
+                /* 要素特定
+                -------------------------------------------------------------------------------*/
+                var elms = Sizzle("div[id*='.f']", activeElm.parentNode);
+
+                /* 入力ボックスにフォーカス
+                -------------------------------------------------------------------------------*/
+                if (elms.length) {
+                    var post = getPostElement(elms[0]);
+                    var sendButton = Sizzle("div[id*='.post']", post)[0];
+                    click(sendButton);
+                }
+            }
+        }
+    }
+}
+
+
 
 /* Controller作成
 -------------------------------------------------------------------------------*/
@@ -315,80 +454,46 @@ cont.on(window, "scroll", function () {
 
 /* event.keydown
 -------------------------------------------------------------------------------*/
-cont.on(window, "keydown", function (_event) {
-    console.log("キーダウンされました", _event);
-
-    /* シフトキーまたはCommandキーまたはCtrlkeyが押された
-    -------------------------------------------------------------------------------*/
-    var isSpecialKey = _event.shiftKey || _event.metaKey || _event.ctrlKey;
-
-    /* エンターキーが押された
-    -------------------------------------------------------------------------------*/
-    var isEnter = _event.which == 13;
-
-    /* シフトエンターが押された
-    -------------------------------------------------------------------------------*/
-    var isSpecialEnter = isSpecialKey && isEnter;
-
-
-    /* シフトエンターが押された
-    -------------------------------------------------------------------------------*/
-    if (isSpecialEnter) {
-        logger.add("シフトエンターが押されました");
-        
-
-        /* 現在アクティブな要素を取得
-        -------------------------------------------------------------------------------*/
-        var activeElm = document.activeElement;
-        debugger;
-
-        /* 指定した要素が何あるかを特定する
-        -------------------------------------------------------------------------------*/
-        if (activeElm) {
-            var name = select.getName(activeElm);
-            debugger;
-            switch (name) {
-
-                /* 投稿ボックス
-                -------------------------------------------------------------------------------*/
-                case "sendBox":
-                    select.click("sendButton");
-                    break;
-
-                /* コメントボックス
-                -------------------------------------------------------------------------------*/
-                case "commentSendBox":
-                    var elm = getPostElement(activeElm);
-                    var ap = new AutoPost(elm);
-                    ap.autoPost();
-                    break;
-
-                /* 通知コメントボックス
-                -------------------------------------------------------------------------------*/
-
-            }
-        }
-    }
-
-
-
-
-});
+cont.on(window, "keydown", keyDownFunc );
 
 /* 新しい要素が現れた
 -------------------------------------------------------------------------------*/
-function newNodeEvent () {
-    // console.log("------------- 新しい要素です -------------");
-    this.forEach(function (_elm) {
-        var plusOneAreaNode = Sizzle("div[id^='po-']", _elm);
-        if (!plusOneAreaNode.length) {
-            return;
+function newNodeEvent (_event) {
+    
+    /* 新規ポストの監視
+    -------------------------------------------------------------------------------*/
+    if (this.length) {
+        this.forEach(function (_elm) {
+            var plusOneAreaNode = Sizzle("div[id^='po-']", _elm);
+            if (!plusOneAreaNode.length) {
+                return;
+            }
+            var plusOneArea = plusOneAreaNode[0].parentNode;
+            if (plusOneArea && this) {
+                // console.log("_elm", _elm);
+                button.appendAllButton(_elm, plusOneArea);
+            }
+        });
+    }
+
+    /* 通知IFRAME監視
+    -------------------------------------------------------------------------------*/
+    if (_event && _event.target.tagName == "IFRAME") {
+        var elm = _event.target;
+        if ((elm.getAttribute("src")||"").indexOf("notifications") != -1) {
+        
+            /* 通知IFRAME監視開始
+            -------------------------------------------------------------------------------*/
+            if (elm.contentWindow) {
+                cont.on(elm.contentWindow, "keydown", keyDownFunc);
+            }
+            else {
+                setTimeout(function(){
+                    cont.on(elm.contentWindow, "keydown", keyDownFunc);       
+                }, 1000);
+            }
+
         }
-        var plusOneArea = plusOneAreaNode[0].parentNode;
-        if (plusOneArea && this) {
-            // console.log("_elm", _elm);
-            button.appendAllButton(_elm, plusOneArea);
-        }
-    });
+    }
 
 }

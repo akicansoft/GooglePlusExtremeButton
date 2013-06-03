@@ -54,12 +54,14 @@ window.onload = function () {
 
     /* 設定ボタンの追加
     -------------------------------------------------------------------------------*/
-    menu.addItem({
-        name: "設定",
-        event: "openSettings",
-        img: "buttons/settings.png",
-        type: "default"
-    });
+    if (0) {
+        menu.addItem({
+            name: "設定",
+            event: "openSettings",
+            img: "buttons/settings.png",
+            type: "default"
+        });
+    }
 
     /* 監視の開始
     -------------------------------------------------------------------------------*/

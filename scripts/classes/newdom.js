@@ -28,23 +28,20 @@ NewDom.prototype = {
 
         /* DOMが更新されたら実行
         -------------------------------------------------------------------------------*/
-        document.body.addEventListener ("DOMNodeInserted", function () {
+        window.addEventListener ("DOMNodeInserted", function (_event) {
 
             /* 比較
             -------------------------------------------------------------------------------*/
             var children = Sizzle("div[id^='update-']:not([data-gpeb-added='1'])");
-            if (children.length) {
-                _callBack.call(children, children);
-            }
+            _callBack.call(children, _event);
+
         }, false);
 
         /* 一定間隔で実行
         -------------------------------------------------------------------------------*/
-        this.timer = setInterval(function(){
+        this.timer = setInterval(function(_event){
             var children = Sizzle("div[id^='update-']:not([data-gpeb-added='1'])");
-            if (children.length) {
-                _callBack.call(children, children);
-            }
+            _callBack.call(children, _event);
 
         }, 10000);
     }
