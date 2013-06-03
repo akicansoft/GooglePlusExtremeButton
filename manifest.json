@@ -19,7 +19,8 @@
         "https://plus.google.com/*/posts",
         "https://plus.google.com/events/*",
         "https://plus.google.com?hl=ja",
-        "https://plus.google.com/?hl=ja"
+        "https://plus.google.com/?hl=ja",
+        "https://plus.google.com/?utm_source=*"
       ],
       "js": [
         "scripts/gpeb.js"
@@ -47,7 +48,7 @@
   "manifest_version": 2,
   "name": "Google+ Extreme Button",
   "update_url": "http://clients2.google.com/service/update2/crx",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "web_accessible_resources": [
     "buttons/Aisatsu.png",
     "buttons/CircleCount.png",
