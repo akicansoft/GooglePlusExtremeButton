@@ -73,15 +73,9 @@ function checkreloadButton (_callBack) {
 -------------------------------------------------------------------------------*/
 var buttonClickEvents = {
 
-    sendDokoina: function (_event, _post) {
-        console.log("どこいなを送信", _event, _post);
-    },
-
     /* Google+ Extreme Button メニューを表示
     -------------------------------------------------------------------------------*/
     openGpeb: function (_event, _post) {
-        console.log("メニューを表示します", _event, _post);
-
         var elm = _event.target;
         var count = 0;
         while(1) {
@@ -252,7 +246,6 @@ var buttonClickEvents = {
         }
 
         var imgs = gpd.getImages();
-        console.log("imgs", imgs);
         if (imgs.length) {
             imgs.forEach(function(_img){
                 opt["url"] = _img;
@@ -299,7 +292,6 @@ var buttonClickEvents = {
         }
 
         var imgs = gpd.getImages();
-        console.log("imgs", imgs);
         if (imgs.length) {
             imgs.forEach(function(_img){
                 opt["url"] = _img;
@@ -321,8 +313,6 @@ var buttonClickEvents = {
 /* キーダウンイベント管理
 -------------------------------------------------------------------------------*/
 function keyDownFunc (_event) {
-
-    console.log("キーダウンされました", _event);
 
     /* シフトキーまたはCommandキーまたはCtrlkeyが押された
     -------------------------------------------------------------------------------*/
@@ -362,7 +352,6 @@ function keyDownFunc (_event) {
             // debugger;
 
             if (mode == "default") {
-                console.log("通常ウィンドウです", name);
                 switch (name) {
 
                     /* 投稿ボックス
@@ -384,8 +373,6 @@ function keyDownFunc (_event) {
             /* 通知
             -------------------------------------------------------------------------------*/
             else if (mode == "notify"){
-
-                console.log("通知ウィンドウです");
 
                 /* 要素特定
                 -------------------------------------------------------------------------------*/
@@ -422,20 +409,12 @@ cont.on(window, "click", function (_event) {
             var id = _event.target.id;
             var tagName = _event.target.tagName;
             var className = _event.target.getAttribute("class");
-            console.log("id", id, "class:", className);
             if (id != "gpeb-context-menu-content" && id != "gpeb-context-menu-arrow" && className != "gpeb item") {
                 menu.hide();
             }
         }
         
     }
-
-
-    /* デバッグ
-    -------------------------------------------------------------------------------*/
-    console.log("クリックされました", _event.target);
-
-
 
     var eventName = _event.target.getAttribute("data-gpeb-event") || "";
     if (eventName) {
@@ -479,7 +458,6 @@ function newNodeEvent (_event) {
             }
             var plusOneArea = plusOneAreaNode[0].parentNode;
             if (plusOneArea && this) {
-                // console.log("_elm", _elm);
                 button.appendAllButton(_elm, plusOneArea);
             }
         });

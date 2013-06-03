@@ -17,7 +17,9 @@
         "https://plus.google.com/communities/*",
         "https://plus.google.com/explore",
         "https://plus.google.com/*/posts",
-        "https://plus.google.com/events/*"
+        "https://plus.google.com/events/*",
+        "https://plus.google.com?hl=ja",
+        "https://plus.google.com/?hl=ja"
       ],
       "js": [
         "scripts/gpeb.js"
@@ -42,11 +44,10 @@
   "icons": {
     "128": "images/icon.png"
   },
-  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCxKkOA0AmxMdRcYg+HWBcZj3FZ5QY/1aCI42dwnaVThCr/vWybwIH8B+XopZK7m4rTTGWVmPNC6YyeX7qugIv1g+v+HiVjrftE5OjTMZ/bM6JBdlg6YOZ5yK25PbC1C6Azv9D5HQmPK6t+0lxg2DOw7Fr325pX746/E8KbIYCQ3wIDAQAB",
   "manifest_version": 2,
   "name": "Google+ Extreme Button",
   "update_url": "http://clients2.google.com/service/update2/crx",
-  "version": "3.0",
+  "version": "3.0.1",
   "web_accessible_resources": [
     "buttons/Aisatsu.png",
     "buttons/CircleCount.png",

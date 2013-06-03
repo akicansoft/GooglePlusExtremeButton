@@ -12,9 +12,6 @@ Menu.prototype = {
     init: function (_opt) {
 
         this.items = [];
-
-        console.log("_opt", _opt);
-
         this.elm = document.createElement("div");
         if (typeof(_opt.className) == "string") {
             this.elm.class == _opt.className;
@@ -49,10 +46,7 @@ Menu.prototype = {
     -------------------------------------------------------------------------------*/
     addItem: function (_obj) {
 
-        console.log("_obj", _obj);        
-
         this.items.push(_obj);
-
         var div = document.createElement("div");
         div.setAttribute("class", "gpeb item line");
         if (chrome.extension && "getURL" in chrome.extension) {
@@ -126,11 +120,6 @@ Menu.prototype = {
         -------------------------------------------------------------------------------*/
         this.elm.style.left = "auto";
         this.elm.style.top = "auto";
-
-        console.log("this.elm", this.elm);
-
-
-
     }
 
 };

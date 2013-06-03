@@ -182,7 +182,7 @@ select.add("sendButton", "div[role='button'][guidedhelpid='sharebutton']", "共�
 
 /* Selectorテスト
 -------------------------------------------------------------------------------*/
-select.test();
+// select.test();
 
 
 
