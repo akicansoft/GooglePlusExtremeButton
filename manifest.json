@@ -13,7 +13,11 @@
         "https://plus.google.com/",
         "https://plus.google.com",
         "https://plus.google.com/?hl=ja&partnerid=gplp0",
-        "https://plus.google.com/stream/circles/*"
+        "https://plus.google.com/stream/circles/*",
+        "https://plus.google.com/communities/*",
+        "https://plus.google.com/explore",
+        "https://plus.google.com/*/posts",
+        "https://plus.google.com/events/*"
       ],
       "js": [
         "scripts/gpeb.js"

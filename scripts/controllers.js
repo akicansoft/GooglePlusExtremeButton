@@ -173,6 +173,15 @@ var buttonClickEvents = {
             url: gpd.getUrl(),
             body: gpd.getBody()
         });
+
+        var urlData = gpd.getLink();
+        if (urlData) {
+           url = "http://b.hatena.ne.jp/add?mode=confirm&is_bm=1&title={{name}}&url={{url}}";
+           url = template(url, {
+                url: urlData.url,
+                name: urlData.name
+           });
+        }
         window.open(url, "_blank", "width=520, height=600, menubar=no, toolbar=no");
     },
 
