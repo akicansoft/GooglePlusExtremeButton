@@ -106,6 +106,16 @@ var buttonClickEvents = {
         });
     },
 
+    /* フルサイズ画像を開く
+    -------------------------------------------------------------------------------*/
+    imageOpen: function (_event, _post) {
+        var gpd = new GetPostData(_post);
+        var urls = gpd.getImages();
+        urls.forEach(function (_url) {
+            window.open(_url);
+        });
+    },
+
     /* ミュート
     -------------------------------------------------------------------------------*/
     mute: function (_event, _post) {

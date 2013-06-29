@@ -22,7 +22,7 @@ var cssThemes = new Models([
     }
 ]);
 
-/* commonCss
+/* 基本CSS
 -------------------------------------------------------------------------------*/
 var commonCss = [
     "#gpeb-context-menu{position:absolute;top:-9999px;left:-9999px;z-index:10000000;margin-left:116px;margin-top:29px;}",
@@ -33,17 +33,17 @@ var commonCss = [
     "#gpeb-context-menu-clear{clear:both;}div.clearboth{clear:both;}",
     "#gpeb-settings-window{position: fixed;top0px;left:0px;width:640px;height:480px;background-color:white;z-index:99999999999999;border:1px solid gray;box-shadow: 2px 2px 50px rgba(0, 0, 0, 0.5), 9px 9px 30px rgba(0, 0, 0, 0.2);border-radius: 4px;}",
     "#gpeb-back{background:rgba(0, 0, 0, 0.5);position: fixed;left:0;top:0;width:2000px;height:2000px;z-index:1000}",
-    "#gpeb-settings-window-menu{width: 128px;float: left;height: 480px;border-right: 1px solid rgb(207, 207, 207);margin-right: 8px;background: rgb(240, 240, 240);border-top-left-radius: 4px;border-bottom-left-radius: 4px;}",
+    "#gpeb-settings-window-menu{width: 146px;float: left;height: 480px;border-right: 1px solid rgb(207, 207, 207);margin-right: 8px;background: rgb(240, 240, 240);border-top-left-radius: 4px;border-bottom-left-radius: 4px;}",
     "#gpeb-settings-window-menu div.gpeb.logo>img{width:110px;height:110px;}",
-    "#gpeb-settings-window-menu div.gpeb.logo{margin-top:10px;margin-left:10px;margin-bottom:20px;}",
+    "#gpeb-settings-window-menu div.gpeb.logo{margin-top:16px;margin-left:21px;margin-bottom:18px;}",
     "#gpeb-settings-window-menu div.gpeb.logo>div.name{font-weight: bold;font-size: 23px;font-family: Impact;font-style: italic;color: rgb(32, 63, 119);letter-spacing: 3px;margin-left: 5px;}",
     "#gpeb-settings-window-menu div.gpeb.logo>div.ver{font-weight: bold;letter-spacing: 4px;margin-top: -1px;margin-left: 7px;}",
-    "#gpeb-settings-window-menu div.item{height: 28px;border-top: 1px solid rgb(194, 194, 194);line-height: 28px;padding-left: 3px;background: rgb(230, 230, 230);cursor:pointer;}",
+    "#gpeb-settings-window-menu div.item{height: 28px;border-top: 1px solid rgb(194, 194, 194);line-height: 28px;padding-left: 9px;background: rgb(230, 230, 230);cursor:pointer;}",
     "#gpeb-settings-window-menu div.item-close{border-top: 1px solid rgb(194, 194, 194);}",
     "#gpeb-settings-window-menu div.item:hover{background:rgb(209, 209, 209);}",
     "#gpeb-settings-window-menu div.item.active{background:gray;color:white;}",
     "#gpeb-settings-window-close-button{position: absolute;top: 18px;right: 10px;font-size: 36px;line-height: 0px;color: rgb(68, 68, 68);cursor: pointer;}",
-    "#gpeb-settings-window-content{float:left;}#gpeb-settings-window-content div.title{background: gray;color: white;padding: 2px;margin-top: 11px;width: 457px;padding-left: 7px;font-weight: bold;}#gpeb-settings-window-content div.desc{margin-top: 7px;padding-left: 1px;margin-bottom: 13px;}",
+    "#gpeb-settings-window-content{float:left;}#gpeb-settings-window-content div.title{background: gray;color: white;padding: 2px;margin-top: 11px;width: 437px;padding-left: 7px;font-weight: bold;}#gpeb-settings-window-content div.desc{margin-top: 7px;padding-left: 1px;margin-bottom: 13px;}",
     "#gpeb-settings-window-content{width:466px;}#gpeb-settings-window-content div.sub-title{border-left: 3px solid gray;padding-left: 4px;margin-bottom: 7px;margin-left:13px;}#gpeb-settings-window-content div.sub-desc{margin-bottom: 26px;margin-left:13px;}"
 ].join("");
 
@@ -72,6 +72,12 @@ var defaultButtons = new Models([
 -------------------------------------------------------------------------------*/
 var menuItems = new Models([
 
+    {
+        name: "画像を開く",
+        event: "imageOpen",
+        img: "buttons/FullSizeImgOpen.png",
+        type: "image"
+    },
     {
         name: "画像ダウンロード",
         event: "imageDownload",
