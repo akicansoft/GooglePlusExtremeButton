@@ -12,7 +12,7 @@ window.onload = function () {
 
     /* CSSテーマを設定
     -------------------------------------------------------------------------------*/
-    cssTheme = cssThemes.get("default");
+    cssTheme = cssThemes.get(settings.get("style").active);
     css("gpebCss", cssTheme.css.join("\n"));
     setTimeout(function(){  
         css("gpebCss", cssTheme.css.join("\n")+commonCss);
@@ -49,8 +49,11 @@ window.onload = function () {
 
     /* メニューにアイテムを追加
     -------------------------------------------------------------------------------*/
+    var showButtons = settings.get("button").showButtons;
     menuItems.each(function () {
-        menu.addItem(this);    
+        if (showButtons[this.key]) {
+            menu.addItem(this);
+        }
     });
 
     /* 設定ボタンの追加

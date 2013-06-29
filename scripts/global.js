@@ -15,6 +15,8 @@ var ndBottom;
 var menu;
 var logger;
 
+
+
 /* HTMLパーサ
 -------------------------------------------------------------------------------*/
 function domParseFromString(_string) {
@@ -115,3 +117,28 @@ function getPostElement (_elm) {
     }
     return elm;
 }
+
+/* ファイルパスの取得
+-------------------------------------------------------------------------------*/
+function getUrl (_path) {
+    return chrome.extension.getURL(_path);
+}
+
+/* ajaxload
+-------------------------------------------------------------------------------*/
+function ajaxLoad(_path, _func) {
+
+    var xhr = new XMLHttpRequest();
+    var callback = _func;
+    var func = function () {
+        if ((xhr.readyState == 4) && (xhr.status == 200)){
+            callback.call(xhr.responseText, xhr.responseText);
+        }
+    };
+    
+    xhr.onreadystatechange  = func;
+    xhr.open("GET", _path, false);
+    xhr.send(null);
+
+}
+

@@ -30,13 +30,33 @@ Models.prototype = {
         -------------------------------------------------------------------------------*/
         this.events = {};
 
+        /* ローカルストレージにデータが存在したかどうかのフラグ
+        -------------------------------------------------------------------------------*/
+        this.isLocalStorage = false;
+
         /* _objsが文字列の場合ローカルストレージからデータを取得する
         -------------------------------------------------------------------------------*/
         if (typeof(_objs) == "string") {
+
+            /* ローカルストレージの名前を保持しておく
+            -------------------------------------------------------------------------------*/
+            this.localStorageName = _objs;
+
+            /* ローカルストレージから読み込む
+            -------------------------------------------------------------------------------*/
             var jsonText = localStorage[_objs];
             if (jsonText) {
-                var objs = JSON.parse(jsonText);
-                this.add(objs);
+                try {
+                    var objs = JSON.parse(jsonText);
+                    this.add(objs);
+                    this.isLocalStorage = true;    
+                }
+                catch (_error) {
+                    this.isLocalStorage = false;
+                }
+            }
+            else {
+                this.isLocalStorage = false;
             }
         }
         else {
@@ -207,13 +227,21 @@ Models.prototype = {
 
         var cloneObj = [];
 
+        /* テスト
+        -------------------------------------------------------------------------------*/
+        // console.log("無限ループ");
 
-        console.log("無限ループ");
+
         for (var i = 0; i < this.models.length; i++) {
             
             var stack = undefined;
             var nest = 0;
-            console.log("this.models[i]", this.models[i]);
+
+            /* テスト
+            -------------------------------------------------------------------------------*/
+            // console.log("this.models[i]", this.models[i]);
+
+
             cloneObj.push(this.cloneRecursive({
                 key: i,
                 value: this.models[i],
@@ -222,17 +250,26 @@ Models.prototype = {
             }));
 
         };
+
+        /* テスト
+        -------------------------------------------------------------------------------*/
         // console.log("%ccloneobj", "font-size:30px;", cloneObj);
+
+        
         return new Models(cloneObj);
     },
 
-    /* モデルデータの追加
+    /* モデルデータの追加 (追加したモデルが返ります)
     -------------------------------------------------------------------------------*/
     add: function (_objs) {
 
         /* 配列
         -------------------------------------------------------------------------------*/
         if (_objs && _objs.constructor === Array) {
+
+            /* 追加したモデルが入る変数
+            -------------------------------------------------------------------------------*/
+            var addModels = [];
 
             for (var i = 0; i < _objs.length; i++) {
 
@@ -259,6 +296,8 @@ Models.prototype = {
                 /* モデルに追加
                 -------------------------------------------------------------------------------*/
                 this.models.push(_objs[i]);
+                addModels.push(_objs[i]);
+
 
                 /* キーインデックスに追加 (重複したキーを指定された場合キーは上書きされます)
                 -------------------------------------------------------------------------------*/
@@ -278,9 +317,12 @@ Models.prototype = {
                 for (var ii = 0; ii < this.events[_objs[i].id].length; ii++) {
                     this.events[_objs[i].id][ii].call(_objs[i], event);
                 }
-                
 
-            };
+            }
+
+            /* 追加したモデルが配列で返ります
+            -------------------------------------------------------------------------------*/
+            return addModels;
         }
 
         /* オブジェクト
@@ -317,6 +359,10 @@ Models.prototype = {
             if ("key" in _objs) {
                 this.keys[_objs.key] = _objs;
             }
+
+            /* 追加したモデルが返ります
+            -------------------------------------------------------------------------------*/
+            return _objs;
         }
 
         /* 失敗
@@ -347,13 +393,49 @@ Models.prototype = {
             /* 数値の場合、指定したIDのモデルを返す
             -------------------------------------------------------------------------------*/
             if (typeof(args[i]) === "number") {
-                ret.push(this.ids[args[i]]);
+
+                var model = this.ids[args[i]];
+
+                /* テスト
+                -------------------------------------------------------------------------------*/
+                // console.log("model", model, args[i]);
+
+                if (!model) {
+                    model = this.add({
+                        id: args[i]
+                    });
+                }
+
+                /* テスト
+                -------------------------------------------------------------------------------*/
+                // console.log("model", model);
+
+                ret.push(model);
             }
 
             /* 文字列の場合キーに関連するデータを返す
             -------------------------------------------------------------------------------*/
             else if (typeof(args[i]) === "string") {
-                ret.push(this.keys[args[i]]);
+
+                var model = this.keys[args[i]];
+
+                /* テスト
+                -------------------------------------------------------------------------------*/
+                // console.log("model", model, args[i]);
+
+
+                if (!model) {
+                    model = this.add({
+                        key: args[i]
+                    });
+                }
+
+                /* テスト
+                -------------------------------------------------------------------------------*/
+                // console.log("model", model);
+
+
+                ret.push(model);
             }
 
             /* 配列ではないオブジェクト
@@ -382,11 +464,11 @@ Models.prototype = {
 
         /* 配列がひとつしかない場合配列から取り出す
         -------------------------------------------------------------------------------*/
-        if (isForceArray || ret.length == 1) {
+        if (!isForceArray || ret.length == 1) {
             ret = ret[0];
         }
 
-        return ret || {};
+        return ret;
     },
 
     /* モデルデータごとに繰り返す
@@ -491,7 +573,7 @@ Models.prototype = {
         }
     },
 
-    /* 指定したモデルにデータをセット (データセットはこのメソッドから行います)
+    /* 指定したモデルにデータをセット (基本的なデータセットはこのメソッドから行います)
     -------------------------------------------------------------------------------*/
     set: function (_target, _obj) {
 
@@ -505,13 +587,13 @@ Models.prototype = {
 
         /* デバッグ
         -------------------------------------------------------------------------------*/
-        console.log("書き換え前 model", model);
+        // console.log("書き換え前 model", model);
 
         /* 変化のあったモデルデータを格納しておく変数
         -------------------------------------------------------------------------------*/
         var changedModels = {};
 
-        /* 書き換え開始
+        /* 書き換え開始 (merge)
         -------------------------------------------------------------------------------*/
         for (var i in _obj) {
             if (model[i] != _obj[i]) {
@@ -523,21 +605,23 @@ Models.prototype = {
 
         /* デバッグ
         -------------------------------------------------------------------------------*/
-        console.log("書き換え後 model", model);
+        // console.log("書き換え後 model", model);
 
         /* モデルに変化があった場合コールバック関数を実行
         -------------------------------------------------------------------------------*/
-        var event = {
-            changedModels: changedModels,
-            target: model,
-            model: model,
-            type: "change",
-            key: model.key,
-            id: model.id
-        };
-        for (var i = 0; i < this.events[id].length; i++) {
-            this.events[id][i].call(model, event);
-        };
+        if (this.events[id]) {
+            var event = {
+                changedModels: changedModels,
+                target: model,
+                model: model,
+                type: "change",
+                key: model.key,
+                id: model.id
+            };
+            for (var i = 0; i < this.events[id].length; i++) {
+                this.events[id][i].call(model, event);
+            }
+        }
     },
 
 
@@ -565,7 +649,15 @@ Models.prototype = {
             var jsonText = JSON.stringify(this.models);
             localStorage[_name] = jsonText;
         }
-        else{
+        else {
+
+            /* 読み込み時に使用されたローカルストレージネームガある場合そちらに保存する
+            -------------------------------------------------------------------------------*/
+            if (this.localStorageName) {
+                var jsonText = JSON.stringify(this.models);
+                localStorage[this.localStorageName] = jsonText;
+            }
+
             return false;
         }
     }
@@ -636,7 +728,10 @@ Controller.prototype = {
     on: function(_selector, _type, _callback) {
         if (typeof(_selector) == "string") {
             var elms = Sizzle(_selector);
-            console.log("elms", elms, _selector);
+
+            /* テスト
+            -------------------------------------------------------------------------------*/
+            // console.log("elms", elms, _selector);
         }
         else {
             var elms = [_selector];

@@ -127,7 +127,9 @@ var buttonClickEvents = {
     -------------------------------------------------------------------------------*/
     openSettings: function (_event, _post) {
         var sw = new SettingsWindow({
-            styles: cssThemes
+            styles: cssThemes,
+            buttons: menuItems,
+            settings: settings
         });
         sw.open();
     },

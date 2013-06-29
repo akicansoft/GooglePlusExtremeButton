@@ -17,7 +17,6 @@ SettingsWindow.prototype = {
                 '<div class="gpeb logo">',
                     '<img src="'+chrome.extension.getURL("images/icon.png")+'" />',
                     '<div class="name">Google+ Extreme Button</div>',
-                    '<div class="ver">Ver. 3.0.0</div>',
                 '</div>',
             '</div>',
             '<div id="gpeb-settings-window-content"></div>',
@@ -31,6 +30,15 @@ SettingsWindow.prototype = {
         -------------------------------------------------------------------------------*/
         this.styles = _opt.styles;
 
+        /* メニューボタンのモデルを扱う
+        -------------------------------------------------------------------------------*/
+        this.buttons = _opt.buttons;
+
+        /* 設定データモデルを扱う
+        -------------------------------------------------------------------------------*/
+        this.settings = _opt.settings;
+
+
         /* 各種ページのメニュー
         -------------------------------------------------------------------------------*/
         this.menuItems = [
@@ -38,6 +46,7 @@ SettingsWindow.prototype = {
             ["カスタムボタン", "custombtn", ""],
             ["スタイル", "style", ""],
             ["補助機能", "other", ""],
+            ["メニューボタン", "menubutton", ""],
             ["更新履歴", "history", ""],
             ["サポート情報", "support", ""]
         ];
@@ -55,13 +64,27 @@ SettingsWindow.prototype = {
         -------------------------------------------------------------------------------*/
         var that = this;
         this.menu.addEventListener ("click", function (_event) {
+
+            /* modeの取得
+            -------------------------------------------------------------------------------*/
             var mode = getData(_event.target, "content");
             if (mode) {
-                that.content.innerHTML = that.menuContent[mode] || "";
+
+                /* HTMLの書き換え
+                -------------------------------------------------------------------------------*/
+                that.content.innerHTML = that.menuContents[mode] || "";
                 Sizzle("div.item", this.menu).forEach(function (_elm) {
                     _elm.setAttribute("class", "gpeb item");
                 });
                 _event.target.parentNode.setAttribute("class", "gpeb item active");
+
+                /* 関数の実行
+                -------------------------------------------------------------------------------*/
+                if (that.menuFunctions[mode]) {
+                    that.menuFunctions[mode].call(that.content, that.content);
+                }
+
+
             }
         }, false);
 
@@ -75,7 +98,7 @@ SettingsWindow.prototype = {
 
         /* 各種ページのHTMLを格納するオブジェクト
         -------------------------------------------------------------------------------*/
-        this.menuContent = {
+        this.menuContents = {
 
             /* リストページ
             -------------------------------------------------------------------------------*/
@@ -111,6 +134,7 @@ SettingsWindow.prototype = {
                     '<div class="gpeb desc">自動投稿を行うことができるカスタムボタンを作成します</div>',
                     '<div class="gpeb list">',
                         '<div id="gpeb-settings-window-content-custombtn-items" class="gpeb list-inner">',
+                        '※この機能は現在実装されていません',
                         '</div>',
                     '</div>',
                 '</div>'
@@ -138,6 +162,21 @@ SettingsWindow.prototype = {
                     '<div class="gpeb desc">挨拶ボタンの設定を行います</div>',
                     '<div class="gpeb list">',
                         '<div id="gpeb-settings-window-content-aisatsu-items" class="gpeb list-inner">',
+                        '※この機能は現在実装されていません',
+                        '</div>',
+                    '</div>',
+                '</div>'
+            ].join(""),
+
+            /* メニューボタン設定
+            -------------------------------------------------------------------------------*/
+            menubutton: [
+                '<div id="gpeb-settings-window-content-menubutton">',
+                    '<div class="gpeb title">メニューボタン設定</div>',
+                    '<div class="gpeb desc">各ポストに挿入されるボタンの画像を変更します</div>',
+                    '<div class="gpeb list">',
+                        '<div id="gpeb-settings-window-content-menubutton-items" class="gpeb list-inner">',
+                        '※この機能は現在実装されていません',
                         '</div>',
                     '</div>',
                 '</div>'
@@ -167,9 +206,258 @@ SettingsWindow.prototype = {
                     '<div class="gpeb title">補助機能</div>',
                     '<div class="gpeb desc">G+をもっと便利にする補助機能です。</div>',
                     '<div id="gpeb-settings-window-content-other-inner" class="gpeb other-inner">',
+                    '※この機能は現在実装されていません',
                     '</div>',
                 '</div>'
             ].join("")
+        };
+
+
+        /* 各種ボタンをクリックした時に呼ばれる関数
+        -------------------------------------------------------------------------------*/
+        this.menuFunctions = {
+
+            /* 表示するボタンの選択
+            -------------------------------------------------------------------------------*/
+            list: function () {
+
+                /* 追加を行うリスト
+                -------------------------------------------------------------------------------*/
+                var listElm = Sizzle("#gpeb-settings-window-content-list-items")[0];
+
+                /* アイテムテンプレートの生成
+                -------------------------------------------------------------------------------*/
+                var itemTemp = domParseFromString([
+                    '<div class="item">',
+                        '<label>',
+                            '<div class="icon"><img src="" /></div>',
+                            '<div class="name"></div>',
+                            '<div class="desc"></div>',
+                            '<div class="show"><input type="checkbox" /><span>表示する</span></div>',
+                            '<div class="clear"></div>',
+                        '</label>',
+                    '</div>'
+                ].join(""));
+
+                /* アイテムテンプレートの変数
+                -------------------------------------------------------------------------------*/
+                var itemTempIcon = Sizzle("div.icon > img", itemTemp)[0];
+                var itemTempName = Sizzle("div.name", itemTemp)[0];
+                var itemTempDesc = Sizzle("div.desc", itemTemp)[0];
+                var itemTempShow = Sizzle("div.show > input", itemTemp)[0];
+
+                /* 現在のボタンデータ
+                -------------------------------------------------------------------------------*/
+                var buttonShowSetting = that.settings.get("button").showButtons || {};
+
+                /* 描画
+                -------------------------------------------------------------------------------*/
+                that.buttons.each(function () {
+
+                    /* 変数に設定
+                    -------------------------------------------------------------------------------*/
+                    itemTempIcon.src = getUrl(this.img);
+                    itemTempName.innerHTML = this.name;
+                    itemTempDesc.innerHTML = this.desc;
+
+                    /* 表示されているか調べる
+                    -------------------------------------------------------------------------------*/
+                    if (buttonShowSetting[this.key]) {
+                        itemTempShow.setAttribute("checked", "checked");
+                    }
+
+                    /* 表示されていない
+                    -------------------------------------------------------------------------------*/
+                    else {
+                        itemTempShow.removeAttribute("checked");
+                    }
+
+                    /* イベント用キーの割り当て
+                    -------------------------------------------------------------------------------*/
+                    itemTempShow.setAttribute("gpeb-settings-window-content-list-items", this.key);
+
+                    /* クローンの作成
+                    -------------------------------------------------------------------------------*/
+                    var item = itemTemp.cloneNode(true);
+
+                    /* クローンの挿入
+                    -------------------------------------------------------------------------------*/
+                    listElm.appendChild(item);
+                    
+
+                });
+
+                /* イベントの登録
+                -------------------------------------------------------------------------------*/
+                listElm.addEventListener ("click", function (_event) {
+
+                    var key = _event.target.getAttribute("gpeb-settings-window-content-list-items") || "";
+                    var isShow = _event.target.checked || false;
+                    
+                    if (key) {
+
+                        /* テスト
+                        -------------------------------------------------------------------------------*/
+                        // console.log(_event.target, key, isShow);
+
+                        /* データセット
+                        -------------------------------------------------------------------------------*/
+                        buttonShowSetting[key] = isShow ? 1 : 0;
+                        that.settings.set("button", {
+                            "showButtons": buttonShowSetting
+                        });
+
+
+                        /* 保存
+                        -------------------------------------------------------------------------------*/
+                        that.settings.save();
+
+                    }
+
+                });
+
+            },
+
+            /* スタイル
+            -------------------------------------------------------------------------------*/
+            style: function () {
+
+                /* 追加を行うリスト
+                -------------------------------------------------------------------------------*/
+                var listElm = Sizzle("#gpeb-settings-window-content-style-items")[0];
+
+
+                /* アクティブなスタイルを取得
+                -------------------------------------------------------------------------------*/
+                var activeStyle = that.settings.get("style").active || "";
+
+                /* アイテムテンプレートの生成
+                -------------------------------------------------------------------------------*/
+                var itemTemp = domParseFromString([
+                    '<div class="item">',
+                        '<div class="thumbnail"><img src="" /></div>',
+                        '<div class="name"><a></a></div>',
+                        '<div class="desc"></div>',
+                        '<div class="author">作者: <a></a></div>',
+                        '<div class="date">更新: <span></span></div>',
+                        '<div class="version">v e r: <span></span></div>',
+                        '<div class="activate"><input type="button" value="有効にする" /></div>',
+                        '<div class="clear"></div>',
+                    '</div>'
+                ].join(""));
+
+                /* アイテムテンプレートの変数
+                -------------------------------------------------------------------------------*/
+                var itemTempName = Sizzle("div.name > a", itemTemp)[0];
+                var itemTempDesc = Sizzle("div.desc", itemTemp)[0];
+                var itemTempAuthor = Sizzle("div.author > a", itemTemp)[0];
+                var itemTempDate = Sizzle("div.date > span", itemTemp)[0];
+                var itemTempVersion = Sizzle("div.version > span", itemTemp)[0];
+                var itemTempActivate = Sizzle("div.activate", itemTemp)[0];
+                var itemTempThumbnail = Sizzle("div.thumbnail > img", itemTemp)[0];
+                var itemTempActivate = Sizzle("div.activate > input", itemTemp)[0];
+
+                /* 描画
+                -------------------------------------------------------------------------------*/
+                that.styles.each(function () {
+
+                    /* 変数に設定
+                    -------------------------------------------------------------------------------*/
+                    itemTempName.innerHTML = this.name;
+                    itemTempDesc.innerHTML = this.desc;
+                    itemTempAuthor.innerHTML = this.author;
+                    itemTempDate.innerHTML = this.date;
+                    itemTempVersion.innerHTML = this.version;
+                    itemTempThumbnail.src = getUrl("images/style/"+this.key+".png");
+
+                    /* 
+                    -------------------------------------------------------------------------------*/
+                    if (activeStyle == this.key) {
+                        itemTempActivate.setAttribute("class", "disable");
+                        itemTempActivate.value = "既に有効になっています";
+                    }
+                    else {
+                        itemTempActivate.removeAttribute("class");
+                        itemTempActivate.value = "有効にする";
+                    }
+
+                    /* イベント用キーの割り当て
+                    -------------------------------------------------------------------------------*/
+                    itemTempActivate.setAttribute("data-gpeb-settings-active", this.key);
+
+                    /* クローンの作成
+                    -------------------------------------------------------------------------------*/
+                    var item = itemTemp.cloneNode(true);
+
+                    /* クローンの挿入
+                    -------------------------------------------------------------------------------*/
+                    listElm.appendChild(item);
+
+                });
+
+                /* イベントの登録
+                -------------------------------------------------------------------------------*/
+                listElm.addEventListener ("click", function (_event) {
+
+                    var key = _event.target.getAttribute("data-gpeb-settings-active") || "";
+
+                    if (key) {
+
+                        /* スタイルの変更
+                        -------------------------------------------------------------------------------*/
+                        that.settings.set("style", {
+                            "active": key
+                        });
+
+                        /* 設定の保存
+                        -------------------------------------------------------------------------------*/
+                        that.settings.save();
+
+                        /* 他のボタンのスタイルを一括で有効にするにする
+                        -------------------------------------------------------------------------------*/
+                        Sizzle("div.item > div.activate > input", listElm).forEach(function(_elm){
+
+                            var tKey = _elm.getAttribute("data-gpeb-settings-active");
+
+                            /* 現在のキー
+                            -------------------------------------------------------------------------------*/
+                            if (tKey == key) {
+                                _elm.setAttribute("class", "disable");
+                                _elm.value = "既に有効になっています";
+                            }
+
+                            /* それ以外
+                            -------------------------------------------------------------------------------*/
+                            else {
+                                _elm.removeAttribute("class");
+                                _elm.value = "有効にする";
+                            }
+                        });
+                    }
+
+                }, true);
+            },
+
+
+            /* 更新履歴
+            -------------------------------------------------------------------------------*/
+            history: function () {
+
+                /* 追加を行うリスト
+                -------------------------------------------------------------------------------*/
+                var listElm = Sizzle("#gpeb-settings-window-content-history-items")[0];
+
+                /* history.txtの読み込み
+                -------------------------------------------------------------------------------*/
+                var url = getUrl("history.txt");
+
+                /* 読み込み
+                -------------------------------------------------------------------------------*/
+                ajaxLoad(url, function () {
+                    listElm.innerHTML = "<pre>"+this+"</pre>";
+                });
+
+            }
         };
     },
 
@@ -186,11 +474,15 @@ SettingsWindow.prototype = {
         /* 画面構成
         -------------------------------------------------------------------------------*/
         this.elm.style.display = "block";
-        this.content.innerHTML = this.menuContent.list;
+        this.content.innerHTML = this.menuContents.list;
         var width = document.body.clientWidth;
         var height = window.innerHeight;
         this.elm.style.left = ((width-640)/2)+"px";
         this.elm.style.top = ((height-480)/2)+"px";
+
+        /* 
+        -------------------------------------------------------------------------------*/
+        this.menuFunctions["list"].call(this.menuContents.list);
     },
 
     /* 閉じる
