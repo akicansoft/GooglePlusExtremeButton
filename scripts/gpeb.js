@@ -1715,7 +1715,7 @@ function SettingsWindow (_opt) {
 }
 
 SettingsWindow.prototype = {
-    init: function () {
+    init: function (_opt) {
 
         this.elm = document.createElement("div");
         this.elm.setAttribute("id", "gpeb-settings-window");
@@ -1737,13 +1737,16 @@ SettingsWindow.prototype = {
         this.menu = Sizzle("#gpeb-settings-window-menu")[0];
         this.content = Sizzle("#gpeb-settings-window-content")[0];
 
+        /* スタイルのモデルを扱う
+        -------------------------------------------------------------------------------*/
+        this.styles = _opt.styles;
 
         /* 各種ページのメニュー
         -------------------------------------------------------------------------------*/
         this.menuItems = [
             ["表示するボタンの選択", "list", "active"],
             ["カスタムボタン", "custombtn", ""],
-            ["あいさつ設定", "aisatsu", ""],
+            ["スタイル", "style", ""],
             ["補助機能", "other", ""],
             ["更新履歴", "history", ""],
             ["サポート情報", "support", ""]
@@ -1778,8 +1781,6 @@ SettingsWindow.prototype = {
         Sizzle("#gpeb-settings-window-close-button")[0].addEventListener ("click", function () {
             that.close();
         }, false);
-
-
 
 
         /* 各種ページのHTMLを格納するオブジェクト
@@ -1825,6 +1826,20 @@ SettingsWindow.prototype = {
                 '</div>'
             ].join(""),
 
+            /* スタイル設定
+            -------------------------------------------------------------------------------*/
+            style: [
+                '<div id="gpeb-settings-window-content-style">',
+                    '<div class="gpeb title">スタイル</div>',
+                    '<div class="gpeb desc">スタイルの変更を行います</div>',
+                    '<div class="gpeb list">',
+                        '<div id="gpeb-settings-window-content-style-items" class="gpeb list-inner">',
+                        '</div>',
+                    '</div>',
+                '</div>'
+            ].join(""),
+
+
             /* 挨拶設定
             -------------------------------------------------------------------------------*/
             aisatsu: [
@@ -1868,7 +1883,6 @@ SettingsWindow.prototype = {
         };
     },
 
-
     /* 設定画面を開く
     -------------------------------------------------------------------------------*/
     open: function () {
@@ -1879,7 +1893,8 @@ SettingsWindow.prototype = {
         this.back.setAttribute("id", "gpeb-back");
         document.body.appendChild(this.back);
 
-
+        /* 画面構成
+        -------------------------------------------------------------------------------*/
         this.elm.style.display = "block";
         this.content.innerHTML = this.menuContent.list;
         var width = document.body.clientWidth;
@@ -1941,8 +1956,8 @@ var commonCss = [
     "#gpeb-settings-window-menu div.item-close{border-top: 1px solid rgb(194, 194, 194);}",
     "#gpeb-settings-window-menu div.item:hover{background:rgb(209, 209, 209);}",
     "#gpeb-settings-window-menu div.item.active{background:gray;color:white;}",
-    "#gpeb-settings-window-close-button{position: absolute;top: 18px;right: 10px;font-size: 36px;line-height: 0px;color: rgb(68, 68, 68);cursor: pointer;}",
-    "#gpeb-settings-window-content{float:left;}#gpeb-settings-window-content div.title{background: gray;color: white;padding: 2px;margin-top: 11px;width: 437px;padding-left: 7px;font-weight: bold;}#gpeb-settings-window-content div.desc{margin-top: 7px;padding-left: 1px;margin-bottom: 13px;}",
+    "#gpeb-settings-window-close-button{position: absolute;top: 22px;right: 11px;font-size: 36px;line-height: 0px;color: rgb(68, 68, 68);cursor: pointer;}",
+    "#gpeb-settings-window-content{float:left;}#gpeb-settings-window-content div.title{border-radius:2px;background: gray;color: white;padding: 2px;margin-top: 11px;width: 437px;padding-left: 7px;font-weight: bold;}#gpeb-settings-window-content div.desc{margin-top: 7px;padding-left: 1px;margin-bottom: 13px;}",
     "#gpeb-settings-window-content{width:466px;}#gpeb-settings-window-content div.sub-title{border-left: 3px solid gray;padding-left: 4px;margin-bottom: 7px;margin-left:13px;}#gpeb-settings-window-content div.sub-desc{margin-bottom: 26px;margin-left:13px;}"
 ].join("");
 
@@ -1974,13 +1989,13 @@ var menuItems = new Models([
     {
         name: "画像を開く",
         event: "imageOpen",
-        img: "buttons/FullSizeImgOpen.png",
+        img: "buttons/fullsizeimgopen.png",
         type: "image"
     },
     {
         name: "画像ダウンロード",
         event: "imageDownload",
-        img: "buttons/FullSizeImgDown.png",
+        img: "buttons/fullsizeimgdown.png",
         type: "image"
     },
     {
@@ -1992,49 +2007,49 @@ var menuItems = new Models([
     {
         name: "はてなブックマーク",
         event: "sendHatenaBookmark",
-        img: "buttons/Hatena.png",
+        img: "buttons/hatena.png",
         type: "default"
     },
     {
         name: "Twitter",
         event: "sendTwitter",
-        img: "buttons/Twitter.png",
+        img: "buttons/twitter.png",
         type: "default"
     },
     {
         name: "Facebook",
         event: "sendFaceBook",
-        img: "buttons/Facebook.png",
+        img: "buttons/facebook.png",
         type: "default"
     },
     {
         name: "Tumblr",
         event: "sendTumblr",
-        img: "buttons/Tumblr.png",
+        img: "buttons/tumblr.png",
         type: "default"
     },
     {
         name: "Pinterest",
         event: "sendPinterest",
-        img: "buttons/Pinterest.png",
+        img: "buttons/pinterest.png",
         type: "image"
     },
     {
         name: "Pocket",
         event: "sendPocket",
-        img: "buttons/RIL1.png",
+        img: "buttons/ril1.png",
         type: "default"
     },
     {
         name: "CircleCount",
         event: "openCircleCount",
-        img: "buttons/CircleCount.png",
+        img: "buttons/circlecount.png",
         type: "default"
     },
     {
         name: "リップル",
         event: "openRipples",
-        img: "buttons/Ripples.png",
+        img: "buttons/ripples.png",
         type: "default"
     },
     {
@@ -2058,7 +2073,25 @@ var menuItems = new Models([
     {
         name: "どこいな",
         event: "sendDokoina",
-        img: "buttons/Dokoina.png",
+        img: "buttons/dokoina.png",
+        type: "default"
+    },
+    {
+        name: "おらん",
+        event: "sendOran",
+        img: "buttons/oran.png",
+        type: "default"
+    },
+    {
+        name: "ぬるぽ",
+        event: "sendNurupo",
+        img: "buttons/nurupo.png",
+        type: "default"
+    },
+    {
+        name: "ガッ",
+        event: "sendGa",
+        img: "buttons/ga.png",
         type: "default"
     }
 ]);
@@ -2133,11 +2166,11 @@ function checkreloadButton (_callBack) {
 
     setInterval(function(){
 
-        /* ウィンドウがアクティブではない場合無視
+        /* ウィンドウがアクティブではない場合無視 (廃止)
         -------------------------------------------------------------------------------*/
-        if (!getActive()) {
-            return;
-        }
+        // if (!getActive()) {
+        //     return;
+        // }
 
         /* 通知ウィンドウの情報を取得し、通知ウィンドウが表示されているときは無視する
         -------------------------------------------------------------------------------*/
@@ -2220,7 +2253,9 @@ var buttonClickEvents = {
     /* 設定画面を開く
     -------------------------------------------------------------------------------*/
     openSettings: function (_event, _post) {
-        var sw = new SettingsWindow();
+        var sw = new SettingsWindow({
+            styles: cssThemes
+        });
         sw.open();
     },
 
@@ -2250,6 +2285,27 @@ var buttonClickEvents = {
     sendOh: function (_event, _post) {
         var ap =  new AutoPost(_post);
         ap.autoPost("oh...");
+    },
+
+    /* ぬるぽ
+    -------------------------------------------------------------------------------*/
+    sendNurupo: function (_event, _post) {
+        var ap =  new AutoPost(_post);
+        ap.autoPost("ぬるぽ");
+    },
+
+    /* ガッ
+    -------------------------------------------------------------------------------*/
+    sendGa: function (_event, _post) {
+        var ap =  new AutoPost(_post);
+        ap.autoPost("ガッ");
+    },
+
+    /* おらん
+    -------------------------------------------------------------------------------*/
+    sendOran: function (_event, _post) {
+        var ap =  new AutoPost(_post);
+        ap.autoPost("おらん");
     },
 
     /* リップル

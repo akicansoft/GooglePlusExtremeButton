@@ -5,7 +5,7 @@ function SettingsWindow (_opt) {
 }
 
 SettingsWindow.prototype = {
-    init: function () {
+    init: function (_opt) {
 
         this.elm = document.createElement("div");
         this.elm.setAttribute("id", "gpeb-settings-window");
@@ -27,13 +27,16 @@ SettingsWindow.prototype = {
         this.menu = Sizzle("#gpeb-settings-window-menu")[0];
         this.content = Sizzle("#gpeb-settings-window-content")[0];
 
+        /* スタイルのモデルを扱う
+        -------------------------------------------------------------------------------*/
+        this.styles = _opt.styles;
 
         /* 各種ページのメニュー
         -------------------------------------------------------------------------------*/
         this.menuItems = [
             ["表示するボタンの選択", "list", "active"],
             ["カスタムボタン", "custombtn", ""],
-            ["あいさつ設定", "aisatsu", ""],
+            ["スタイル", "style", ""],
             ["補助機能", "other", ""],
             ["更新履歴", "history", ""],
             ["サポート情報", "support", ""]
@@ -68,8 +71,6 @@ SettingsWindow.prototype = {
         Sizzle("#gpeb-settings-window-close-button")[0].addEventListener ("click", function () {
             that.close();
         }, false);
-
-
 
 
         /* 各種ページのHTMLを格納するオブジェクト
@@ -115,6 +116,20 @@ SettingsWindow.prototype = {
                 '</div>'
             ].join(""),
 
+            /* スタイル設定
+            -------------------------------------------------------------------------------*/
+            style: [
+                '<div id="gpeb-settings-window-content-style">',
+                    '<div class="gpeb title">スタイル</div>',
+                    '<div class="gpeb desc">スタイルの変更を行います</div>',
+                    '<div class="gpeb list">',
+                        '<div id="gpeb-settings-window-content-style-items" class="gpeb list-inner">',
+                        '</div>',
+                    '</div>',
+                '</div>'
+            ].join(""),
+
+
             /* 挨拶設定
             -------------------------------------------------------------------------------*/
             aisatsu: [
@@ -158,7 +173,6 @@ SettingsWindow.prototype = {
         };
     },
 
-
     /* 設定画面を開く
     -------------------------------------------------------------------------------*/
     open: function () {
@@ -169,7 +183,8 @@ SettingsWindow.prototype = {
         this.back.setAttribute("id", "gpeb-back");
         document.body.appendChild(this.back);
 
-
+        /* 画面構成
+        -------------------------------------------------------------------------------*/
         this.elm.style.display = "block";
         this.content.innerHTML = this.menuContent.list;
         var width = document.body.clientWidth;

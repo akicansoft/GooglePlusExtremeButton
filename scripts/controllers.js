@@ -39,11 +39,11 @@ function checkreloadButton (_callBack) {
 
     setInterval(function(){
 
-        /* ウィンドウがアクティブではない場合無視
+        /* ウィンドウがアクティブではない場合無視 (廃止)
         -------------------------------------------------------------------------------*/
-        if (!getActive()) {
-            return;
-        }
+        // if (!getActive()) {
+        //     return;
+        // }
 
         /* 通知ウィンドウの情報を取得し、通知ウィンドウが表示されているときは無視する
         -------------------------------------------------------------------------------*/
@@ -126,7 +126,9 @@ var buttonClickEvents = {
     /* 設定画面を開く
     -------------------------------------------------------------------------------*/
     openSettings: function (_event, _post) {
-        var sw = new SettingsWindow();
+        var sw = new SettingsWindow({
+            styles: cssThemes
+        });
         sw.open();
     },
 
@@ -156,6 +158,27 @@ var buttonClickEvents = {
     sendOh: function (_event, _post) {
         var ap =  new AutoPost(_post);
         ap.autoPost("oh...");
+    },
+
+    /* ぬるぽ
+    -------------------------------------------------------------------------------*/
+    sendNurupo: function (_event, _post) {
+        var ap =  new AutoPost(_post);
+        ap.autoPost("ぬるぽ");
+    },
+
+    /* ガッ
+    -------------------------------------------------------------------------------*/
+    sendGa: function (_event, _post) {
+        var ap =  new AutoPost(_post);
+        ap.autoPost("ガッ");
+    },
+
+    /* おらん
+    -------------------------------------------------------------------------------*/
+    sendOran: function (_event, _post) {
+        var ap =  new AutoPost(_post);
+        ap.autoPost("おらん");
     },
 
     /* リップル

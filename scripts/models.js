@@ -42,8 +42,8 @@ var commonCss = [
     "#gpeb-settings-window-menu div.item-close{border-top: 1px solid rgb(194, 194, 194);}",
     "#gpeb-settings-window-menu div.item:hover{background:rgb(209, 209, 209);}",
     "#gpeb-settings-window-menu div.item.active{background:gray;color:white;}",
-    "#gpeb-settings-window-close-button{position: absolute;top: 18px;right: 10px;font-size: 36px;line-height: 0px;color: rgb(68, 68, 68);cursor: pointer;}",
-    "#gpeb-settings-window-content{float:left;}#gpeb-settings-window-content div.title{background: gray;color: white;padding: 2px;margin-top: 11px;width: 437px;padding-left: 7px;font-weight: bold;}#gpeb-settings-window-content div.desc{margin-top: 7px;padding-left: 1px;margin-bottom: 13px;}",
+    "#gpeb-settings-window-close-button{position: absolute;top: 22px;right: 11px;font-size: 36px;line-height: 0px;color: rgb(68, 68, 68);cursor: pointer;}",
+    "#gpeb-settings-window-content{float:left;}#gpeb-settings-window-content div.title{border-radius:2px;background: gray;color: white;padding: 2px;margin-top: 11px;width: 437px;padding-left: 7px;font-weight: bold;}#gpeb-settings-window-content div.desc{margin-top: 7px;padding-left: 1px;margin-bottom: 13px;}",
     "#gpeb-settings-window-content{width:466px;}#gpeb-settings-window-content div.sub-title{border-left: 3px solid gray;padding-left: 4px;margin-bottom: 7px;margin-left:13px;}#gpeb-settings-window-content div.sub-desc{margin-bottom: 26px;margin-left:13px;}"
 ].join("");
 
@@ -75,13 +75,13 @@ var menuItems = new Models([
     {
         name: "画像を開く",
         event: "imageOpen",
-        img: "buttons/FullSizeImgOpen.png",
+        img: "buttons/fullsizeimgopen.png",
         type: "image"
     },
     {
         name: "画像ダウンロード",
         event: "imageDownload",
-        img: "buttons/FullSizeImgDown.png",
+        img: "buttons/fullsizeimgdown.png",
         type: "image"
     },
     {
@@ -93,49 +93,49 @@ var menuItems = new Models([
     {
         name: "はてなブックマーク",
         event: "sendHatenaBookmark",
-        img: "buttons/Hatena.png",
+        img: "buttons/hatena.png",
         type: "default"
     },
     {
         name: "Twitter",
         event: "sendTwitter",
-        img: "buttons/Twitter.png",
+        img: "buttons/twitter.png",
         type: "default"
     },
     {
         name: "Facebook",
         event: "sendFaceBook",
-        img: "buttons/Facebook.png",
+        img: "buttons/facebook.png",
         type: "default"
     },
     {
         name: "Tumblr",
         event: "sendTumblr",
-        img: "buttons/Tumblr.png",
+        img: "buttons/tumblr.png",
         type: "default"
     },
     {
         name: "Pinterest",
         event: "sendPinterest",
-        img: "buttons/Pinterest.png",
+        img: "buttons/pinterest.png",
         type: "image"
     },
     {
         name: "Pocket",
         event: "sendPocket",
-        img: "buttons/RIL1.png",
+        img: "buttons/ril1.png",
         type: "default"
     },
     {
         name: "CircleCount",
         event: "openCircleCount",
-        img: "buttons/CircleCount.png",
+        img: "buttons/circlecount.png",
         type: "default"
     },
     {
         name: "リップル",
         event: "openRipples",
-        img: "buttons/Ripples.png",
+        img: "buttons/ripples.png",
         type: "default"
     },
     {
@@ -159,7 +159,25 @@ var menuItems = new Models([
     {
         name: "どこいな",
         event: "sendDokoina",
-        img: "buttons/Dokoina.png",
+        img: "buttons/dokoina.png",
+        type: "default"
+    },
+    {
+        name: "おらん",
+        event: "sendOran",
+        img: "buttons/oran.png",
+        type: "default"
+    },
+    {
+        name: "ぬるぽ",
+        event: "sendNurupo",
+        img: "buttons/nurupo.png",
+        type: "default"
+    },
+    {
+        name: "ガッ",
+        event: "sendGa",
+        img: "buttons/ga.png",
         type: "default"
     }
 ]);
