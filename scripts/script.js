@@ -6,8 +6,15 @@ window.onload = function () {
     /* ロギング
     -------------------------------------------------------------------------------*/
     logger = new Logger("Google+ Extreme Button");
-    logger.stop();
-    logger.add("ロギングを開始しました");
+
+    /* デバッグモードがONの場合ロギングを行わない debugger;settings.set("dev", {"isDev": true});
+    -------------------------------------------------------------------------------*/
+    if (!settings.get("dev").isDev) {
+        logger.stop();
+    }
+    else {
+        logger.add("ロギングを開始しました");
+    }
 
 
     /* CSSテーマを設定
@@ -20,8 +27,10 @@ window.onload = function () {
 
     /* 更新ボタンの監視を行う
     -------------------------------------------------------------------------------*/
-    checkreloadButton(function () {
-    });
+    if (settings.get("other").autoreload) {
+        checkreloadButton(function () {
+        });
+    }
 
     /* ボタンオブジェクトの作成
     -------------------------------------------------------------------------------*/

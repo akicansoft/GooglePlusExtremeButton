@@ -466,18 +466,18 @@ cont.on(window, "click", function (_event) {
             alert("未定義のイベント "+eventName+ " を実行しようとしましたが、見つかりませんでした。");
         }
     }
-
 });
 
 /* event.scroll
 -------------------------------------------------------------------------------*/
 cont.on(window, "scroll", function () {
-    
 });
 
 /* event.keydown
 -------------------------------------------------------------------------------*/
-cont.on(window, "keydown", keyDownFunc );
+if (settings.get("other").shiftenter) {
+    cont.on(window, "keydown", keyDownFunc );
+}
 
 /* 新しい要素が現れた
 -------------------------------------------------------------------------------*/

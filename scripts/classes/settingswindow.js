@@ -132,9 +132,9 @@ SettingsWindow.prototype = {
                 '<div id="gpeb-settings-window-content-custombtn">',
                     '<div class="gpeb title">カスタムボタン</div>',
                     '<div class="gpeb desc">自動投稿を行うことができるカスタムボタンを作成します</div>',
+                    '<div class="gpeb button-list"><input id="gpeb-settings-custombtn-new-button" type="button" value="ボタンの新規作成" /></div>',
                     '<div class="gpeb list">',
                         '<div id="gpeb-settings-window-content-custombtn-items" class="gpeb list-inner">',
-                        '※この機能は現在実装されていません',
                         '</div>',
                     '</div>',
                 '</div>'
@@ -206,7 +206,8 @@ SettingsWindow.prototype = {
                     '<div class="gpeb title">補助機能</div>',
                     '<div class="gpeb desc">G+をもっと便利にする補助機能です。</div>',
                     '<div id="gpeb-settings-window-content-other-inner" class="gpeb other-inner">',
-                    '※この機能は現在実装されていません',
+                        '<label class="item"><input type="checkbox" name="shiftenter" /> Shift+Enterによる投稿を許可する</label>',
+                        '<label class="item"><input type="checkbox" name="autoreload" /> 自動更新機能を許可する</label>',
                     '</div>',
                 '</div>'
             ].join("")
@@ -456,6 +457,95 @@ SettingsWindow.prototype = {
                 ajaxLoad(url, function () {
                     listElm.innerHTML = "<pre>"+this+"</pre>";
                 });
+
+            },
+
+
+            /* 補助
+            -------------------------------------------------------------------------------*/
+            other: function () {
+
+                /* アイテム取得
+                -------------------------------------------------------------------------------*/
+                var items = Sizzle("#gpeb-settings-window-content-other-inner > label.item > input");
+
+                /* 関数
+                -------------------------------------------------------------------------------*/
+                var func = function (_event) {
+
+                    /* データの取得
+                    -------------------------------------------------------------------------------*/
+                    var name = _event.target.getAttribute("name");
+                    var isChecked = _event.target.checked;
+
+                    /* モデルへデータを設定
+                    -------------------------------------------------------------------------------*/
+                    var object = {};
+                    object[name] = isChecked ? 1 : 0;
+                    that.settings.set("other", object);
+
+                    /* 保存
+                    -------------------------------------------------------------------------------*/
+                    that.settings.save();
+
+                    /* テスト
+                    -------------------------------------------------------------------------------*/
+                    // console.log("event", _event.target, _event.target.checked);
+
+
+                };
+
+                /* 現在の状態を反映とイベントの登録
+                -------------------------------------------------------------------------------*/
+                items.forEach(function (_elm) {
+
+                    /* 反映
+                    -------------------------------------------------------------------------------*/
+                    var name = _elm.getAttribute("name");
+                    
+                    /* 当て込み
+                    -------------------------------------------------------------------------------*/
+                    var isChecked = that.settings.get("other")[name];
+                    if (isChecked) {
+                        _elm.setAttribute("checked", "checked");
+                    }
+                    else {
+                        _elm.removeAttribute("checked");
+                    }
+
+
+                    /* イベント登録
+                    -------------------------------------------------------------------------------*/
+                    _elm.addEventListener ("click", func, false);
+                });
+            },
+
+
+            /* カスタムボタン
+            -------------------------------------------------------------------------------*/
+            custombtn: function () {
+
+                /* カスタムボタンリスト
+                -------------------------------------------------------------------------------*/
+                var elm = Sizzle("#gpeb-settings-window-content-custombtn-items")[0];
+
+                /* カスタムボタンを読み込む
+                -------------------------------------------------------------------------------*/
+                var cButtons = that.settings.get("custombtn").custombtn | [];
+
+                /* ボタンの新規作成ボタンのイベント登録
+                -------------------------------------------------------------------------------*/
+                Sizzle("#gpeb-settings-custombtn-new-button")[0].addEventListener ("click", function () {
+                    
+                    /* ボタンの新規作成ウィンドウを開く
+                    -------------------------------------------------------------------------------*/
+                    var bw = new ButtonWindow();
+                    bw.open(null, function () {
+                        alert("ボタンが作成されました");
+                    });
+
+                }, false);
+
 
             }
         };
