@@ -25,7 +25,7 @@
         "https://plus.google.com/stream/circles/*"
       ],
       "js": [
-        "scripts/gpeb.js"
+        "scripts/gpeb.min.js"
       ],
       "matches": [
         "http://plus.google.com/*",
