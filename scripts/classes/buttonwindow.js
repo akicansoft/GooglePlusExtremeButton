@@ -18,7 +18,7 @@ ButtonWindow.prototype = {
         /* 画面構成
         -------------------------------------------------------------------------------*/
         this.elm.innerHTML = [
-            '<div class="title">カスタムボタン</div>',
+            '<div id="gpeb-settings-button-window-title" class="title">カスタムボタンの新規登録</div>',
             '<div id="gpeb-settings-button-window-content">',
                 '<div class="item name">',
                     '<div class="text">ボタン名 (リンクとしてボタン一覧に表示されます)</div>',
@@ -42,17 +42,13 @@ ButtonWindow.prototype = {
         /* 閉じるボタンイベント
         -------------------------------------------------------------------------------*/
         Sizzle("#gpeb-settings-button-window-close-button")[0].addEventListener ("click", function () {
-            if (confirm("閉じてもよろしいですか？")) {
-                that.close();
-            }
+            that.close();
         }, false);
 
         /* キャンセルイベント
         -------------------------------------------------------------------------------*/
         Sizzle("#gpeb-settings-button-window-content-cancel")[0].addEventListener ("click", function () {
-            if (confirm("閉じてもよろしいですか？")) {
-                that.close();
-            }
+            that.close();
         }, false);
 
         /* 登録イベント
@@ -73,10 +69,19 @@ ButtonWindow.prototype = {
 
             /* 呼び出す
             -------------------------------------------------------------------------------*/
-            that.callback.call({
-                name: name,
-                body: body
-            });
+            if (that.isEdit) {
+                that.callback.call({
+                    name: name,
+                    body: body,
+                    bodyId: that.bodyId
+                });
+            }
+            else {
+                that.callback.call({
+                    name: name,
+                    body: body
+                });
+            }
 
 
             /* 閉じる
@@ -115,6 +120,33 @@ ButtonWindow.prototype = {
         var height = window.innerHeight;
         this.elm.style.left = ((width-512)/2)+"px";
         this.elm.style.top = ((height-387)/2)+"px";
+
+        /* データロード
+        -------------------------------------------------------------------------------*/
+        if (_obj) {
+
+
+            /* 表示変更
+            -------------------------------------------------------------------------------*/
+            Sizzle("#gpeb-settings-button-window-content-save")[0].value = "更新";
+            Sizzle("#gpeb-settings-button-window-title")[0].innerHTML = "カスタムボタンの編集";
+
+            /* データ設定
+            -------------------------------------------------------------------------------*/
+            Sizzle("#gpeb-settings-button-window-content-name")[0].value = _obj.name;
+            Sizzle("#gpeb-settings-button-window-content-body")[0].value = _obj.body;
+            Sizzle("#gpeb-settings-button-window-content-name")[0].setAttribute("data-body-id", String(_obj.bodyId));
+
+            /* データ保持
+            -------------------------------------------------------------------------------*/
+            this.bodyId = _obj.bodyId;
+
+            /* 編集フラグ
+            -------------------------------------------------------------------------------*/
+            this.isEdit = 1;
+
+        }
+
 
     },
 

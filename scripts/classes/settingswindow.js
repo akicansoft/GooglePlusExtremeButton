@@ -702,6 +702,71 @@ SettingsWindow.prototype = {
                                     item.parentNode.removeChild(item);
                                 }
                                 break;
+
+                            /* アイテムの編集
+                            -------------------------------------------------------------------------------*/
+                            case "edit":
+
+                                /* データの取得
+                                -------------------------------------------------------------------------------*/
+                                var customButtons = that.settings.get("custombtn").custombtn || [];
+                                var name = "";
+                                for (var i = 0; i < customButtons.length; i++) {
+                                    if (customButtons[i][1] == bodyId) {
+                                        name = customButtons[i][0];
+                                        break;
+                                    }
+                                };
+                                var customButtonData = new Models("gpebCustomButtonData");
+                                var body = customButtonData.get(bodyId).body || "";
+
+                                /* 編集ウィンドウを開く
+                                -------------------------------------------------------------------------------*/
+                                var bw = new ButtonWindow();
+                                bw.open({name: name, body: body, bodyId: bodyId}, function () {
+
+                                    var bodyId = this.bodyId;
+                                    var name = this.name;
+                                    var body = this.body;
+
+                                    /* 本文データの更新
+                                    -------------------------------------------------------------------------------*/
+                                    var customButtonData = new Models("gpebCustomButtonData");
+                                    customButtonData.set(bodyId, {
+                                        body: body
+                                    });
+                                    customButtonData.save();
+                                    delete customButtonData;
+
+                                    /* リストデータの更新
+                                    -------------------------------------------------------------------------------*/
+                                    var customButtons = that.settings.get("custombtn").custombtn || [];
+                                    for (var i = 0; i < customButtons.length; i++) {
+                                        if (customButtons[i][1] == bodyId) {
+                                            customButtons[i][0] = name;
+                                            break;
+                                        }
+                                    };
+                                    that.settings.set("custombtn", customButtons);
+                                    that.settings.save();
+
+
+                                    /* 要素の表示更新
+                                    -------------------------------------------------------------------------------*/
+                                    var itemName = Sizzle("div.name", item)[0];
+                                    var itemBody = Sizzle("div.desc", item)[0];
+
+                                    itemName.innerText = name.substr(0, 10);
+                                    if (itemName.innerText.length >= 10) {
+                                        itemName.innerText += "...";
+                                    }
+                                    itemBody.innerText = body.replace(/\n/g, " ").substr(0, 32);
+                                    if (itemBody.innerText.length >= 32) {
+                                        itemBody.innerText += "...";
+                                    }
+                                });
+                                break;
+
                         }
                     }
                 }, true);
