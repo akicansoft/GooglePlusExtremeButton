@@ -538,7 +538,7 @@ SettingsWindow.prototype = {
                         '<div class="link"><a name="remove" href="javascript:;">削除</a></div>',
                         '<div class="link"><a name="edit" href="javascript:;">編集</a></div>',
                         '<div class="link down"><a name="down" href="javascript:;">▼</a></div>',
-                        '<div class="link"><a name="top" href="javascript:;">▲</a></div>',
+                        '<div class="link"><a name="up" href="javascript:;">▲</a></div>',
                         '<div class="clear"></div>',
                     '</div>'
                 ].join(""));
@@ -765,6 +765,76 @@ SettingsWindow.prototype = {
                                         itemBody.innerText += "...";
                                     }
                                 });
+                                break;
+
+                            /* 上へ移動
+                            -------------------------------------------------------------------------------*/
+                            case "up":
+
+                                /* これ以上上へはいけないようにする
+                                -------------------------------------------------------------------------------*/
+                                if (!item.previousSibling) {
+                                    return;
+                                }
+
+                                /* データの書き換え
+                                -------------------------------------------------------------------------------*/
+                                var customButtons = that.settings.get("custombtn").custombtn || [];
+                                var newCustomButtons = [];
+                                var index = 0;
+                                var targetCustomButton = undefined;
+                                for (var i = 0; i < customButtons.length; i++) {
+                                    if (customButtons[i][1] !== bodyId) {
+                                        newCustomButtons.push(customButtons[i]);
+                                    }
+                                    else {
+                                        targetCustomButton = customButtons[i];
+                                        index = i;
+                                    }
+                                }
+                                newCustomButtons.splice(index-1, 0, targetCustomButton);
+                                that.settings.set("custombtn", {
+                                    custombtn: newCustomButtons
+                                });
+                                that.settings.save();
+
+                                /* 上へ移動
+                                -------------------------------------------------------------------------------*/
+                                item.parentNode.insertBefore(item, item.previousSibling);
+                                break;
+
+                            case "down":
+
+                                /* これ以上下へはいけないようにする
+                                -------------------------------------------------------------------------------*/
+                                if (!item.nextSibling) {
+                                    return;
+                                }
+
+                                /* データの書き換え
+                                -------------------------------------------------------------------------------*/
+                                var customButtons = that.settings.get("custombtn").custombtn || [];
+                                var newCustomButtons = [];
+                                var index = 0;
+                                var targetCustomButton = undefined;
+                                for (var i = 0; i < customButtons.length; i++) {
+                                    if (customButtons[i][1] !== bodyId) {
+                                        newCustomButtons.push(customButtons[i]);
+                                    }
+                                    else {
+                                        targetCustomButton = customButtons[i];
+                                        index = i;
+                                    }
+                                }
+                                newCustomButtons.splice(index+1, 0, targetCustomButton);
+                                that.settings.set("custombtn", {
+                                    custombtn: newCustomButtons
+                                });
+                                that.settings.save();
+
+                                /* 上へ移動
+                                -------------------------------------------------------------------------------*/
+                                item.parentNode.insertBefore(item, item.nextSibling.nextSibling);
                                 break;
 
                         }
