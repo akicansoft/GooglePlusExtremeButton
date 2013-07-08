@@ -142,6 +142,11 @@ function ajaxLoad(_path, _func) {
 
 }
 
+/* エスケープ
+-------------------------------------------------------------------------------*/
+function tagEscape(_text) {
+    return _text.replace(/</g,"&lt;").replace(/>/g,"&gt;");;;
+}
 
 /*! Sizzle v1.9.4-pre | (c) 2013 jQuery Foundation, Inc. | jquery.org/license
 //@ sourceMappingURL=sizzle.min.map
@@ -894,7 +899,7 @@ Menu.prototype = {
         this.items.push(_obj);
         var div = document.createElement("div");
         div.setAttribute("class", "gpeb item line");
-        if (chrome.extension && "getURL" in chrome.extension) {
+        if (_obj.img && chrome.extension && "getURL" in chrome.extension) {
             var url = chrome.extension.getURL(_obj.img);
         }
         else {
@@ -907,11 +912,18 @@ Menu.prototype = {
             div.setAttribute("class", "gpeb item line image");
         }
 
-        // div.innerHTML = '<div class="icon"><img class="gpeb" src="'+url+'" /></div><div class="name"><a href="javascript:;" data-gpeb-event="'+_obj.event+'">'+_obj.name+'</a></div><div class="clearboth"></div>';
-        div.innerHTML = '<div class="icon"><img class="gpeb" src="'+url+'" data-gpeb-event="'+_obj.event+'" /></div></div>';
-        setData(div, "gpeb-event", _obj.event);
-        this.content.appendChild(div);
-        this.clear.parentNode.appendChild(this.clear);
+        if (_obj.mode == "link") {
+            div.innerHTML = '<div class="icon"><a class="gpeb link" href="javascript:;" data-gpeb-body-id="'+_obj.bodyId+'" data-gpeb-event="'+_obj.event+'">'+tagEscape(_obj.name)+'</a></div>';
+            setData(div, "gpeb-event", _obj.event);
+            this.content.appendChild(div);
+            this.clear.parentNode.appendChild(this.clear);
+        }
+        else {
+            div.innerHTML = '<div class="icon"><img class="gpeb" src="'+url+'" data-gpeb-event="'+_obj.event+'" /></div>';
+            setData(div, "gpeb-event", _obj.event);
+            this.content.appendChild(div);
+            this.clear.parentNode.appendChild(this.clear);
+        }
 
 
     },
@@ -2721,7 +2733,7 @@ SettingsWindow.prototype = {
                                     var newCustomButtons = [];
                                     customButtons.forEach(function (i) {
                                         if (i[1] != bodyId) {
-                                            console.log("i", i);
+                                            // console.log("i", i);
                                             newCustomButtons.push(i);
                                         }
                                     });
@@ -3045,14 +3057,15 @@ var commonCss = [
     "#gpeb-settings-button-window-content-save, #gpeb-settings-button-window-content-cancel{width:80px;}",
     "#gpeb-settings-button-window-content-cancel{margin-right:5px;}",
     "#gpeb-settings-window-content-custombtn-items div.item{height:17px;clear:both;line-height:16px;}",
-    "#gpeb-settings-window-content-custombtn-items div.item > div{float: left;overflow:hidden;}",
+    "#gpeb-settings-window-content-custombtn-items div.item > div{float: left;overflow:hidden;white-space: nowrap;}",
     "#gpeb-settings-window-content-custombtn-items div.item > div.desc{width: 197px;}",
     "#gpeb-settings-window-content-custombtn-items div.item > div.name{width: 100px;margin-right:15px;}",
     "#gpeb-settings-window-content-custombtn-items div.item > div.link{float: right;margin-left: 10px;}",
     "#gpeb-settings-window-content-custombtn-items div.item > div.link.down > a{vertical-align: -1px;}",
     "#gpeb-settings-window-content-custombtn-items div.item > div.link.down{margin-left:5px;}",
     "#gpeb-settings-window-content-custombtn-items div.item > div.clear{clear:both;}",
-    "#gpeb-settings-window-content-custombtn-items div.item:hover { background-color: rgb(207, 232, 255);cursor:pointer; }"
+    "#gpeb-settings-window-content-custombtn-items div.item:hover { background-color: rgb(207, 232, 255);cursor:pointer; }",
+    "#gpeb-context-menu-content div.item>div.icon>a.link{vertical-align:-1px;}"
 ].join("");
 
 
@@ -3391,6 +3404,22 @@ var buttonClickEvents = {
         sw.open();
     },
 
+    /* カスタマイズボタン
+    -------------------------------------------------------------------------------*/
+    customButton: function (_event, _post) {
+
+        /* bodyid取得
+        -------------------------------------------------------------------------------*/
+        var bodyId = Number(_event.target.getAttribute("data-gpeb-body-id"));
+
+        /* 本文取得
+        -------------------------------------------------------------------------------*/
+        var customButtonData = new Models("gpebCustomButtonData");
+        var body = customButtonData.get(bodyId).body;
+        delete customButtonData;
+        var ap =  new AutoPost(_post);
+        ap.autoPost(body);
+    },
     /* どこいな
     -------------------------------------------------------------------------------*/
     sendDokoina: function (_event, _post) {
@@ -3839,6 +3868,9 @@ window.onload = function () {
     -------------------------------------------------------------------------------*/
     var showButtons = settings.get("button").showButtons;
     menuItems.each(function () {
+
+        /* 表示設定が行われているボタンのみ表示する
+        -------------------------------------------------------------------------------*/
         if (showButtons[this.key]) {
             menu.addItem(this);
         }
@@ -3846,14 +3878,26 @@ window.onload = function () {
 
     /* 設定ボタンの追加
     -------------------------------------------------------------------------------*/
-    if (1) {
+    menu.addItem({
+        name: "設定",
+        event: "openSettings",
+        img: "buttons/settings.png",
+        type: "default"
+    });
+
+    /* メニューにリンク形式のアイテムを追加
+    -------------------------------------------------------------------------------*/
+    var customButton = settings.get("custombtn").custombtn;
+    customButton.forEach(function (_btn) {
         menu.addItem({
-            name: "設定",
-            event: "openSettings",
-            img: "buttons/settings.png",
-            type: "default"
+            name: _btn[0],
+            event: "customButton",
+            type: "default",
+            mode: "link",
+            bodyId: _btn[1]
         });
-    }
+    });
+
 
     /* 監視の開始
     -------------------------------------------------------------------------------*/

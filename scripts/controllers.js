@@ -134,6 +134,22 @@ var buttonClickEvents = {
         sw.open();
     },
 
+    /* カスタマイズボタン
+    -------------------------------------------------------------------------------*/
+    customButton: function (_event, _post) {
+
+        /* bodyid取得
+        -------------------------------------------------------------------------------*/
+        var bodyId = Number(_event.target.getAttribute("data-gpeb-body-id"));
+
+        /* 本文取得
+        -------------------------------------------------------------------------------*/
+        var customButtonData = new Models("gpebCustomButtonData");
+        var body = customButtonData.get(bodyId).body;
+        delete customButtonData;
+        var ap =  new AutoPost(_post);
+        ap.autoPost(body);
+    },
     /* どこいな
     -------------------------------------------------------------------------------*/
     sendDokoina: function (_event, _post) {

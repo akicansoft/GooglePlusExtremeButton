@@ -142,3 +142,8 @@ function ajaxLoad(_path, _func) {
 
 }
 
+/* エスケープ
+-------------------------------------------------------------------------------*/
+function tagEscape(_text) {
+    return _text.replace(/</g,"&lt;").replace(/>/g,"&gt;");;;
+}

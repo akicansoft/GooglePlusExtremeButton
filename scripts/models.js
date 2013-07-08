@@ -130,14 +130,15 @@ var commonCss = [
     "#gpeb-settings-button-window-content-save, #gpeb-settings-button-window-content-cancel{width:80px;}",
     "#gpeb-settings-button-window-content-cancel{margin-right:5px;}",
     "#gpeb-settings-window-content-custombtn-items div.item{height:17px;clear:both;line-height:16px;}",
-    "#gpeb-settings-window-content-custombtn-items div.item > div{float: left;overflow:hidden;}",
+    "#gpeb-settings-window-content-custombtn-items div.item > div{float: left;overflow:hidden;white-space: nowrap;}",
     "#gpeb-settings-window-content-custombtn-items div.item > div.desc{width: 197px;}",
     "#gpeb-settings-window-content-custombtn-items div.item > div.name{width: 100px;margin-right:15px;}",
     "#gpeb-settings-window-content-custombtn-items div.item > div.link{float: right;margin-left: 10px;}",
     "#gpeb-settings-window-content-custombtn-items div.item > div.link.down > a{vertical-align: -1px;}",
     "#gpeb-settings-window-content-custombtn-items div.item > div.link.down{margin-left:5px;}",
     "#gpeb-settings-window-content-custombtn-items div.item > div.clear{clear:both;}",
-    "#gpeb-settings-window-content-custombtn-items div.item:hover { background-color: rgb(207, 232, 255);cursor:pointer; }"
+    "#gpeb-settings-window-content-custombtn-items div.item:hover { background-color: rgb(207, 232, 255);cursor:pointer; }",
+    "#gpeb-context-menu-content div.item>div.icon>a.link{vertical-align:-1px;}"
 ].join("");
 
 

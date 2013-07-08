@@ -60,6 +60,9 @@ window.onload = function () {
     -------------------------------------------------------------------------------*/
     var showButtons = settings.get("button").showButtons;
     menuItems.each(function () {
+
+        /* 表示設定が行われているボタンのみ表示する
+        -------------------------------------------------------------------------------*/
         if (showButtons[this.key]) {
             menu.addItem(this);
         }
@@ -67,14 +70,26 @@ window.onload = function () {
 
     /* 設定ボタンの追加
     -------------------------------------------------------------------------------*/
-    if (1) {
+    menu.addItem({
+        name: "設定",
+        event: "openSettings",
+        img: "buttons/settings.png",
+        type: "default"
+    });
+
+    /* メニューにリンク形式のアイテムを追加
+    -------------------------------------------------------------------------------*/
+    var customButton = settings.get("custombtn").custombtn;
+    customButton.forEach(function (_btn) {
         menu.addItem({
-            name: "設定",
-            event: "openSettings",
-            img: "buttons/settings.png",
-            type: "default"
+            name: _btn[0],
+            event: "customButton",
+            type: "default",
+            mode: "link",
+            bodyId: _btn[1]
         });
-    }
+    });
+
 
     /* 監視の開始
     -------------------------------------------------------------------------------*/

@@ -687,7 +687,7 @@ SettingsWindow.prototype = {
                                     var newCustomButtons = [];
                                     customButtons.forEach(function (i) {
                                         if (i[1] != bodyId) {
-                                            console.log("i", i);
+                                            // console.log("i", i);
                                             newCustomButtons.push(i);
                                         }
                                     });

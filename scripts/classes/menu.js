@@ -49,7 +49,7 @@ Menu.prototype = {
         this.items.push(_obj);
         var div = document.createElement("div");
         div.setAttribute("class", "gpeb item line");
-        if (chrome.extension && "getURL" in chrome.extension) {
+        if (_obj.img && chrome.extension && "getURL" in chrome.extension) {
             var url = chrome.extension.getURL(_obj.img);
         }
         else {
@@ -62,11 +62,18 @@ Menu.prototype = {
             div.setAttribute("class", "gpeb item line image");
         }
 
-        // div.innerHTML = '<div class="icon"><img class="gpeb" src="'+url+'" /></div><div class="name"><a href="javascript:;" data-gpeb-event="'+_obj.event+'">'+_obj.name+'</a></div><div class="clearboth"></div>';
-        div.innerHTML = '<div class="icon"><img class="gpeb" src="'+url+'" data-gpeb-event="'+_obj.event+'" /></div></div>';
-        setData(div, "gpeb-event", _obj.event);
-        this.content.appendChild(div);
-        this.clear.parentNode.appendChild(this.clear);
+        if (_obj.mode == "link") {
+            div.innerHTML = '<div class="icon"><a class="gpeb link" href="javascript:;" data-gpeb-body-id="'+_obj.bodyId+'" data-gpeb-event="'+_obj.event+'">'+tagEscape(_obj.name)+'</a></div>';
+            setData(div, "gpeb-event", _obj.event);
+            this.content.appendChild(div);
+            this.clear.parentNode.appendChild(this.clear);
+        }
+        else {
+            div.innerHTML = '<div class="icon"><img class="gpeb" src="'+url+'" data-gpeb-event="'+_obj.event+'" /></div>';
+            setData(div, "gpeb-event", _obj.event);
+            this.content.appendChild(div);
+            this.clear.parentNode.appendChild(this.clear);
+        }
 
 
     },
