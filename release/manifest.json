@@ -20,10 +20,12 @@
         "https://plus.google.com/events/*",
         "https://plus.google.com?hl=ja",
         "https://plus.google.com/?hl=ja",
-        "https://plus.google.com/?utm_source=*"
+        "https://plus.google.com/?utm_source=*",
+        "https://plus.google.com/u/*/stream/circles/*",
+        "https://plus.google.com/stream/circles/*"
       ],
       "js": [
-        "scripts/gpeb.min.js"
+        "scripts/gpeb.js"
       ],
       "matches": [
         "http://plus.google.com/*",
@@ -48,33 +50,11 @@
   "manifest_version": 2,
   "name": "Google+ Extreme Button",
   "update_url": "http://clients2.google.com/service/update2/crx",
-  "version": "3.0.2",
+  "version": "3.2",
   "web_accessible_resources": [
-    "buttons/Aisatsu.png",
-    "buttons/CircleCount.png",
-    "buttons/Delicious.png",
-    "buttons/Dokoina.png",
-    "buttons/Evernote.png",
-    "buttons/Facebook.png",
-    "buttons/Facebook.png",
-    "buttons/FullSizeImgDown.png",
-    "buttons/FullSizeImgOpen.png",
-    "buttons/fuu.png",
-    "buttons/gununu.png",
-    "buttons/Hatena.png",
-    "buttons/icon.png",
-    "buttons/mute.png",
-    "buttons/oh.png",
-    "buttons/Pinterest.png",
-    "buttons/RIL1.png",
-    "buttons/RIL2.png",
-    "buttons/Ripples.png",
-    "buttons/rtm.png",
-    "buttons/Tumblr.png",
-    "buttons/Twitter.png",
-    "buttons/mini.png",
-    "buttons/white.png",
-    "images/icon.png",
-    "buttons/settings.png"
+    "buttons/*",
+    "images/*",
+    "images/style/*",
+    "history.txt"
   ]
 }
