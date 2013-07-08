@@ -527,11 +527,67 @@ SettingsWindow.prototype = {
 
                 /* カスタムボタンリスト
                 -------------------------------------------------------------------------------*/
-                var elm = Sizzle("#gpeb-settings-window-content-custombtn-items")[0];
+                var listElm = Sizzle("#gpeb-settings-window-content-custombtn-items")[0];
+
+                /* テンプレート
+                -------------------------------------------------------------------------------*/
+                var itemTemp = domParseFromString([
+                    '<div class="item">',
+                        '<div class="name"></div>',
+                        '<div class="desc"></div>',
+                        '<div class="link"><a name="remove" href="javascript:;">削除</a></div>',
+                        '<div class="link"><a name="edit" href="javascript:;">編集</a></div>',
+                        '<div class="link down"><a name="down" href="javascript:;">▼</a></div>',
+                        '<div class="link"><a name="top" href="javascript:;">▲</a></div>',
+                        '<div class="clear"></div>',
+                    '</div>'
+                ].join(""));
+
+                /* アイテムテンプレートの変数
+                -------------------------------------------------------------------------------*/
+                var itemTempName = Sizzle("div.name", itemTemp)[0];
+                var itemTempDesc = Sizzle("div.desc", itemTemp)[0];
 
                 /* カスタムボタンを読み込む
                 -------------------------------------------------------------------------------*/
-                var cButtons = that.settings.get("custombtn").custombtn | [];
+                var customButtonData = new Models("gpebCustomButtonData");
+                var customButtons = that.settings.get("custombtn").custombtn || [];
+
+                /* リスト描画
+                -------------------------------------------------------------------------------*/
+                for (var i = 0; i < customButtons.length; i++) {
+
+                    var name = customButtons[i][0];
+                    var bodyId = customButtons[i][1];
+
+                    /* 描画開始
+                    -------------------------------------------------------------------------------*/
+                    itemTempName.innerText = name.substr(0, 10);
+                    if (itemTempName.innerText.length >= 10) {
+                        itemTempName.innerText += "...";
+                    }
+                    itemTempDesc.innerText = customButtonData.get(bodyId).body.replace(/\n/g, " ").substr(0, 32);
+                    if (itemTempDesc.innerText.length >= 32) {
+                        itemTempDesc.innerText += "...";
+                    }
+                    itemTempName.setAttribute("data-body-id", String(bodyId));
+
+                    /* クローン生成
+                    -------------------------------------------------------------------------------*/
+                    var item = itemTemp.cloneNode(true);
+
+                    /* クローンをリストに追加
+                    -------------------------------------------------------------------------------*/
+                    listElm.appendChild(item);
+
+                };
+
+                /* 開放
+                -------------------------------------------------------------------------------*/
+                delete customButtons;
+                delete customButtonData;
+
+                
 
                 /* ボタンの新規作成ボタンのイベント登録
                 -------------------------------------------------------------------------------*/
@@ -541,10 +597,114 @@ SettingsWindow.prototype = {
                     -------------------------------------------------------------------------------*/
                     var bw = new ButtonWindow();
                     bw.open(null, function () {
-                        alert("ボタンが作成されました");
-                    });
 
+                        /* ボタンカウントの取得
+                        -------------------------------------------------------------------------------*/
+                        var bodyId = that.settings.get("custombtn").count+1;
+
+                        /* カスタムボタンの登録
+                        -------------------------------------------------------------------------------*/
+                        var customButtons = that.settings.get("custombtn").custombtn || [];
+                        customButtons.unshift([
+                            this.name,
+                            bodyId
+                        ]);
+                        that.settings.set("custombtn", {
+                            custombtn: customButtons,
+                            count: bodyId
+                        });
+                        that.settings.save();
+
+                        /* 投稿内容が格納されるモデルに投稿内容を登録 (メモリ節約のために登録しおわったら破棄されます)
+                        -------------------------------------------------------------------------------*/
+                        var customButtonData = new Models("gpebCustomButtonData");
+                        customButtonData.set(bodyId, {
+                            body: this.body
+                        });
+                        customButtonData.save();
+                        delete customButtonData;
+
+                        /* ボタンが作成された
+                        -------------------------------------------------------------------------------*/
+                        itemTempName.innerText = this.name.substr(0, 10);
+                        if (itemTempName.innerText.length >= 10) {
+                            itemTempName.innerText += "...";
+                        }
+                        itemTempDesc.innerText = this.body.replace(/\n/g, " ").substr(0, 32);
+                        if (itemTempDesc.innerText.length >= 32) {
+                            itemTempDesc.innerText += "...";
+                        }
+                        itemTempName.setAttribute("data-body-id", String(bodyId));
+
+                        /* クローン生成
+                        -------------------------------------------------------------------------------*/
+                        var item = itemTemp.cloneNode(true);
+
+                        /* クローンをリストに追加
+                        -------------------------------------------------------------------------------*/
+                        listElm.insertBefore(item, listElm.firstChild);
+                        
+                    });
                 }, false);
+
+                /* リスト全体のイベントを処理
+                -------------------------------------------------------------------------------*/
+                listElm.addEventListener ("click", function (_event) {
+
+                    /* リンクタグ
+                    -------------------------------------------------------------------------------*/
+                    if (_event.target.tagName == "A") {
+
+                        /* アイテムの取得
+                        -------------------------------------------------------------------------------*/
+                        var item = _event.target.parentNode.parentNode;
+
+                        /* bodyIdの取得
+                        -------------------------------------------------------------------------------*/
+                        var bodyId = Number(Sizzle("div.name", item)[0].getAttribute("data-body-id"));
+
+                        /* モードの取得
+                        -------------------------------------------------------------------------------*/
+                        var mode = _event.target.getAttribute("name");
+
+                        switch(mode) {
+
+                            /* アイテムの削除
+                            -------------------------------------------------------------------------------*/
+                            case "remove":
+                                if (confirm("削除しますか？")) {
+
+                                    /* 本文データの削除
+                                    -------------------------------------------------------------------------------*/
+                                    var customButtonData = new Models("gpebCustomButtonData");
+                                    customButtonData.remove(bodyId);
+                                    customButtonData.save();
+                                    delete customButtonData;
+
+                                    /* リストデータの削除
+                                    -------------------------------------------------------------------------------*/
+                                    var customButtons = that.settings.get("custombtn").custombtn || [];
+                                    var newCustomButtons = [];
+                                    customButtons.forEach(function (i) {
+                                        if (i[1] != bodyId) {
+                                            console.log("i", i);
+                                            newCustomButtons.push(i);
+                                        }
+                                    });
+                                    that.settings.set("custombtn", {
+                                        custombtn: newCustomButtons
+                                    });
+                                    that.settings.save();
+                                    delete customButtons;
+
+                                    /* 要素の削除
+                                    -------------------------------------------------------------------------------*/
+                                    item.parentNode.removeChild(item);
+                                }
+                                break;
+                        }
+                    }
+                }, true);
 
 
             }

@@ -27,7 +27,8 @@ settings.default("button", "showButtons", {
 settings.default("other", "shiftenter", 1);
 settings.default("other", "autoreload", 1);
 settings.default("style", "active", "default");
-
+settings.default("custombtn", "custombtn", []);
+settings.default("custombtn", "count", 0);
 
 /* デフォルト設定
 -------------------------------------------------------------------------------*/
@@ -37,6 +38,8 @@ var defaultSettings = new Models([
             speed: 500
       }
 ]);
+
+
 
 /* CSSTheme
 -------------------------------------------------------------------------------*/
@@ -119,8 +122,22 @@ var commonCss = [
     "#gpeb-settings-button-window > div.title{margin-left: 10px;margin-top: 12px;width: 453px;}",
     "#gpeb-settings-button-window-content{margin-left: 11px;margin-top: 10px;}",
     "#gpeb-settings-button-window-content div.item div.text{font-weight:bold;}",
-    "#gpeb-settings-button-window-content div.item div.input{margin-bottom:15px;}",
-    "#gpeb-settings-button-window-content-body{margin:0px;width: 480px;height: 225px;}"
+    "#gpeb-settings-button-window-content div.item.name{margin-bottom:15px;}",
+    "#gpeb-settings-button-window-content-name{width:300px;}",
+    "#gpeb-settings-button-window-content-body{margin:0px;width: 480px;height: 225px;}",
+    "#gpeb-settings-button-window-content div.buttons{text-align: right;margin-right: 13px;}",
+    "#gpeb-settings-button-window-content div.buttons > input{cursor:pointer;}",
+    "#gpeb-settings-button-window-content-save, #gpeb-settings-button-window-content-cancel{width:80px;}",
+    "#gpeb-settings-button-window-content-cancel{margin-right:5px;}",
+    "#gpeb-settings-window-content-custombtn-items div.item{height:17px;clear:both;line-height:16px;}",
+    "#gpeb-settings-window-content-custombtn-items div.item > div{float: left;overflow:hidden;}",
+    "#gpeb-settings-window-content-custombtn-items div.item > div.desc{width: 197px;}",
+    "#gpeb-settings-window-content-custombtn-items div.item > div.name{width: 100px;margin-right:15px;}",
+    "#gpeb-settings-window-content-custombtn-items div.item > div.link{float: right;margin-left: 10px;}",
+    "#gpeb-settings-window-content-custombtn-items div.item > div.link.down > a{vertical-align: -1px;}",
+    "#gpeb-settings-window-content-custombtn-items div.item > div.link.down{margin-left:5px;}",
+    "#gpeb-settings-window-content-custombtn-items div.item > div.clear{clear:both;}",
+    "#gpeb-settings-window-content-custombtn-items div.item:hover { background-color: rgb(207, 232, 255);cursor:pointer; }"
 ].join("");
 
 

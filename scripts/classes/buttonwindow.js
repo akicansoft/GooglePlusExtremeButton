@@ -20,17 +20,17 @@ ButtonWindow.prototype = {
         this.elm.innerHTML = [
             '<div class="title">カスタムボタン</div>',
             '<div id="gpeb-settings-button-window-content">',
-                '<div class="item">',
-                    '<div class="text">表示される名前(リンクとしてボタン一覧に表示されます)</div>',
+                '<div class="item name">',
+                    '<div class="text">ボタン名 (リンクとしてボタン一覧に表示されます)</div>',
                     '<div class="input"><input id="gpeb-settings-button-window-content-name" type="text" name="name" value="" /></div>',
                 '</div>',
-                '<div class="item">',
-                    '<div class="text">表示される名前(リンクとしてボタン一覧に表示されます)</div>',
+                '<div class="item textarea">',
+                    '<div class="text">投稿内容</div>',
                     '<div class="input"><textarea id="gpeb-settings-button-window-content-body" name="body"></textarea></div>',
                 '</div>',
                 '<div class="buttons">',
-                    '<input id="gpeb-settings-button-window-content-save" type="button" value="登録" />',
                     '<input id="gpeb-settings-button-window-content-cancel" type="button" value="キャンセル" />',
+                    '<input id="gpeb-settings-button-window-content-save" type="button" value="登録" />',
                 '</div>',
             '</div>',
             '<div id="gpeb-settings-button-window-close-button">×</div>'
@@ -42,8 +42,54 @@ ButtonWindow.prototype = {
         /* 閉じるボタンイベント
         -------------------------------------------------------------------------------*/
         Sizzle("#gpeb-settings-button-window-close-button")[0].addEventListener ("click", function () {
-            that.close();
+            if (confirm("閉じてもよろしいですか？")) {
+                that.close();
+            }
         }, false);
+
+        /* キャンセルイベント
+        -------------------------------------------------------------------------------*/
+        Sizzle("#gpeb-settings-button-window-content-cancel")[0].addEventListener ("click", function () {
+            if (confirm("閉じてもよろしいですか？")) {
+                that.close();
+            }
+        }, false);
+
+        /* 登録イベント
+        -------------------------------------------------------------------------------*/
+        Sizzle("#gpeb-settings-button-window-content-save")[0].addEventListener ("click", function () {
+
+            /* データ取得
+            -------------------------------------------------------------------------------*/
+            var name = Sizzle("#gpeb-settings-button-window-content-name")[0].value;
+            var body = Sizzle("#gpeb-settings-button-window-content-body")[0].value;
+
+            /* データチェック
+            -------------------------------------------------------------------------------*/
+            if (name === "" || body === "") {
+                alert("未入力の項目があります");
+                return;
+            }
+
+            /* 呼び出す
+            -------------------------------------------------------------------------------*/
+            that.callback.call({
+                name: name,
+                body: body
+            });
+
+
+            /* 閉じる
+            -------------------------------------------------------------------------------*/
+            that.close();
+
+
+        }, false);
+
+        /* フォーカス
+        -------------------------------------------------------------------------------*/
+        Sizzle("#gpeb-settings-button-window-content-name")[0].focus();
+
 
 
     },
@@ -51,6 +97,10 @@ ButtonWindow.prototype = {
     /* ボタンカスタマイズ画面を開く
     -------------------------------------------------------------------------------*/
     open: function (_obj, _callback) {
+
+        /* コールバック
+        -------------------------------------------------------------------------------*/
+        this.callback = _callback || function () {};
 
         /* 背景作成
         -------------------------------------------------------------------------------*/

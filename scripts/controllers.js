@@ -438,7 +438,8 @@ cont.on(window, "click", function (_event) {
 
     /* メニュー非表示
     -------------------------------------------------------------------------------*/
-    var isOpen = menu.checkOpen();
+
+    var isOpen = menu && menu.checkOpen();
     if (isOpen) {
         if (_event.target !== select.get("reloadButton")[0]) {
             var id = _event.target.id;

@@ -373,17 +373,17 @@ ButtonWindow.prototype = {
         this.elm.innerHTML = [
             '<div class="title">カスタムボタン</div>',
             '<div id="gpeb-settings-button-window-content">',
-                '<div class="item">',
-                    '<div class="text">表示される名前(リンクとしてボタン一覧に表示されます)</div>',
+                '<div class="item name">',
+                    '<div class="text">ボタン名 (リンクとしてボタン一覧に表示されます)</div>',
                     '<div class="input"><input id="gpeb-settings-button-window-content-name" type="text" name="name" value="" /></div>',
                 '</div>',
-                '<div class="item">',
-                    '<div class="text">表示される名前(リンクとしてボタン一覧に表示されます)</div>',
+                '<div class="item textarea">',
+                    '<div class="text">投稿内容</div>',
                     '<div class="input"><textarea id="gpeb-settings-button-window-content-body" name="body"></textarea></div>',
                 '</div>',
                 '<div class="buttons">',
-                    '<input id="gpeb-settings-button-window-content-save" type="button" value="登録" />',
                     '<input id="gpeb-settings-button-window-content-cancel" type="button" value="キャンセル" />',
+                    '<input id="gpeb-settings-button-window-content-save" type="button" value="登録" />',
                 '</div>',
             '</div>',
             '<div id="gpeb-settings-button-window-close-button">×</div>'
@@ -395,8 +395,54 @@ ButtonWindow.prototype = {
         /* 閉じるボタンイベント
         -------------------------------------------------------------------------------*/
         Sizzle("#gpeb-settings-button-window-close-button")[0].addEventListener ("click", function () {
-            that.close();
+            if (confirm("閉じてもよろしいですか？")) {
+                that.close();
+            }
         }, false);
+
+        /* キャンセルイベント
+        -------------------------------------------------------------------------------*/
+        Sizzle("#gpeb-settings-button-window-content-cancel")[0].addEventListener ("click", function () {
+            if (confirm("閉じてもよろしいですか？")) {
+                that.close();
+            }
+        }, false);
+
+        /* 登録イベント
+        -------------------------------------------------------------------------------*/
+        Sizzle("#gpeb-settings-button-window-content-save")[0].addEventListener ("click", function () {
+
+            /* データ取得
+            -------------------------------------------------------------------------------*/
+            var name = Sizzle("#gpeb-settings-button-window-content-name")[0].value;
+            var body = Sizzle("#gpeb-settings-button-window-content-body")[0].value;
+
+            /* データチェック
+            -------------------------------------------------------------------------------*/
+            if (name === "" || body === "") {
+                alert("未入力の項目があります");
+                return;
+            }
+
+            /* 呼び出す
+            -------------------------------------------------------------------------------*/
+            that.callback.call({
+                name: name,
+                body: body
+            });
+
+
+            /* 閉じる
+            -------------------------------------------------------------------------------*/
+            that.close();
+
+
+        }, false);
+
+        /* フォーカス
+        -------------------------------------------------------------------------------*/
+        Sizzle("#gpeb-settings-button-window-content-name")[0].focus();
+
 
 
     },
@@ -404,6 +450,10 @@ ButtonWindow.prototype = {
     /* ボタンカスタマイズ画面を開く
     -------------------------------------------------------------------------------*/
     open: function (_obj, _callback) {
+
+        /* コールバック
+        -------------------------------------------------------------------------------*/
+        this.callback = _callback || function () {};
 
         /* 背景作成
         -------------------------------------------------------------------------------*/
@@ -1430,11 +1480,17 @@ Models.prototype = {
 
         /* 配列から削除
         -------------------------------------------------------------------------------*/
-        this.models.splice(_model, 1);
+        var newModels = [];
+        for (var i = 0; i < this.models.length; i++) {
+            if (this.models[i] !== _model) {
+                newModels.push(this.models[i]);
+            }
+        };
+        this.models = newModels;
 
         /* モデルの削除
         -------------------------------------------------------------------------------*/
-        _model = undefined;
+        delete _model;
 
         /* モデルに変化があった場合コールバック関数を実行しイベントを削除
         -------------------------------------------------------------------------------*/
@@ -2473,11 +2529,67 @@ SettingsWindow.prototype = {
 
                 /* カスタムボタンリスト
                 -------------------------------------------------------------------------------*/
-                var elm = Sizzle("#gpeb-settings-window-content-custombtn-items")[0];
+                var listElm = Sizzle("#gpeb-settings-window-content-custombtn-items")[0];
+
+                /* テンプレート
+                -------------------------------------------------------------------------------*/
+                var itemTemp = domParseFromString([
+                    '<div class="item">',
+                        '<div class="name"></div>',
+                        '<div class="desc"></div>',
+                        '<div class="link"><a name="remove" href="javascript:;">削除</a></div>',
+                        '<div class="link"><a name="edit" href="javascript:;">編集</a></div>',
+                        '<div class="link down"><a name="down" href="javascript:;">▼</a></div>',
+                        '<div class="link"><a name="top" href="javascript:;">▲</a></div>',
+                        '<div class="clear"></div>',
+                    '</div>'
+                ].join(""));
+
+                /* アイテムテンプレートの変数
+                -------------------------------------------------------------------------------*/
+                var itemTempName = Sizzle("div.name", itemTemp)[0];
+                var itemTempDesc = Sizzle("div.desc", itemTemp)[0];
 
                 /* カスタムボタンを読み込む
                 -------------------------------------------------------------------------------*/
-                var cButtons = that.settings.get("custombtn").custombtn | [];
+                var customButtonData = new Models("gpebCustomButtonData");
+                var customButtons = that.settings.get("custombtn").custombtn || [];
+
+                /* リスト描画
+                -------------------------------------------------------------------------------*/
+                for (var i = 0; i < customButtons.length; i++) {
+
+                    var name = customButtons[i][0];
+                    var bodyId = customButtons[i][1];
+
+                    /* 描画開始
+                    -------------------------------------------------------------------------------*/
+                    itemTempName.innerText = name.substr(0, 10);
+                    if (itemTempName.innerText.length >= 10) {
+                        itemTempName.innerText += "...";
+                    }
+                    itemTempDesc.innerText = customButtonData.get(bodyId).body.replace(/\n/g, " ").substr(0, 32);
+                    if (itemTempDesc.innerText.length >= 32) {
+                        itemTempDesc.innerText += "...";
+                    }
+                    itemTempName.setAttribute("data-body-id", String(bodyId));
+
+                    /* クローン生成
+                    -------------------------------------------------------------------------------*/
+                    var item = itemTemp.cloneNode(true);
+
+                    /* クローンをリストに追加
+                    -------------------------------------------------------------------------------*/
+                    listElm.appendChild(item);
+
+                };
+
+                /* 開放
+                -------------------------------------------------------------------------------*/
+                delete customButtons;
+                delete customButtonData;
+
+                
 
                 /* ボタンの新規作成ボタンのイベント登録
                 -------------------------------------------------------------------------------*/
@@ -2487,10 +2599,114 @@ SettingsWindow.prototype = {
                     -------------------------------------------------------------------------------*/
                     var bw = new ButtonWindow();
                     bw.open(null, function () {
-                        alert("ボタンが作成されました");
-                    });
 
+                        /* ボタンカウントの取得
+                        -------------------------------------------------------------------------------*/
+                        var bodyId = that.settings.get("custombtn").count+1;
+
+                        /* カスタムボタンの登録
+                        -------------------------------------------------------------------------------*/
+                        var customButtons = that.settings.get("custombtn").custombtn || [];
+                        customButtons.unshift([
+                            this.name,
+                            bodyId
+                        ]);
+                        that.settings.set("custombtn", {
+                            custombtn: customButtons,
+                            count: bodyId
+                        });
+                        that.settings.save();
+
+                        /* 投稿内容が格納されるモデルに投稿内容を登録 (メモリ節約のために登録しおわったら破棄されます)
+                        -------------------------------------------------------------------------------*/
+                        var customButtonData = new Models("gpebCustomButtonData");
+                        customButtonData.set(bodyId, {
+                            body: this.body
+                        });
+                        customButtonData.save();
+                        delete customButtonData;
+
+                        /* ボタンが作成された
+                        -------------------------------------------------------------------------------*/
+                        itemTempName.innerText = this.name.substr(0, 10);
+                        if (itemTempName.innerText.length >= 10) {
+                            itemTempName.innerText += "...";
+                        }
+                        itemTempDesc.innerText = this.body.replace(/\n/g, " ").substr(0, 32);
+                        if (itemTempDesc.innerText.length >= 32) {
+                            itemTempDesc.innerText += "...";
+                        }
+                        itemTempName.setAttribute("data-body-id", String(bodyId));
+
+                        /* クローン生成
+                        -------------------------------------------------------------------------------*/
+                        var item = itemTemp.cloneNode(true);
+
+                        /* クローンをリストに追加
+                        -------------------------------------------------------------------------------*/
+                        listElm.insertBefore(item, listElm.firstChild);
+                        
+                    });
                 }, false);
+
+                /* リスト全体のイベントを処理
+                -------------------------------------------------------------------------------*/
+                listElm.addEventListener ("click", function (_event) {
+
+                    /* リンクタグ
+                    -------------------------------------------------------------------------------*/
+                    if (_event.target.tagName == "A") {
+
+                        /* アイテムの取得
+                        -------------------------------------------------------------------------------*/
+                        var item = _event.target.parentNode.parentNode;
+
+                        /* bodyIdの取得
+                        -------------------------------------------------------------------------------*/
+                        var bodyId = Number(Sizzle("div.name", item)[0].getAttribute("data-body-id"));
+
+                        /* モードの取得
+                        -------------------------------------------------------------------------------*/
+                        var mode = _event.target.getAttribute("name");
+
+                        switch(mode) {
+
+                            /* アイテムの削除
+                            -------------------------------------------------------------------------------*/
+                            case "remove":
+                                if (confirm("削除しますか？")) {
+
+                                    /* 本文データの削除
+                                    -------------------------------------------------------------------------------*/
+                                    var customButtonData = new Models("gpebCustomButtonData");
+                                    customButtonData.remove(bodyId);
+                                    customButtonData.save();
+                                    delete customButtonData;
+
+                                    /* リストデータの削除
+                                    -------------------------------------------------------------------------------*/
+                                    var customButtons = that.settings.get("custombtn").custombtn || [];
+                                    var newCustomButtons = [];
+                                    customButtons.forEach(function (i) {
+                                        if (i[1] != bodyId) {
+                                            console.log("i", i);
+                                            newCustomButtons.push(i);
+                                        }
+                                    });
+                                    that.settings.set("custombtn", {
+                                        custombtn: newCustomButtons
+                                    });
+                                    that.settings.save();
+                                    delete customButtons;
+
+                                    /* 要素の削除
+                                    -------------------------------------------------------------------------------*/
+                                    item.parentNode.removeChild(item);
+                                }
+                                break;
+                        }
+                    }
+                }, true);
 
 
             }
@@ -2559,7 +2775,8 @@ settings.default("button", "showButtons", {
 settings.default("other", "shiftenter", 1);
 settings.default("other", "autoreload", 1);
 settings.default("style", "active", "default");
-
+settings.default("custombtn", "custombtn", []);
+settings.default("custombtn", "count", 0);
 
 /* デフォルト設定
 -------------------------------------------------------------------------------*/
@@ -2569,6 +2786,8 @@ var defaultSettings = new Models([
             speed: 500
       }
 ]);
+
+
 
 /* CSSTheme
 -------------------------------------------------------------------------------*/
@@ -2651,8 +2870,22 @@ var commonCss = [
     "#gpeb-settings-button-window > div.title{margin-left: 10px;margin-top: 12px;width: 453px;}",
     "#gpeb-settings-button-window-content{margin-left: 11px;margin-top: 10px;}",
     "#gpeb-settings-button-window-content div.item div.text{font-weight:bold;}",
-    "#gpeb-settings-button-window-content div.item div.input{margin-bottom:15px;}",
-    "#gpeb-settings-button-window-content-body{margin:0px;width: 480px;height: 225px;}"
+    "#gpeb-settings-button-window-content div.item.name{margin-bottom:15px;}",
+    "#gpeb-settings-button-window-content-name{width:300px;}",
+    "#gpeb-settings-button-window-content-body{margin:0px;width: 480px;height: 225px;}",
+    "#gpeb-settings-button-window-content div.buttons{text-align: right;margin-right: 13px;}",
+    "#gpeb-settings-button-window-content div.buttons > input{cursor:pointer;}",
+    "#gpeb-settings-button-window-content-save, #gpeb-settings-button-window-content-cancel{width:80px;}",
+    "#gpeb-settings-button-window-content-cancel{margin-right:5px;}",
+    "#gpeb-settings-window-content-custombtn-items div.item{height:17px;clear:both;line-height:16px;}",
+    "#gpeb-settings-window-content-custombtn-items div.item > div{float: left;overflow:hidden;}",
+    "#gpeb-settings-window-content-custombtn-items div.item > div.desc{width: 197px;}",
+    "#gpeb-settings-window-content-custombtn-items div.item > div.name{width: 100px;margin-right:15px;}",
+    "#gpeb-settings-window-content-custombtn-items div.item > div.link{float: right;margin-left: 10px;}",
+    "#gpeb-settings-window-content-custombtn-items div.item > div.link.down > a{vertical-align: -1px;}",
+    "#gpeb-settings-window-content-custombtn-items div.item > div.link.down{margin-left:5px;}",
+    "#gpeb-settings-window-content-custombtn-items div.item > div.clear{clear:both;}",
+    "#gpeb-settings-window-content-custombtn-items div.item:hover { background-color: rgb(207, 232, 255);cursor:pointer; }"
 ].join("");
 
 
@@ -3295,7 +3528,8 @@ cont.on(window, "click", function (_event) {
 
     /* メニュー非表示
     -------------------------------------------------------------------------------*/
-    var isOpen = menu.checkOpen();
+
+    var isOpen = menu && menu.checkOpen();
     if (isOpen) {
         if (_event.target !== select.get("reloadButton")[0]) {
             var id = _event.target.id;
