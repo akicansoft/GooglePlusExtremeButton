@@ -365,8 +365,10 @@ SettingsWindow.prototype = {
                     /* 変数に設定
                     -------------------------------------------------------------------------------*/
                     itemTempName.innerHTML = this.name;
+                    this.styleUrl && itemTempName.setAttribute("href", this.styleUrl);
                     itemTempDesc.innerHTML = this.desc;
                     itemTempAuthor.innerHTML = this.author;
+                    this.authorUrl && itemTempAuthor.setAttribute("href", this.authorUrl);
                     itemTempDate.innerHTML = this.date;
                     itemTempVersion.innerHTML = this.version;
                     itemTempThumbnail.src = getUrl("images/style/"+this.key+".png");

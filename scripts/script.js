@@ -1,8 +1,4 @@
 
-
-
-window.onload = function () {
-
     /* ロギング
     -------------------------------------------------------------------------------*/
     logger = new Logger("Google+ Extreme Button");
@@ -16,13 +12,16 @@ window.onload = function () {
         logger.add("ロギングを開始しました");
     }
 
+    /* 読み込みURL
+    -------------------------------------------------------------------------------*/
+    logger.add("読み込みURL: "+location.href);
+
 
     /* CSSテーマを設定
     -------------------------------------------------------------------------------*/
-    cssTheme = cssThemes.get(settings.get("style").active);
-    css("gpebCss", cssTheme.css.join("\n"));
+    css("gpebCss", themeCss);
     setTimeout(function(){  
-        css("gpebCss", cssTheme.css.join("\n")+commonCss);
+        css("gpebCss", themeCss+commonCss);
     }, 500);
 
     /* 更新ボタンの監視を行う
@@ -96,4 +95,3 @@ window.onload = function () {
     nd = new NewDom(select.get("topPost")[0].parentNode.parentNode);
     nd.watch(newNodeEvent, defaultSettings.get("drawSpeed").speed);
 
-};
