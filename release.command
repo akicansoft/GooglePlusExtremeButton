@@ -6,6 +6,7 @@ pushd "$( dirname "${BASH_SOURCE[0]}" )"
 # ファイル同期
 rsync -rvd --exclude=".DS_Store" images release/
 rsync -rvd --exclude=".DS_Store" buttons release/
+rsync -rvd --exclude=".DS_Store" menubuttons release/
 rsync -rvd --exclude=".DS_Store" _locales release/
 rsync -rvd --exclude=".DS_Store" scripts/gpeb.min.js release/scripts/
 rsync -rvd --exclude=".DS_Store" scripts/background.js release/scripts/

@@ -29,6 +29,7 @@ settings.default("other", "autoreload", 1);
 settings.default("style", "active", "default");
 settings.default("custombtn", "custombtn", []);
 settings.default("custombtn", "count", 0);
+settings.default("menubtn", "mode", "default");
 
 /* デフォルト設定
 -------------------------------------------------------------------------------*/
@@ -41,38 +42,40 @@ var defaultSettings = new Models([
 
 /* CSSTheme
 -------------------------------------------------------------------------------*/
-var cssThemes = new Models([
-    {
-        key: "default",
-        name: "Google+",
-        desc: "Google+標準のスタイルです",
-        date: "2013/05/15",
-        author: "Google+",
-        styleUrl: "",
-        authorUrl: "",
-        version: "3"
-    },
-    {
-        key: "gpeb",
-        name: "Google+ Extreme Button",
-        desc: "Google+ Extreme Button標準のスタイルです",
-        date: "2013/06/30",
-        author: "Takehiro Takahashi",
-        styleUrl: "",
-        authorUrl: "",
-        version: "1.0.0"
-    },
-    {
-        key: "darkstyle",
-        name: "Google Plus - Dark Style",
-        desc: "目に優しい黒を基調としたスタイルに変更します",
-        date: "2013/08/06",
-        author: 'あきょぜ',
-        styleUrl: "http://userstyles.org/styles/52243/google-plus-dark-style",
-        authorUrl: "https://plus.google.com/100524016008639811667/posts",
-        version: "283"
-    }
-]);
+function getCssThemes () {
+    return new Models([
+        {
+            key: "default",
+            name: "Google+",
+            desc: "Google+標準のスタイルです",
+            date: "2013/05/15",
+            author: "Google+",
+            styleUrl: "",
+            authorUrl: "",
+            version: "3"
+        },
+        {
+            key: "gpeb",
+            name: "Google+ Extreme Button",
+            desc: "Google+ Extreme Button標準のスタイルです",
+            date: "2013/06/30",
+            author: "Takehiro Takahashi",
+            styleUrl: "",
+            authorUrl: "",
+            version: "1.0.0"
+        },
+        {
+            key: "darkstyle",
+            name: "Google Plus - Dark Style",
+            desc: "目に優しい黒を基調としたスタイルに変更します",
+            date: "2013/08/06",
+            author: 'あきょぜ',
+            styleUrl: "http://userstyles.org/styles/52243/google-plus-dark-style",
+            authorUrl: "https://plus.google.com/100524016008639811667/posts",
+            version: "283"
+        }
+    ]);
+}
 
 /* テーマCSS
 -------------------------------------------------------------------------------*/
@@ -168,7 +171,10 @@ var commonCss = [
     "#gpeb-settings-window-content-custombtn-items div.item > div.link.down{margin-left:5px;}",
     "#gpeb-settings-window-content-custombtn-items div.item > div.clear{clear:both;}",
     "#gpeb-settings-window-content-custombtn-items div.item:hover { background-color: rgb(207, 232, 255);cursor:pointer; }",
-    "#gpeb-context-menu-content div.item>div.icon>a.link{vertical-align:-1px;}"
+    "#gpeb-context-menu-content div.item>div.icon>a.link{vertical-align:-1px;}",
+    "#gpeb-settings-window-content-menubutton-items > div.item { cursor: pointer; border: 1px solid rgb(213, 213, 213) ;width: 78px;height: 78px;float: left;margin: 3px;text-align: center;font-size: 12px; } #gpeb-settings-window-content-menubutton-items > div.item > div.icon > img { margin-top: 18px;margin-bottom: 5px;  width: 18px; height: 18px; }",
+    "#gpeb-settings-window-content-menubutton-items > div.item:hover { border: 1px solid solid rgb(213, 213, 213); background-color: rgb(240, 240, 240) ; }",
+    "#gpeb-settings-window-content-menubutton-items > div.item.active { border: 1px solid gray; background-color: rgb(230, 230, 230) ; }"
 ].join("");
 
 
@@ -368,5 +374,55 @@ select.add("sendButton", "div[role='button'][guidedhelpid='sharebutton']", "共�
 -------------------------------------------------------------------------------*/
 // select.test();
 
+
+/* コールバック: メニューボタン
+-------------------------------------------------------------------------------*/
+function getMenuButtons () {
+    return new Models([
+        {
+            key: "default",
+            name: "デフォルト",
+            img: "menubuttons/default.png",
+            author: "pityon"
+        },
+        {
+            key: "simple1",
+            name: "シンプル1",
+            img: "menubuttons/simple1.png",
+            author: "pityon"
+        },
+        {
+            key: "simple2",
+            name: "シンプル2",
+            img: "menubuttons/simple2.png",
+            author: "pityon"
+        },
+        {
+            key: "simple3",
+            name: "シンプル3",
+            img: "menubuttons/simple3.png",
+            author: "pityon"
+        },
+        {
+            key: "simple4",
+            name: "シンプル4",
+            img: "menubuttons/simple4.png",
+            author: "pityon"
+        },
+        {
+            key: "simple5",
+            name: "シンプル5",
+            img: "menubuttons/simple5.png",
+            author: "pityon"
+        },
+        {
+            key: "tua",
+            name: "ツァ！！",
+            img: "menubuttons/tua.png",
+            author: "pityon"
+        }
+
+    ]);
+}
 
 

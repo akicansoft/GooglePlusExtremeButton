@@ -11,8 +11,22 @@ Buttons.prototype = {
     -------------------------------------------------------------------------------*/
     init: function () {
 
+        /* 初期化
+        -------------------------------------------------------------------------------*/
         this.buttons = [];
         this.events = {};
+
+        /* メニューボタンの取得
+        -------------------------------------------------------------------------------*/
+        var menuButtonKey = settings.get("menubtn").mode;
+        var menuButtonPath = getMenuButtons().get(menuButtonKey).img;
+        this.menuButtonExtensionPath = getUrl(menuButtonPath);
+
+        /* デバッグ
+        -------------------------------------------------------------------------------*/
+        // debugger;
+
+
 
     },
 
@@ -31,7 +45,13 @@ Buttons.prototype = {
         -------------------------------------------------------------------------------*/
         var clone = this.buttonTemplate.cloneNode();
         clone.innerHTML = this.buttonInnerTemplate;
-        var url = chrome.extension.getURL("buttons/mini.png");
+
+        /* メニューボタン画像の取得
+        -------------------------------------------------------------------------------*/
+        var url = this.menuButtonExtensionPath
+
+        /* 
+        -------------------------------------------------------------------------------*/
         var node = clone.firstChild.firstChild;
         node.style.backgroundImage = "url("+url+")";
         node.style.backgroundPosition = "0px 0px";

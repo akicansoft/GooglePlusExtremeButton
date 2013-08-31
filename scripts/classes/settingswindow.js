@@ -421,6 +421,7 @@ SettingsWindow.prototype = {
                         -------------------------------------------------------------------------------*/
                         Sizzle("div.item > div.activate > input", listElm).forEach(function(_elm){
 
+                            
                             var tKey = _elm.getAttribute("data-gpeb-settings-active");
 
                             /* 現在のキー
@@ -442,7 +443,6 @@ SettingsWindow.prototype = {
                 }, true);
             },
 
-
             /* 更新履歴
             -------------------------------------------------------------------------------*/
             history: function () {
@@ -460,9 +460,7 @@ SettingsWindow.prototype = {
                 ajaxLoad(url, function () {
                     listElm.innerHTML = "<pre>"+this+"</pre>";
                 });
-
             },
-
 
             /* 補助
             -------------------------------------------------------------------------------*/
@@ -522,7 +520,6 @@ SettingsWindow.prototype = {
                     _elm.addEventListener ("click", func, false);
                 });
             },
-
 
             /* カスタムボタン
             -------------------------------------------------------------------------------*/
@@ -843,8 +840,124 @@ SettingsWindow.prototype = {
                         }
                     }
                 }, true);
+            },
+
+            /* メニューボタン変更
+            -------------------------------------------------------------------------------*/
+            menubutton: function () {
 
 
+                /* リストの要素
+                -------------------------------------------------------------------------------*/
+                var listElm = Sizzle("#gpeb-settings-window-content-menubutton-items")[0];
+                listElm.innerHTML = "";
+
+                /* 画像データの読み込み
+                -------------------------------------------------------------------------------*/
+                var menuButtons = getMenuButtons();
+
+                /* テンプレート
+                -------------------------------------------------------------------------------*/
+                var itemTemp = domParseFromString([
+                    '<div class="item">',
+                        '<div class="icon"></div>',
+                        '<div class="name"></div>',
+                    '</div>'
+                ].join(""));
+
+                /* アイテムテンプレートの変数
+                -------------------------------------------------------------------------------*/
+                var itemTempIcon = Sizzle("div.icon", itemTemp)[0];
+                var itemTempName = Sizzle("div.name", itemTemp)[0];
+
+                /* 現在アクティブなモードを取得
+                -------------------------------------------------------------------------------*/
+                var active = settings.get("menubtn").mode;
+
+                /* リストに要素の追加を行う
+                -------------------------------------------------------------------------------*/
+                menuButtons.each(function () {
+
+                    /* 
+                    -------------------------------------------------------------------------------*/
+                    if (this.key == active) {
+                        itemTemp.setAttribute("class", "item active");
+                    }
+                    else {
+                        itemTemp.setAttribute("class", "item");
+                    }
+
+                    /* 画像の追加
+                    -------------------------------------------------------------------------------*/
+                    itemTempIcon.innerHTML = '<img src="'+getUrl(this.img)+'" />';
+
+                    /* 名前の変更
+                    -------------------------------------------------------------------------------*/
+                    itemTempName.innerHTML = this.name;
+
+                    /* id追加
+                    -------------------------------------------------------------------------------*/
+                    setData(itemTemp, "gpeb-settings-menubutton-key", this.key, true);
+
+                    /* クローンコピー
+                    -------------------------------------------------------------------------------*/
+                    listElm.appendChild(itemTemp.cloneNode(true));
+                  
+                });
+
+
+                /* イベント登録
+                -------------------------------------------------------------------------------*/
+                listElm.addEventListener ("click", function (_event) {
+
+                    /* デバッグ
+                    -------------------------------------------------------------------------------*/
+                    // debugger;
+
+                    /* リンクタグ
+                    -------------------------------------------------------------------------------*/
+                    var key = _event.target.getAttribute("data-gpeb-settings-menubutton-key");
+
+                    /* デバッグ
+                    -------------------------------------------------------------------------------*/
+                    // debugger;
+
+                    if (key) {
+
+                        /* デバッグ
+                        -------------------------------------------------------------------------------*/
+                        // debugger;
+
+                        /* 他の要素からactiveを削除
+                        -------------------------------------------------------------------------------*/
+                        var elms = Sizzle("#gpeb-settings-window-content-menubutton-items > *");
+                        for (var i = 0; i < elms.length; i++) {
+
+                            var k = elms[i].getAttribute("data-gpeb-settings-menubutton-key");
+                            if (k == key) {
+
+                                /* アクティブにする
+                                -------------------------------------------------------------------------------*/
+                                elms[i].setAttribute("class", "item active");
+
+                                /* データの記憶
+                                -------------------------------------------------------------------------------*/
+                                settings.set("menubtn", {
+                                    mode: k
+                                });
+                                settings.save();
+
+
+                            }
+                            else {
+                                /* アクティブを外す
+                                -------------------------------------------------------------------------------*/
+                                elms[i].setAttribute("class", "item");
+                            }
+                        };
+                    }
+
+                }, true);
             }
         };
     },
