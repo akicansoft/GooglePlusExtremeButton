@@ -45,7 +45,7 @@
   "manifest_version": 2,
   "name": "Google+ Extreme Button",
   "update_url": "http://clients2.google.com/service/update2/crx",
-  "version": "3.2.1",
+  "version": "3.2.3",
   "web_accessible_resources": [
     "buttons/*",
     "images/*",
