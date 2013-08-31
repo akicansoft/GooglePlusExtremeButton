@@ -208,6 +208,7 @@ SettingsWindow.prototype = {
                     '<div id="gpeb-settings-window-content-other-inner" class="gpeb other-inner">',
                         '<label class="item"><input type="checkbox" name="shiftenter" /> Shift+Enterによる投稿を許可する</label>',
                         '<label class="item"><input type="checkbox" name="autoreload" /> 自動更新機能を許可する</label>',
+                        '<label class="item"><input type="checkbox" name="disableplusonerecommend" /> +1のおすすめの投稿を非表示にする</label>',
                     '</div>',
                 '</div>'
             ].join("")

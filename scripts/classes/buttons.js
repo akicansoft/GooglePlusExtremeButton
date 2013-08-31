@@ -102,7 +102,13 @@ Buttons.prototype = {
                 _plusOneArea.insertBefore( clone, Sizzle("div[role='button']:eq(2)", _plusOneArea)[0]);    
             }
             catch (_error) {
-                console.log("ボタン挿入時に原因不明のエラーが発生", _plusOneArea);
+
+                try {
+                   _plusOneArea.insertBefore( clone, Sizzle("div[role='button']:eq(1)", _plusOneArea)[0]); 
+                }
+                catch (_error) {
+                    console.log("ボタン挿入時に原因不明のエラーが発生", _plusOneArea);
+                }
             }
             
         };

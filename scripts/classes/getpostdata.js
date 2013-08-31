@@ -26,7 +26,7 @@ GetPostData.prototype = {
 
     },
 
-    /* 名前の取得
+    /* 名前の取得r
     -------------------------------------------------------------------------------*/
     getName: function () {
         var elms = Sizzle("a[href][oid]:eq(1)", this.elm);
@@ -80,7 +80,13 @@ GetPostData.prototype = {
     /* 本文の取得
     -------------------------------------------------------------------------------*/
     getBody: function () {
-        var elms = Sizzle("div>div>div>div>div+div:eq(0)", this.elm);
+
+        if (this.getIsPlusOneRecommend()) {
+            var elms = Sizzle("div:eq(1)>div:eq(1)>div:eq(1)>div:eq(0)>div:eq(0)>div:eq(0)>div:eq(1)", this.elm);
+        }
+        else {
+            var elms = Sizzle("div>div>div>div>div+div:eq(0)", this.elm);
+        }
         var reg = /(<BR>|<BR\/>)/ig;
         if (elms.length) {
             return this.isEncode ? encodeURIComponent(elms[0].innerHTML.replace(reg, "\n")) : elms[0].innerHTML.replace(reg, "\n");
@@ -225,6 +231,13 @@ GetPostData.prototype = {
             return this.isEncode ? encodeURIComponent(elms[0].innerHTML) : elms[0].innerHTML;
         }
         return "";
+    },
+
+    /* +1投稿によるおすすめかどうか
+    -------------------------------------------------------------------------------*/
+    getIsPlusOneRecommend: function () {
+        var isPlusOneRecommend = Sizzle(">div:eq(1)>div", this.elm).length >= 2;
+        return isPlusOneRecommend;
     }
 };
 
