@@ -76,6 +76,12 @@ function checkreloadButton (_callBack) {
             return;
         }
 
+        /* 現在アクティブな要素がinputまたはtextboxの場合は無視する
+        -------------------------------------------------------------------------------*/
+        if (validateActiveEditElement()) {
+            return;
+        }
+
 
         var reloadButton = select.get("reloadButton")[0];
         if (reloadButton) {
