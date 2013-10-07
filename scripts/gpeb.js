@@ -3559,6 +3559,18 @@ function getActive () {
     return document.hasFocus();
 }
 
+/* 現在アクティヴな要素が入力可能要素か取得
+-------------------------------------------------------------------------------*/
+function validateActiveEditElement () {
+    var type = document.activeElement.getAttribute("role");
+    if (type == "textbox") {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 
 /* 更新ボタンの監視を行う
 -------------------------------------------------------------------------------*/
@@ -3584,6 +3596,12 @@ function checkreloadButton (_callBack) {
         /* スクロールサイズ150より大きい場合無視する
         -------------------------------------------------------------------------------*/
         if (getScrollPos() > 150 ) {
+            return;
+        }
+
+        /* 現在アクティブな要素がinputまたはtextboxの場合は無視する
+        -------------------------------------------------------------------------------*/
+        if (validateActiveEditElement()) {
             return;
         }
 
