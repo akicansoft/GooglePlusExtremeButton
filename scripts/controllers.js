@@ -1,9 +1,15 @@
 /* 現在のスクロール位置を取得
 -------------------------------------------------------------------------------*/
 function getScrollPos () {
+
+    /* デバッグ
+    -------------------------------------------------------------------------------*/
+    // debugger;
+
     if (document.body) {
-        return document.body.scrollTop;
+        return document.body.scrollTop || document.documentElement.scrollTop;
     }
+
     return 0;
 }
 
