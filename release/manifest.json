@@ -45,12 +45,13 @@
   "manifest_version": 2,
   "name": "Google+ Extreme Button",
   "update_url": "http://clients2.google.com/service/update2/crx",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "web_accessible_resources": [
     "buttons/*",
     "menubuttons/*",
     "images/*",
     "images/style/*",
-    "history.txt"
+    "history.txt",
+    "scripts/sizzle.min.map"
   ]
 }
