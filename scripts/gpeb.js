@@ -293,6 +293,10 @@ Buttons.prototype = {
         -------------------------------------------------------------------------------*/
         var url = this.menuButtonExtensionPath
 
+        /* デバッグ
+        -------------------------------------------------------------------------------*/
+        // debugger;
+
         /* 
         -------------------------------------------------------------------------------*/
         var node = clone.firstChild.firstChild;
@@ -361,6 +365,11 @@ Buttons.prototype = {
             -------------------------------------------------------------------------------*/
             var clone = this.buttons[i].item.cloneNode(true);
             setData(clone, "gpeb-parent-id", _post.id);
+
+            /* デバッグ
+            -------------------------------------------------------------------------------*/
+            // debugger;
+
             try {
                 _plusOneArea.insertBefore( clone, Sizzle("div[role='button']:eq(2)", _plusOneArea)[0]);    
             }
