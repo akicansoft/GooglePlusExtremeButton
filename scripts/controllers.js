@@ -36,6 +36,18 @@ function getActive () {
     return document.hasFocus();
 }
 
+/* 現在アクティヴな要素が入力可能要素か取得
+-------------------------------------------------------------------------------*/
+function validateActiveEditElement () {
+    var type = document.activeElement.getAttribute("role");
+    if (type == "textbox") {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 
 /* 更新ボタンの監視を行う
 -------------------------------------------------------------------------------*/
