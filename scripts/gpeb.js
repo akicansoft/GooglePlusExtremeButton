@@ -4043,6 +4043,10 @@ if (settings.get("other").shiftenter) {
 -------------------------------------------------------------------------------*/
 var isDisablePlusOneRecommend = settings.get("other").disableplusonerecommend;
 function newNodeEvent (_event) {
+
+    /* デバッグ
+    -------------------------------------------------------------------------------*/
+    // debugger;
     
     /* 新規ポストの監視
     -------------------------------------------------------------------------------*/
@@ -4072,6 +4076,11 @@ function newNodeEvent (_event) {
                 return;
             }
             var plusOneArea = plusOneAreaNode[0].parentNode;
+
+            /* デバッグ
+            -------------------------------------------------------------------------------*/
+            // debugger;
+            
             if (plusOneArea && this) {
                 button.appendAllButton(_elm, plusOneArea);
             }
@@ -4099,6 +4108,10 @@ function newNodeEvent (_event) {
     }
 
 }
+
+    /* デバッグ
+    -------------------------------------------------------------------------------*/
+    // debugger
 
     /* ロギング
     -------------------------------------------------------------------------------*/
