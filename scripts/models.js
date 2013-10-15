@@ -178,13 +178,37 @@ var commonCss = [
 ].join("");
 
 
-/* 要素生成用テンプレート
+/* 新UI用+1ボタン領域外側
 -------------------------------------------------------------------------------*/
 var domTemplates = new Models([
       {
             key: "plusOneAreaItem",
-            item: domParseFromString('<div class="Dg Ct" role="button" tabindex="0" aria-label="" jscontroller="" jsaction="" data-tooltip=""></div>')
+               item: domParseFromString('<div class="Dg Ut" role="button" tabindex="0" aria-label="" jscontroller="" jsaction="" data-tooltip=""></div>')
+            // item: domParseFromString('<div class="Dg Ct" role="button" tabindex="0" aria-label="" jscontroller="" jsaction="" data-tooltip=""></div>')
             // item: domParseFromString('<div class="dk" role="button" tabindex="0" aria-label="" data-tooltip=""></div>')
+      }
+]);
+
+/* 
+-------------------------------------------------------------------------------*/
+var innerHTMLs = new Models([
+      {
+            key: "buttonInner",
+            html: '<span class="mf"><span class="vH"></span><span class="ML wH"></span></span>'
+            // html: '<span class="sr"><span class="qwUpsb"></span><span class="Mm4TO qJGetf"></span></span>'
+
+      }
+]);
+
+/* innerHTML
+-------------------------------------------------------------------------------*/
+var innerHTMLs = new Models([
+      {
+            key: "buttonInner",
+              html: '<span class="tf"><span class="iI"></span><span class="MM jI"></span></span>'
+            // html: '<span class="mf"><span class="vH"></span><span class="ML wH"></span></span>'
+            // html: '<span class="sr"><span class="qwUpsb"></span><span class="Mm4TO qJGetf"></span></span>'
+
       }
 ]);
 
@@ -349,16 +373,6 @@ var menuItems = new Models([
     }
 ]);
 
-/* innerHTML
--------------------------------------------------------------------------------*/
-var innerHTMLs = new Models([
-      {
-            key: "buttonInner",
-            html: '<span class="mf"><span class="vH"></span><span class="ML wH"></span></span>'
-            // html: '<span class="sr"><span class="qwUpsb"></span><span class="Mm4TO qJGetf"></span></span>'
-
-      }
-]);
 
 /* Selector作成
 -------------------------------------------------------------------------------*/
