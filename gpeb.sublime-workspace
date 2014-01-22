@@ -1,0 +1,471 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"s",
+				"s	setTimeout(function(){}) - Javascript"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"wi",
+				"windowPos"
+			],
+			[
+				"t",
+				"t	try-except - Python"
+			],
+			[
+				"f",
+				"f	for - Javascript"
+			],
+			[
+				"c",
+				"c	console.error(\"\") - Javascript"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "gpeb.sublime-project",
+			"settings":
+			{
+				"buffer_size": 223,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "hello.py",
+			"settings":
+			{
+				"buffer_size": 152,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Release",
+	"command_palette":
+	{
+		"height": 47.0,
+		"selected_items":
+		[
+			[
+				"json",
+				"Set Syntax: JSON"
+			],
+			[
+				"build",
+				"Set Syntax: NAnt Build File"
+			],
+			[
+				"pack",
+				"Package Control: Remove Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"Pa",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Package Control: Upgrade Package"
+			],
+			[
+				"Pck",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 817.0
+	},
+	"console":
+	{
+		"height": 114.0,
+		"history":
+		[
+			"exit",
+			"echo 1",
+			"import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/nacika/ws/gpeb/release.command",
+		"/Users/nacika/ws/gpeb/scripts/node_modules/grunt/node_modules/lodash/build.js",
+		"/Users/nacika/ws/gpeb/scripts/classes/buttons.js",
+		"/Users/nacika/ws/gpeb/scripts/background.js",
+		"/private/tmp/fike.mdown",
+		"/Volumes/cloak/Rakefile",
+		"/Users/nacika/ws/suimin/suimin/sublime/suimin.sublime-project",
+		"/Users/nacika/ws/lifenav/app/views/index.html",
+		"/Users/nacika/ws/lifenav/app/views/index/index.html",
+		"/Users/nacika/Library/Application Support/Sublime Text 3/Packages/User/Python.sublime-settings",
+		"/Users/nacika/Downloads/ぐー(・ε・) - エロ動画 アダルト動画.mp4",
+		"/Users/nacika/ws/lifenav/app/templates/index.html",
+		"/Users/nacika/ws/lifenav/app/views.py",
+		"/Users/nacika/ws/lifenav/app/models.py",
+		"/Volumes/sakurassd/bots/minus/sentenses.txt",
+		"/Volumes/sakurassd/bots/minus/minus.py",
+		"/Volumes/sakurassd/bots/data/words.txt",
+		"/Volumes/sakurassd/bots/minus/google.py",
+		"/Volumes/sakurassd/ws/gpapi/google.py",
+		"/Volumes/sakurassd/chefrepo/site-cookbooks/gitlab/files/default/gitlab.conf",
+		"/Volumes/sakurassd/chefrepo/site-cookbooks/gitlab/files/default/database.sql",
+		"/Volumes/sakurassd/chefrepo/site-cookbooks/gitlab/files/default/database.yml",
+		"/Volumes/sakurassd/chefrepo/site-cookbooks/gitlab/recipes/default.rb",
+		"/Users/nacika/Desktop/gitlab のインストール方法 mysql編.txt",
+		"/Users/nacika/Desktop/gitlab のインストール方法.txt",
+		"/Users/nacika/Library/Caches/Cleanup At Startup/Transmit/92452147-B46B-48AC-89F4-36034BBF2DD6/nginx.conf",
+		"/Volumes/sakurassd/chefrepo/site-cookbooks/gitlab/files/default/gitlab.conf.yml",
+		"/Volumes/sakurassd/ws/gpapi/bundle.sh",
+		"/Volumes/sakurassd/ws/gpapi/archives/pprint.txt",
+		"/Volumes/sakurassd/ws/gpapi/test2.py",
+		"/Volumes/sakurassd/ws/gpapi/test.sh",
+		"/Volumes/sakurassd/ws/gpapi/unittest.py",
+		"/Volumes/sakurassd/ws/gpapi/google/unittest.py",
+		"/Volumes/sakurassd/ws/gpapi/google/common.py",
+		"/Volumes/sakurassd/.bash_history",
+		"/Volumes/sakurassd/ws/gpapi/tests/test.py",
+		"/Users/nacika/ws/gazdon/manifest.json",
+		"/Users/nacika/ws/gazdon/script.js",
+		"/Users/nacika/ws/gazdon/class.js",
+		"/Users/nacika/ws/gazdon/background.js",
+		"/Users/nacika/ws/gazdon/README.md",
+		"/Volumes/Bitcasa Infinite Drive/Documents/2013-10-12/LXCを使った複数台構成環境を構築する.txt",
+		"/Volumes/Bitcasa Infinite Drive/Documents/2013-10-12/ubuntuでデフォルトエディタをvimに変更する.txt",
+		"/Users/nacika/Desktop/centos のネットワーク設定を主導で行う.txt",
+		"/Users/nacika/Desktop/jita_test.txt",
+		"/Users/nacika/Desktop/chef使ってサーバーオペレーション.txt",
+		"/Users/nacika/ws/gpeb/scripts/models.js",
+		"/Users/nacika/ws/gpeb/scripts/classes/newdom.js",
+		"/Users/nacika/ws/gpeb/scripts/script.js",
+		"/Users/nacika/ws/gpeb/scripts/controllers.js",
+		"/Users/nacika/ws/gpeb/scripts/Gruntfile.js",
+		"/Users/nacika/ws/gpeb/manifest.json",
+		"/Users/nacika/ws/gpeb/history.txt",
+		"/Users/nacika/ws/gpeb/release/manifest.json",
+		"/Users/nacika/ws/gpeb/_locales/ja/messages.json",
+		"/Users/nacika/ws/gpeb/scripts/gpeb.js",
+		"/Users/nacika/ws/gpeb/scripts/js/sizzle.min.js",
+		"/Users/nacika/ws/gpeb/scripts/classes/mvc.js",
+		"/Users/nacika/Desktop/やったことメモ",
+		"/Users/nacika/Desktop/Red Hat logo カスタマーポータル.txt",
+		"/Users/nacika/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/nacika/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
+		"/Users/nacika/Library/Application Support/Sublime Text 3/Packages/User/Package Control.sublime-settings",
+		"/Users/nacika/Library/Application Support/Sublime Text 3/Packages/Default/Default (OSX).sublime-keymap",
+		"/Users/nacika/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 22.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"<open files>"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			";\n",
+			"inscatolare",
+			"proj",
+			"Proj",
+			"'))",
+			"300px",
+			"print",
+			"\")\n",
+			"MEDIA_URL",
+			"STATIC_ROOT",
+			"django.contrib.staticfiles",
+			"TEMPLATE_DIRS",
+			"TEM",
+			"改行",
+			"br",
+			"限定",
+			"%",
+			"限定",
+			"好き",
+			"sha224",
+			"_postid+_userid+_body",
+			"他の",
+			": \"+",
+			"print",
+			"postid+userid+body",
+			"install_patch",
+			"/somewhere/public",
+			"git",
+			"git:set",
+			"install_patch",
+			"install_mysql_setting_rev_4",
+			"charlock_holmes",
+			"cd /home/git/gitlab",
+			"charlock_holmes",
+			"bundle",
+			"\nbundle",
+			"bundle",
+			"/\n",
+			"vim",
+			"install_patch",
+			"gem install bundler --no-rdoc --no-ri",
+			"/var/chef/.flag/",
+			"t '",
+			"Login.reg[\"dsh\"]",
+			"# テスト",
+			"sizeTotal",
+			"naturalWidth",
+			"img",
+			"href",
+			"src",
+			"\"]+\"====\"+",
+			";\n",
+			"cons",
+			",",
+			":",
+			"g",
+			" ",
+			"ver",
+			"debugger",
+			"debigger",
+			"debugger",
+			"qwUpsb",
+			"Searching",
+			"uqUpsb",
+			"uqUpsp",
+			"clone",
+			"url",
+			"menuButtonExtensionPath",
+			"menuButtonPath",
+			"getMenu",
+			"menuButt",
+			"buttonTemplate",
+			"plusOneAreaItem",
+			"mini",
+			"buttonTemplate",
+			"debugger",
+			"sizzle",
+			");\n",
+			"Sizz",
+			"sizz",
+			"controllers",
+			"controllers.js",
+			"scripts/controllers.js",
+			"appendAllButton",
+			"function",
+			"fa",
+			"afs",
+			"4",
+			"ubuntu1204",
+			"ctrl+s",
+			"\\n",
+			"ho -e",
+			"\\e[31",
+			"# 水",
+			"____",
+			"\\e[\\n\"",
+			"\\033",
+			"echo \"",
+			"%s",
+			"\",",
+			"awk '{"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "gpeb.sublime-project",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 223,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								151,
+								151
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": -1,
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "hello.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 152,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								152,
+								152
+							]
+						],
+						"settings":
+						{
+							"function_name_status_row": 5,
+							"incomplete_sync": null,
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 21.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 88.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.sftp":
+	{
+		"height": 0.0
+	},
+	"project": "gpeb.sublime-project",
+	"replace":
+	{
+		"height": 40.0
+	},
+	"save_all_on_build": false,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 202.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

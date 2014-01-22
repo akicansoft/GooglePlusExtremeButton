@@ -3,6 +3,9 @@
 # カレントディレクトリ移動
 pushd "$( dirname "${BASH_SOURCE[0]}" )"
 
+#
+echo "リリース作業を行います"
+
 # ファイル同期
 rsync -rvd --exclude=".DS_Store" images release/
 rsync -rvd --exclude=".DS_Store" buttons release/
@@ -40,6 +43,8 @@ cat release/scripts/gpeb.min.js.tmp >> release/scripts/gpeb.min.js
 rm -f release/scripts/gpeb.min.js.tmp
 
 # Sizzleのライセンス挿入
+
+echo "リリース作業が完了しました"
 
 
 popd
