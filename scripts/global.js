@@ -15,7 +15,20 @@ var ndBottom;
 var menu;
 var logger;
 
-
+/* jQuery
+-------------------------------------------------------------------------------*/
+function _$() {}
+_$.__proto__.each = function (func) {
+    for (var i = 0; i < window._queryElms.length; i++) {
+        func.call(window._queryElms[i], window._queryElms[i]);
+    };
+    return window._queryElms;
+}
+function $(selector, element) {
+    window._queryElms = Array.prototype.slice.call(document.querySelectorAll(selector, element));
+    window._queryElms.__proto__ = _$.__proto__
+    return window._queryElms;
+}
 
 /* HTMLパーサ
 -------------------------------------------------------------------------------*/
