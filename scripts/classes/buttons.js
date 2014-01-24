@@ -67,7 +67,7 @@ Buttons.prototype = {
         -------------------------------------------------------------------------------*/
         if (_opt.eventId) {
             clone.setAttribute("data-gpeb-event", _opt.eventId);
-            Sizzle("*", clone).forEach(function (_elm) {
+            $("*", clone).forEach(function (_elm) {
                 _elm.setAttribute("data-gpeb-event", _opt.eventId);
             });
         }
@@ -128,12 +128,12 @@ Buttons.prototype = {
             // debugger;
 
             try {
-                _plusOneArea.insertBefore( clone, Sizzle("div[role='button']:eq(2)", _plusOneArea)[0]);    
+                _plusOneArea.insertBefore( clone, $("div[role='button']:eq(2)", _plusOneArea)[0]);    
             }
             catch (_error) {
 
                 try {
-                   _plusOneArea.insertBefore( clone, Sizzle("div[role='button']:eq(1)", _plusOneArea)[0]); 
+                   _plusOneArea.insertBefore( clone, $("div[role='button']:eq(1)", _plusOneArea)[0]); 
                 }
                 catch (_error) {
                     console.log("ボタン挿入時に原因不明のエラーが発生", _plusOneArea);

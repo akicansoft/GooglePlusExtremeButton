@@ -8,7 +8,7 @@ AutoPost.prototype = {
 
     init: function (_post) {
         if (typeof(_post) == "string") {
-            this.elm = Sizzle("#"+_post)[0];
+            this.elm = $("#"+_post)[0];
         }
         else {
             this.elm = _post;
@@ -19,19 +19,19 @@ AutoPost.prototype = {
     /* コメントを追加要素を特定
     -------------------------------------------------------------------------------*/
     getCommentAddElement: function () {
-        return Sizzle("div[role='button'][tabindex='0']:last", this.elm)[0];
+        return $("div[role='button'][tabindex='0']:last", this.elm)[0];
     },
 
     /* エディター要素を取得
     -------------------------------------------------------------------------------*/
     getEditorElement: function () {
-        return Sizzle("div[id*='editor'] div[role='textbox']", this.elm)[0];
+        return $("div[id*='editor'] div[role='textbox']", this.elm)[0];
     },
 
     /* コメントを投稿ボタンを取得
     -------------------------------------------------------------------------------*/
     getCommentPostElement: function () {
-        return Sizzle("div[id*='post']", this.elm)[0];
+        return $("div[id*='post']", this.elm)[0];
     },
 
     /* キーイベント送信

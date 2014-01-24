@@ -427,11 +427,11 @@ Models.prototype = {
 
                 /* モデルが存在しない場合新しく作成したものを返す
                 -------------------------------------------------------------------------------*/
-                if (!model) {
-                    model = this.add({
-                        key: args[i]
-                    });
-                }
+                // if (!model) {
+                //     model = this.add({
+                //         key: args[i]
+                //     });
+                // }
 
                 /* テスト
                 -------------------------------------------------------------------------------*/
@@ -769,7 +769,7 @@ Controller.prototype = {
     -------------------------------------------------------------------------------*/
     on: function(_selector, _type, _callback) {
         if (typeof(_selector) == "string") {
-            var elms = Sizzle(_selector);
+            var elms = $(_selector);
 
             /* テスト
             -------------------------------------------------------------------------------*/
@@ -779,7 +779,7 @@ Controller.prototype = {
             var elms = [_selector];
         }
         var that = this;
-        elms.forEach(function(_elm){
+        elms.each(function(_elm){
             var elm = _elm;
             _elm.addEventListener (_type, function (_event) {
                 if (_callback.call(elm, _event, that)) {

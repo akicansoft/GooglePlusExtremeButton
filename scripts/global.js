@@ -39,14 +39,13 @@ function domParseFromString(_string) {
     return div;
 }
 
-
 /* データセット
 -------------------------------------------------------------------------------*/
 function setData(_elm, _key, _value, _isR) {
     _elm.setAttribute("data-"+_key, _value);
 
     if (_isR === undefined || _isR) {
-        var elms = Sizzle("*", _elm);
+        var elms = document.querySelectorAll("*", _elm);
         elms.forEach(function (_elm) {
             _elm.setAttribute("data-"+_key, _value);
         });

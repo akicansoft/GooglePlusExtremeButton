@@ -92,7 +92,7 @@ function checkreloadButton (_callBack) {
 
             /* 再開ボタンである
             -------------------------------------------------------------------------------*/
-            if ( Sizzle("> *", reloadButton).length == 2 ) {
+            if ( document.querySelectorAll("> *", reloadButton).length == 2 ) {
 
                 /* 無視
                 -------------------------------------------------------------------------------*/
@@ -471,13 +471,13 @@ function keyDownFunc (_event) {
 
                 /* 要素特定
                 -------------------------------------------------------------------------------*/
-                var elms = Sizzle("div[id*='.f']", activeElm.parentNode);
+                var elms = document.querySelectorAll("div[id*='.f']", activeElm.parentNode);
 
                 /* 入力ボックスにフォーカス
                 -------------------------------------------------------------------------------*/
                 if (elms.length) {
                     var post = getPostElement(elms[0]);
-                    var sendButton = Sizzle("div[id*='.post']", post)[0];
+                    var sendButton = document.querySelectorAll("div[id*='.post']", post)[0];
                     click(sendButton);
                 }
             }
@@ -520,7 +520,7 @@ cont.on(window, "click", function (_event) {
         }
 
         if (typeof(buttonClickEvents[eventName]) == "function") {
-            var post = Sizzle("#"+getData(_event.target, "gpeb-parent-id"))[0];
+            var post = document.querySelectorAll("#"+getData(_event.target, "gpeb-parent-id"))[0];
             buttonClickEvents[eventName].call(_event, _event, post);
         }
         else {
@@ -560,7 +560,7 @@ function newNodeEvent (_event) {
 
                 /* +1のおすすめポストかどうか
                 -------------------------------------------------------------------------------*/
-                var isPlusOneRecommend = Sizzle(">div:eq(1)>div", _elm).length >= 2;
+                var isPlusOneRecommend = document.querySelectorAll(">div:eq(1)>div", _elm).length >= 2;
 
                 if (isPlusOneRecommend && _elm.parentNode) {
                     _elm.style.display = "none";
@@ -569,7 +569,7 @@ function newNodeEvent (_event) {
 
             /* +1ボタンのある領域のノードを取得
             -------------------------------------------------------------------------------*/
-            var plusOneAreaNode = Sizzle("div[id^='po-']", _elm);
+            var plusOneAreaNode = document.querySelectorAll("div[id^='po-']", _elm);
 
             /* +1ボタンノードが取得できなかった場合無視する
             -------------------------------------------------------------------------------*/

@@ -16,28 +16,10 @@ Selector.prototype = {
 
         var select = this.selectors[_name];
         if (select) {
-            // if (select.elements.length) {
-            //     var isFound = true;
-            //     for (var i = 0; i < select.elements.length; i++) {
-            //         if (!select.elements[i]) {
-            //             isFound = false;
-            //         }
-            //     }
-            //     if (isFound) {
-            //         return select.elements;    
-            //     }
-            //     else {
-            //         select.elements = Sizzle(select.target);
-            //         return select.elements;
-            //     }
-            // }
-            // else {
-            // select.elements = Sizzle(select.target);
-            return Sizzle(select.target);
-            // }
+            return $(select.target);
         }
         else {
-            return Sizzle();
+            return $();
         }
 
     },
@@ -46,7 +28,7 @@ Selector.prototype = {
     -------------------------------------------------------------------------------*/
     add: function (_name, _target, _comment) {
 
-        var elements = Sizzle(_target);
+        var elements = $(_target);
 
         this.selectors[_name] = {
             target: _target,
@@ -95,7 +77,7 @@ Selector.prototype = {
     test: function () {
 
         for (var i in this.selectors) {
-            var elements = Sizzle(this.selectors[i].target);
+            var elements = $(this.selectors[i].target);
             if (elements.length) {
                 console.log("%c○", "color:blue;", i, this.selectors[i].target, this.selectors[i].comment);
             }
@@ -119,7 +101,7 @@ Selector.prototype = {
     -------------------------------------------------------------------------------*/
     getName: function (_elm) {
         for (var i in this.selectors) {
-            var elements = Sizzle(this.selectors[i].target);
+            var elements = $(this.selectors[i].target);
             if (elements.length) {
                 for (var ii = 0; ii < elements.length; ii++) {
                     if (elements[ii] === _elm) {

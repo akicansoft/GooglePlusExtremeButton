@@ -1,7 +1,7 @@
 /* CSS書き換え
 -------------------------------------------------------------------------------*/
 function css (_id, _css) {
-    var element = Sizzle("#"+_id);
+    var element = $("#"+_id);
     var cssElm;
     if (element.length == 0) {
         cssElm = document.createElement("style");
@@ -9,7 +9,7 @@ function css (_id, _css) {
     }
     else {
 
-        element.forEach(function(_elm){
+        element.each(function(_elm){
             cssElm = _elm;
         });
     }
